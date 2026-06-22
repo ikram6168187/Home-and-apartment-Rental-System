@@ -5,40 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us — Smart Rent</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+
+    {{-- Modal CSS (navbar ke liye zaroori) --}}
+    @include('Modal style')
+
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Arial, sans-serif; }
 body { background:#f4f6f9; color:#1a1a2e; }
 a { text-decoration:none; color:inherit; }
 
-/* ── NAVBAR ── */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgb(51,47,46);
-    padding: 18px 5%;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-.nav-logo { color:#fff; font-size:20px; font-weight:700; display:flex; align-items:center; gap:8px; }
-.nav-links { display:flex; gap:28px; list-style:none; }
-.nav-links a { color:rgba(255,255,255,0.75); font-size:14px; font-weight:500; transition:0.2s; }
-.nav-links a:hover, .nav-links a.active { color:#fff; }
-.nav-btn {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.4);
-    color: #fff;
-    padding: 8px 20px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: 0.2s;
-}
-.nav-btn:hover { background:rgba(255,255,255,0.1); }
-
-/* ── HERO ── */
 .hero {
     background: linear-gradient(135deg, rgb(51,47,46) 0%, #5c4a3a 100%);
     padding: 90px 5% 80px;
@@ -89,7 +64,6 @@ a { text-decoration:none; color:inherit; }
     line-height: 1.7;
 }
 
-/* ── STATS ── */
 .stats-section {
     background: #fff;
     padding: 50px 5%;
@@ -104,15 +78,9 @@ a { text-decoration:none; color:inherit; }
     text-align: center;
 }
 .stat-item { padding: 10px; }
-.stat-item h3 {
-    font-size: 38px;
-    font-weight: 700;
-    color: rgb(51,47,46);
-    margin-bottom: 6px;
-}
-.stat-item p { font-size: 14px; color: #888; font-weight: 500; }
+.stat-item h3 { font-size: 38px; font-weight: 700; color: rgb(51,47,46); margin-bottom: 6px; }
+.stat-item p  { font-size: 14px; color: #888; font-weight: 500; }
 
-/* ── STORY ── */
 .story-section { padding: 80px 5%; }
 .section-tag {
     display: inline-block;
@@ -127,11 +95,8 @@ a { text-decoration:none; color:inherit; }
     letter-spacing: 0.5px;
 }
 .section-title {
-    font-size: 32px;
-    font-weight: 700;
-    color: #1a1a2e;
-    margin-bottom: 16px;
-    line-height: 1.3;
+    font-size: 32px; font-weight: 700;
+    color: #1a1a2e; margin-bottom: 16px; line-height: 1.3;
 }
 .section-title span { color: rgb(51,47,46); }
 .story-grid {
@@ -142,37 +107,19 @@ a { text-decoration:none; color:inherit; }
     max-width: 1100px;
     margin: 0 auto;
 }
-.story-text p {
-    color: #666;
-    font-size: 15px;
-    line-height: 1.8;
-    margin-bottom: 16px;
-}
+.story-text p { color: #666; font-size: 15px; line-height: 1.8; margin-bottom: 16px; }
 .story-image {
-    border-radius: 20px;
-    overflow: hidden;
-    position: relative;
-    height: 380px;
+    border-radius: 20px; overflow: hidden;
+    position: relative; height: 380px;
     background: linear-gradient(135deg, rgb(51,47,46), #8a6040);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
 }
 .story-image i { font-size: 100px; color: rgba(255,255,255,0.15); }
-.story-image .img-text {
-    position: absolute;
-    bottom: 30px; left: 30px;
-    color: #fff;
-}
+.story-image .img-text { position: absolute; bottom: 30px; left: 30px; color: #fff; }
 .story-image .img-text h3 { font-size: 22px; font-weight: 700; }
 .story-image .img-text p  { font-size: 13px; opacity:0.7; margin:0; }
 
-/* ── HOW IT WORKS ── */
-.how-section {
-    background: #fff;
-    padding: 80px 5%;
-    text-align: center;
-}
+.how-section { background: #fff; padding: 80px 5%; text-align: center; }
 .how-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -181,37 +128,27 @@ a { text-decoration:none; color:inherit; }
     margin: 50px auto 0;
 }
 .how-card {
-    padding: 36px 28px;
-    border-radius: 16px;
-    border: 1px solid #eee;
-    transition: 0.3s;
-    position: relative;
+    padding: 36px 28px; border-radius: 16px;
+    border: 1px solid #eee; transition: 0.3s; position: relative;
 }
 .how-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.08); transform: translateY(-4px); }
 .how-number {
-    position: absolute;
-    top: -16px; left: 50%;
+    position: absolute; top: -16px; left: 50%;
     transform: translateX(-50%);
-    background: rgb(51,47,46);
-    color: #fff;
-    width: 32px; height: 32px;
-    border-radius: 50%;
+    background: rgb(51,47,46); color: #fff;
+    width: 32px; height: 32px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     font-size: 13px; font-weight: 700;
 }
 .how-icon {
-    width: 64px; height: 64px;
-    border-radius: 16px;
+    width: 64px; height: 64px; border-radius: 16px;
     background: #f5ede0;
     display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 18px;
-    font-size: 26px;
-    color: rgb(51,47,46);
+    margin: 0 auto 18px; font-size: 26px; color: rgb(51,47,46);
 }
 .how-card h3 { font-size: 16px; font-weight: 600; color: #1a1a2e; margin-bottom: 10px; }
 .how-card p  { font-size: 13px; color: #888; line-height: 1.6; }
 
-/* ── MISSION ── */
 .mission-section {
     padding: 80px 5%;
     background: linear-gradient(135deg, rgb(51,47,46), #5c4a3a);
@@ -220,49 +157,33 @@ a { text-decoration:none; color:inherit; }
 .mission-section h2 { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 16px; }
 .mission-section p  { font-size: 16px; color: rgba(255,255,255,0.75); max-width: 640px; margin: 0 auto 36px; line-height: 1.8; }
 .mission-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #fff;
-    color: rgb(51,47,46);
-    padding: 14px 32px;
-    border-radius: 30px;
-    font-size: 15px;
-    font-weight: 600;
-    transition: 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #fff; color: rgb(51,47,46);
+    padding: 14px 32px; border-radius: 30px;
+    font-size: 15px; font-weight: 600; transition: 0.2s;
 }
 .mission-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
 
-/* ── VALUES ── */
 .values-section { padding: 80px 5%; }
 .values-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    max-width: 1000px;
-    margin: 50px auto 0;
+    gap: 24px; max-width: 1000px; margin: 50px auto 0;
 }
 .value-card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 28px;
-    border: 1px solid #eee;
-    transition: 0.3s;
+    background: #fff; border-radius: 16px;
+    padding: 28px; border: 1px solid #eee; transition: 0.3s;
 }
 .value-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.07); }
 .value-icon {
-    width: 50px; height: 50px;
-    border-radius: 12px;
+    width: 50px; height: 50px; border-radius: 12px;
     background: #f5ede0;
     display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    color: rgb(51,47,46);
-    margin-bottom: 16px;
+    font-size: 22px; color: rgb(51,47,46); margin-bottom: 16px;
 }
 .value-card h3 { font-size: 15px; font-weight: 600; color: #1a1a2e; margin-bottom: 8px; }
 .value-card p  { font-size: 13px; color: #888; line-height: 1.6; }
 
-/* ── FOOTER ── */
 .footer {
     background: rgb(51,47,46);
     padding: 24px 5%;
@@ -277,31 +198,22 @@ a { text-decoration:none; color:inherit; }
     .story-grid, .how-grid, .values-grid { grid-template-columns:1fr; }
     .stats-grid { grid-template-columns:repeat(2,1fr); }
     .hero h1 { font-size:32px; }
-    .nav-links { display:none; }
 }
 </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-    <div class="nav-logo">
-        <i class="fa-solid fa-house-chimney"></i> Smart Rent
-    </div>
-    <ul class="nav-links">
-        <li><a href="{{ route('home') }}">Home</a></li>
-        <li><a href="{{ route('about') }}" class="active">About</a></li>
-        <li><a href="{{ route('contact') }}">Contact</a></li>
-    </ul>
-    @guest
-        <a href="{{ route('home') }}" class="nav-btn">Login / Signup</a>
-    @endguest
-    @auth
-        <a href="{{ route('dashboard') }}" class="nav-btn">
-            <i class="fa-solid fa-gauge"></i> Dashboard
-        </a>
-    @endauth
-</nav>
+    {{-- HOME WALA NAVBAR --}}
+    @include('navbar')
+
+    {{-- LOGIN MODAL --}}
+    @include('Login modal')
+
+    {{-- SIGNUP MODAL --}}
+    @include('Signup modal')
+
+    {{-- LOGOUT MODAL --}}
+    @include('Logout modal')
 
 <!-- HERO -->
 <section class="hero">
@@ -313,22 +225,10 @@ a { text-decoration:none; color:inherit; }
 <!-- STATS -->
 <section class="stats-section">
     <div class="stats-grid">
-        <div class="stat-item">
-            <h3>500+</h3>
-            <p>Properties Listed</p>
-        </div>
-        <div class="stat-item">
-            <h3>10+</h3>
-            <p>Cities Covered</p>
-        </div>
-        <div class="stat-item">
-            <h3>1000+</h3>
-            <p>Happy Renters</p>
-        </div>
-        <div class="stat-item">
-            <h3>98%</h3>
-            <p>Satisfaction Rate</p>
-        </div>
+        <div class="stat-item"><h3>500+</h3><p>Properties Listed</p></div>
+        <div class="stat-item"><h3>10+</h3><p>Cities Covered</p></div>
+        <div class="stat-item"><h3>1000+</h3><p>Happy Renters</p></div>
+        <div class="stat-item"><h3>98%</h3><p>Satisfaction Rate</p></div>
     </div>
 </section>
 
@@ -421,6 +321,9 @@ a { text-decoration:none; color:inherit; }
     </p>
     <p style="margin-top:10px;">© 2026 Smart Rent — All rights reserved.</p>
 </footer>
+
+{{-- MODAL SCRIPTS --}}
+@include('Modal scripts')
 
 </body>
 </html>
