@@ -80,11 +80,11 @@ body{ background:#f5f5f5; }
         <div class="icons">
             @if(Auth::check())
                 <a href="{{ route('property.create') }}">
-                    <p class="add-property">add property</p>
+                    <p class="add-property">Add Property</p>
                 </a>
             @else
                 <a href="javascript:void(0);" onclick="openLoginModal()">
-                    <p class="add-property">add property</p>
+                    <p class="add-property">Add Property</p>
                 </a>
             @endif
 
