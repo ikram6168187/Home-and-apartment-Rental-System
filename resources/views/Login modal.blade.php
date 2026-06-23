@@ -37,7 +37,7 @@
                 <button><i class="fa-brands fa-facebook facebook-icon"></i> Facebook</button>
             </div>
             <div class="m-signup">
-                Don't have an account?
+                Don't have an Account?
                 <a href="javascript:void(0);" onclick="closeLoginModal(); openSignupModal();">Sign Up</a>
             </div>
             <div class="m-footer">
