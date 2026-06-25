@@ -177,4 +177,71 @@
     color: #fff; font-size: 14px; font-weight: 600; cursor: pointer;
 }
 .btn-logout-confirm:hover { background: #b02a37; }
+
+
+/* Properties Section */
+
+.properties{
+    width:95%;
+    margin:50px auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    gap:25px;
+}
+
+.property-card{
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.property-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.property-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.property-content{
+    padding:18px;
+}
+
+.property-content h3{
+    margin:0;
+    font-size:22px;
+}
+
+.location{
+    color:#666;
+    margin-top:8px;
+}
+
+.price{
+    font-size:24px;
+    font-weight:bold;
+    color:#27ae60;
+    margin-top:10px;
+}
+
+.book-btn{
+    display:block;
+    text-align:center;
+    margin-top:15px;
+    padding:12px;
+    background:#2c3e50;
+    color:white;
+    text-decoration:none;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.book-btn:hover{
+    background:#1a252f;
+}   
 </style>

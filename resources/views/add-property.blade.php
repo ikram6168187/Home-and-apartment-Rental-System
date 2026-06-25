@@ -237,6 +237,7 @@ select { cursor: pointer; }
     .form-card { padding: 22px 18px; }
     .topbar { padding: 14px 20px; }
 }
+
 </style>
 </head>
 
@@ -457,16 +458,13 @@ select { cursor: pointer; }
 
 <script>
 function previewImage(event) {
-    var file = event.target.files[0];
-    if (!file) return;
-    var reader = new FileReader();
-    reader.onload = function(e) {
-        var img = document.getElementById('preview-img');
-        img.src = e.target.result;
-        img.style.display = 'block';
-        document.querySelector('.upload-area p').textContent = file.name;
+    let reader = new FileReader();
+    reader.onload = function(){
+        let output = document.getElementById('preview-img');
+        output.src = reader.result;
+        output.style.display = "block";
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(event.target.files[0]);
 }
 </script>
 

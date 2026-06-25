@@ -403,6 +403,15 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
                     ₨ {{ number_format($property->price) }}
                     <span>per month</span>
                 </div>
+                <a href="{{ route('property.edit', $property->id) }}"
+                   style="display:inline-flex; align-items:center; gap:5px; margin-top:10px;
+                          background:#f5ede0; color:rgb(51,47,46); padding:6px 14px;
+                          border-radius:20px; font-size:12px; font-weight:600;
+                          text-decoration:none; transition:0.2s;"
+                   onmouseover="this.style.background='#e8d5b7'"
+                   onmouseout="this.style.background='#f5ede0'">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                </a>
             </div>
         </div>
         @empty
