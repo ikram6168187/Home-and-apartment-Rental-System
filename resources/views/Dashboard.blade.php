@@ -290,8 +290,13 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
     </div>
     <div class="sidebar-user">
         <div class="s-avatar">
-            {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
-        </div>
+    @if(Auth::user()->profile_picture)
+        <img src="{{ asset('storage/'.Auth::user()->profile_picture) }}"
+             style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
+    @else
+        {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+    @endif
+</div>
         <div class="s-user-info">
             <p>{{ Auth::user()->name }}</p>
             <span>Property Owner</span>
