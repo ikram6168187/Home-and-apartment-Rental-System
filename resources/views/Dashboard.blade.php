@@ -279,6 +279,15 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
     cursor: pointer;
 }
 .btn-logout-confirm:hover { background: #b02a37; }
+.nav-badge {
+    background: #dc3545;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: auto;
+}
 </style>
 </head>
 <body>
@@ -311,6 +320,12 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
         </a>
         <a href="{{ route('property.create') }}" class="nav-item">
             <i class="fa-solid fa-circle-plus"></i> Add Property
+        </a>
+                <a href="{{ route('notifications') }}" class="nav-item">
+            <i class="fa-solid fa-bell"></i> Notifications
+            @if(isset($unreadNotifications) && $unreadNotifications > 0)
+                <span class="nav-badge">{{ $unreadNotifications }}</span>
+            @endif
         </a>
         <div class="nav-divider"></div>
         <a href="{{ route('profile') }}" class="nav-item">

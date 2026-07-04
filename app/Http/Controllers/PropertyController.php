@@ -38,7 +38,7 @@ class PropertyController extends Controller
         $properties = Property::where('user_id', $userId)->latest()->get();
         $unreadNotifications = Notification::where('user_id', $userId)->where('is_read', false)->count();
         
-        return view('my-listings', compact('properties', 'unreadNotifications'));
+        return view('My listings', compact('properties', 'unreadNotifications'));
     }
 
     // Store property

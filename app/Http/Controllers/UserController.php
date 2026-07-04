@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Property;
 use App\Models\User; 
-
+use App\Models\notification;
 class UserController extends Controller
 {
     // Profile page
@@ -16,7 +16,8 @@ class UserController extends Controller
     {
         $totalListings  = Property::where('user_id', Auth::id())->count();
         $activeListings = Property::where('user_id', Auth::id())->where('status', 'active')->count();
-        return view('profile', compact('totalListings', 'activeListings'));
+        $unreadNotifications = Notification::where('user_id', Auth::id())->where('is_read', false)->count(); 
+        return view('profile', compact('totalListings', 'activeListings','unreadNotifications'));
     }
 
     // Update profile
@@ -58,9 +59,22 @@ class UserController extends Controller
 
     // Settings page
     public function settings()
-    {
-        return view('settings');
-    }
+{
+    $unreadNotifications = Notification::where('user_id', Auth::id())->where('is_read', false)->count();
+    
+    $totalListings  = Property::where('user_id', Auth::id())->count();
+    $activeListings = Property::where('user_id', Auth::id())->where('status', 'active')->count();
+    
+    $listingSummary = [
+        'house'     => Property::where('user_id', Auth::id())->where('type', 'house')->count(),
+        'apartment' => Property::where('user_id', Auth::id())->where('type', 'apartment')->count(),
+        'room'      => Property::where('user_id', Auth::id())->where('type', 'room')->count(),
+        'shop'      => Property::where('user_id', Auth::id())->where('type', 'shop')->count(),
+        'office'    => Property::where('user_id', Auth::id())->where('type', 'office')->count(),
+    ];
+
+    return view('settings', compact('unreadNotifications', 'totalListings', 'activeListings', 'listingSummary'));
+}
 
     // Change password
     public function changePassword(Request $request)
@@ -113,4 +127,8 @@ class UserController extends Controller
 
         return redirect()->route('home')->with('success', 'Account deleted successfully.');
     }
+   
+
+
+
 }

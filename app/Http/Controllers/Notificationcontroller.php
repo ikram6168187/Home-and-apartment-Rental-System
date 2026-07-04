@@ -22,7 +22,7 @@ class NotificationController extends Controller
                     ->where('is_read', false)
                     ->update(['is_read' => true]);
 
-        return view('notifications', compact('notifications', 'unreadNotifications'));
+        return view('Notification', compact('notifications', 'unreadNotifications'));
     }
 
     // Clear all notifications

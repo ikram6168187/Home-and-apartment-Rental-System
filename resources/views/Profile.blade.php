@@ -173,6 +173,16 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
     .stats-row { grid-template-columns:1fr 1fr; }
     .profile-header { flex-direction:column; text-align:center; }
 }
+
+.nav-badge {
+    background: #dc3545;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: auto;
+}
 </style>
 </head>
 <body>
@@ -198,6 +208,12 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
         <a href="{{ route('my.listings') }}" class="nav-item"><i class="fa-solid fa-building"></i> My Listings</a>
         <a href="{{ route('property.create') }}" class="nav-item"><i class="fa-solid fa-circle-plus"></i> Add Property</a>
         <div class="nav-divider"></div>
+                <a href="{{ route('notifications') }}" class="nav-item">
+            <i class="fa-solid fa-bell"></i> Notifications
+            @if(isset($unreadNotifications) && $unreadNotifications > 0)
+                <span class="nav-badge">{{ $unreadNotifications }}</span>
+            @endif
+        </a>
         <a href="{{ route('profile') }}" class="nav-item active"><i class="fa-solid fa-user"></i> Profile</a>
         <a href="{{ route('settings') }}" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
         <div class="nav-divider"></div>

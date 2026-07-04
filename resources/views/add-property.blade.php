@@ -332,7 +332,7 @@ select { cursor: pointer; }
 
                     <input type="radio" name="type" id="office" value="office"
                            {{ old('type') == 'office' ? 'checked' : '' }}>
-                    <label for="office"><i class="fa-solid fa-briefcase"></i> Office</label>
+                    <label for="office"><i class="fa-solid fa-briefcase"></i> other</label>
                 </div>
                 @error('type') <span class="error-msg">{{ $message }}</span> @enderror
             </div>

@@ -7,6 +7,7 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NotificationController;
 
 // Home page
 Route::get('/home', [HomeController::class, 'home'])->name('home');
@@ -73,3 +74,10 @@ Route::middleware(['auth'])->group(function () {
     })->middleware('role:admin')->name('admin.dashboard');
 
 });
+
+
+
+// Notifications
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
+Route::delete('/notifications/clear', [NotificationController::class, 'clearAll'])->name('notifications.clear');
+Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
