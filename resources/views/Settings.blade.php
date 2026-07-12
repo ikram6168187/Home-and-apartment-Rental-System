@@ -139,6 +139,10 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
         <a href="{{ route('dashboard') }}" class="nav-item"><i class="fa-solid fa-gauge"></i> Dashboard</a>
         <a href="{{ route('my.listings') }}" class="nav-item"><i class="fa-solid fa-building"></i> My Listings</a>
         <a href="{{ route('property.create') }}" class="nav-item"><i class="fa-solid fa-circle-plus"></i> Add Property</a>
+        <a href="{{ route('booking.requests') }}" class="nav-item">
+    <i class="fa-solid fa-calendar-check"></i> Booking Requests
+</a>  
+        
         <div class="nav-divider"></div>
         <a href="{{ route('notifications') }}" class="nav-item">
             <i class="fa-solid fa-bell"></i> Notifications

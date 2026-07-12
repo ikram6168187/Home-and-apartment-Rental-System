@@ -321,6 +321,12 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
         <a href="{{ route('property.create') }}" class="nav-item">
             <i class="fa-solid fa-circle-plus"></i> Add Property
         </a>
+                    <a href="{{ route('booking.requests') }}" class="nav-item">
+            <i class="fa-solid fa-calendar-check"></i> Booking Requests
+            @if(isset($pendingBookings) && $pendingBookings > 0)
+                <span class="nav-badge">{{ $pendingBookings }}</span>
+            @endif
+        </a>
                 <a href="{{ route('notifications') }}" class="nav-item">
             <i class="fa-solid fa-bell"></i> Notifications
             @if(isset($unreadNotifications) && $unreadNotifications > 0)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Property;
+use App\Models\Booking;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -20,15 +21,46 @@ class PropertyController extends Controller
     public function dashboard()
     {
         $userId = Auth::id();
-        
-        // Sab data direct query se extract kiya taake collection memory warning na aaye
-        $properties = Property::where('user_id', $userId)->latest()->get();
-        $total      = $properties->count();
-        $active     = Property::where('user_id', $userId)->where('status', 'active')->count(); // Fixed warning/optimized
-        $recent     = $properties->take(5);
-        $unreadNotifications = Notification::where('user_id', $userId)->where('is_read', false)->count();
 
-        return view('dashboard', compact('properties', 'total', 'active', 'recent', 'unreadNotifications'));
+        $properties = Property::where('user_id', $userId)->latest()->get();
+
+        $total    = $properties->count();
+        $active   = $properties->where('status', 'active')->count();
+        $inactive = $properties->where('status', 'inactive')->count();
+        $recent   = $properties->take(5);
+
+        // Portfolio total value
+        $portfolioValue = $properties->where('status', 'active')->sum('price');
+
+        // Highest priced listing
+        $highestListing = $properties->sortByDesc('price')->first();
+
+        // Newest listing
+        $newestListing = $properties->sortByDesc('created_at')->first();
+
+        // Cities covered
+        $citiesCovered = $properties->pluck('city')->unique()->count();
+
+        // City-wise breakdown
+        $cityBreakdown = $properties->groupBy('city')->map(function ($group) {
+            return $group->count();
+        })->sortByDesc(fn($count) => $count);
+
+        // Unread notifications
+        $unreadNotifications = Notification::where('user_id', $userId)
+                                ->where('is_read', false)->count();
+
+        // Pending booking requests
+        $pendingBookings = Booking::whereHas('property', function ($q) use ($userId) {
+            $q->where('user_id', $userId);
+        })->where('status', 'pending')->count();
+
+        return view('dashboard', compact(
+            'properties', 'total', 'active', 'inactive',
+            'recent', 'portfolioValue', 'highestListing',
+            'newestListing', 'citiesCovered', 'cityBreakdown',
+            'unreadNotifications', 'pendingBookings'
+        ));
     }
 
     // My Listings page
@@ -36,9 +68,13 @@ class PropertyController extends Controller
     {
         $userId = Auth::id();
         $properties = Property::where('user_id', $userId)->latest()->get();
-        $unreadNotifications = Notification::where('user_id', $userId)->where('is_read', false)->count();
-        
-        return view('My listings', compact('properties', 'unreadNotifications'));
+        $unreadNotifications = Notification::where('user_id', $userId)
+                                ->where('is_read', false)->count();
+        $pendingBookings = Booking::whereHas('property', function ($q) use ($userId) {
+            $q->where('user_id', $userId);
+        })->where('status', 'pending')->count();
+
+        return view('My listings', compact('properties', 'unreadNotifications', 'pendingBookings'));
     }
 
     // Store property
@@ -79,7 +115,6 @@ class PropertyController extends Controller
             'status'      => 'active',
         ]);
 
-        // Notification create karo
         Notification::create([
             'user_id' => Auth::id(),
             'title'   => 'Property Listed Successfully',
@@ -95,11 +130,14 @@ class PropertyController extends Controller
     public function edit($id)
     {
         $userId = Auth::id();
-        // findOrFail warning bypass karne ke liye generic constraint direct check kiya
-        $property = Property::where('user_id', $userId)->findOrFail($id); 
-        $unreadNotifications = Notification::where('user_id', $userId)->where('is_read', false)->count();
-        
-        return view('edit-property', compact('property', 'unreadNotifications'));
+        $property = Property::where('user_id', $userId)->findOrFail($id);
+        $unreadNotifications = Notification::where('user_id', $userId)
+                                ->where('is_read', false)->count();
+        $pendingBookings = Booking::whereHas('property', function ($q) use ($userId) {
+            $q->where('user_id', $userId);
+        })->where('status', 'pending')->count();
+
+        return view('edit-property', compact('property', 'unreadNotifications', 'pendingBookings'));
     }
 
     // Update property
@@ -146,7 +184,6 @@ class PropertyController extends Controller
             'status'      => $request->status,
         ]);
 
-        // Notification
         Notification::create([
             'user_id' => $userId,
             'title'   => 'Property Updated',
@@ -163,11 +200,10 @@ class PropertyController extends Controller
     {
         $userId = Auth::id();
         $property = Property::where('user_id', $userId)->findOrFail($id);
-        
+
         $newStatus = $property->status === 'active' ? 'inactive' : 'active';
         $property->update(['status' => $newStatus]);
 
-        // Notification
         Notification::create([
             'user_id' => $userId,
             'title'   => 'Listing Status Changed',
@@ -191,7 +227,6 @@ class PropertyController extends Controller
         }
         $property->delete();
 
-        // Notification
         Notification::create([
             'user_id' => $userId,
             'title'   => 'Property Deleted',
