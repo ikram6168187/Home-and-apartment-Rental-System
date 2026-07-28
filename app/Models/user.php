@@ -9,6 +9,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+
     protected $fillable = [
         'name',
         'email',
@@ -16,14 +17,17 @@ class User extends Authenticatable
         'role',
     ];
 
+
     protected $attributes = [
         'role' => 'user',
     ];
+
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
 
     protected function casts(): array
     {
@@ -31,5 +35,26 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+    // User ki properties
+    public function properties()
+    {
+        return $this->hasMany(Property::class);
+    }
+
+
+    // User ki bookings
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+
+    // User ki notifications
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
     }
 }

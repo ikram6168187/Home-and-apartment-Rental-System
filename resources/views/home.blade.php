@@ -38,20 +38,22 @@
     align-items:flex-start; gap:4px;
     flex-direction:column;
     padding:12px 20px;
-    border-right:1px solid #eee;
+    border-right:2px solid #eee;
     flex:1; min-width:140px;
 }
 .box1:last-child{ border-right:none; }
 .box1 p{ font-size:11px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 4px; }
-.box1 input{ border:none; outline:none; font-size:14px; color:#333; width:100%; background:transparent; }
+.box1 input{width:100%;border:1px solid #111010;border-radius:6px;padding:8px 10px;outline:none;font-size:14px;background:#fff;}
 
 .search-btn{
-    background:rgb(51,47,46); color:#fff;
-    border:none; padding:0 24px;
+    background:rgb(15, 13, 6); color:#fff;
+    border:none; padding:8px 10px;
     font-size:14px; font-weight:600;
     cursor:pointer; transition:0.2s;
     display:flex; align-items:center; gap:6px;
-    height:60px; white-space:nowrap;
+    height:40px; white-space:nowrap;
+    margin-right:15px;
+    margin-top:22px;
 }
 .search-btn:hover{ background:#1a1a1a; }
 

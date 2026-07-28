@@ -9,6 +9,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\AdminController;
 
 // Home
 Route::get('/home', [HomeController::class, 'home'])->name('home');
@@ -28,7 +29,7 @@ Route::get('/property/{id}', [BookingController::class, 'show'])->name('property
 
 /*
 |--------------------------------------------------------------------------
-| Protected Routes
+| User Protected Routes
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth'])->group(function () {
@@ -40,35 +41,49 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/my-listings', [PropertyController::class, 'myListings'])->name('my.listings');
 
     // Properties
-    Route::get('/add-property',       [PropertyController::class, 'create'])->name('property.create');
-    Route::post('/add-property',      [PropertyController::class, 'store'])->name('property.store');
-    Route::get('/edit-property/{id}', [PropertyController::class, 'edit'])->name('property.edit');
-    Route::put('/edit-property/{id}', [PropertyController::class, 'update'])->name('property.update');
+    Route::get('/add-property',           [PropertyController::class, 'create'])->name('property.create');
+    Route::post('/add-property',          [PropertyController::class, 'store'])->name('property.store');
+    Route::get('/edit-property/{id}',     [PropertyController::class, 'edit'])->name('property.edit');
+    Route::put('/edit-property/{id}',     [PropertyController::class, 'update'])->name('property.update');
     Route::patch('/property/{id}/toggle', [PropertyController::class, 'toggle'])->name('property.toggle');
-    Route::delete('/property/{id}',   [PropertyController::class, 'destroy'])->name('property.destroy');
+    Route::delete('/property/{id}',       [PropertyController::class, 'destroy'])->name('property.destroy');
 
     // Bookings
-    Route::post('/property/{id}/book', [BookingController::class, 'store'])->name('booking.store');
-    Route::get('/booking-requests',    [BookingController::class, 'requests'])->name('booking.requests');
-    Route::patch('/booking/{id}/confirm', [BookingController::class, 'confirm'])->name('booking.confirm');
-    Route::patch('/booking/{id}/cancel',  [BookingController::class, 'cancel'])->name('booking.cancel');
-    Route::get('/my-bookings', [BookingController::class, 'myBookings'])->name('my.bookings');
+    Route::post('/property/{id}/book',        [BookingController::class, 'store'])->name('booking.store');
+    Route::get('/booking-requests',            [BookingController::class, 'requests'])->name('booking.requests');
+    Route::patch('/booking/{id}/confirm',      [BookingController::class, 'confirm'])->name('booking.confirm');
+    Route::patch('/booking/{id}/cancel',       [BookingController::class, 'cancel'])->name('booking.cancel');
+    Route::get('/my-bookings',                 [BookingController::class, 'myBookings'])->name('my.bookings');
 
     // Notifications
-    Route::get('/notifications',         [NotificationController::class, 'index'])->name('notifications');
-    Route::delete('/notifications/clear',[NotificationController::class, 'clearAll'])->name('notifications.clear');
-    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+    Route::get('/notifications',              [NotificationController::class, 'index'])->name('notifications');
+    Route::delete('/notifications/clear',     [NotificationController::class, 'clearAll'])->name('notifications.clear');
+    Route::delete('/notifications/{id}',      [NotificationController::class, 'destroy'])->name('notifications.destroy');
 
     // Profile & Settings
-    Route::get('/profile',  [UserController::class, 'profile'])->name('profile');
-    Route::put('/profile',  [UserController::class, 'updateProfile'])->name('profile.update');
-    Route::get('/settings', [UserController::class, 'settings'])->name('settings');
-    Route::put('/settings/password', [UserController::class, 'changePassword'])->name('settings.password');
-    Route::delete('/settings/account', [UserController::class, 'deleteAccount'])->name('settings.delete');
+    Route::get('/profile',              [UserController::class, 'profile'])->name('profile');
+    Route::put('/profile',              [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/settings',             [UserController::class, 'settings'])->name('settings');
+    Route::put('/settings/password',    [UserController::class, 'changePassword'])->name('settings.password');
+    Route::delete('/settings/account',  [UserController::class, 'deleteAccount'])->name('settings.delete');
 
-    // Admin
-    Route::get('/admindashboard', function () {
-        return view('admindashboard');
-    })->middleware('role:admin')->name('admin.dashboard');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+
+    Route::get('/dashboard',              [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/users',                  [AdminController::class, 'users'])->name('users');
+    Route::delete('/users/{id}',          [AdminController::class, 'deleteUser'])->name('users.delete');
+    Route::get('/properties',             [AdminController::class, 'properties'])->name('properties');
+    Route::patch('/properties/{id}',      [AdminController::class, 'toggleProperty'])->name('properties.toggle');
+    Route::delete('/properties/{id}',     [AdminController::class, 'deleteProperty'])->name('properties.delete');
+    Route::get('/bookings',               [AdminController::class, 'bookings'])->name('bookings');
+    Route::get('/messages',               [AdminController::class, 'messages'])->name('messages');
+    Route::delete('/messages/{id}',       [AdminController::class, 'deleteMessage'])->name('messages.delete');
 
 });
