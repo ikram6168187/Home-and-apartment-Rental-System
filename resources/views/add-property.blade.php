@@ -431,23 +431,46 @@ select { cursor: pointer; }
             </div>
         </div>
 
-        {{-- ── SECTION 5: Photo ── --}}
-        <div class="form-card">
-            <div class="section-title">
-                <i class="fa-solid fa-camera"></i> Property Photo
-            </div>
+       {{-- ── SECTION 5: Photos ── --}}
+<div class="form-card">
+    <div class="section-title">
+        <i class="fa-solid fa-camera"></i> Property Photos
+    </div>
 
-            <div class="upload-area" id="uploadArea">
-                <input type="file" name="image" id="imageInput" accept="image/*"
-                       onchange="previewImage(event)">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <p>Click to upload or drag & drop</p>
-                <span>JPG, PNG, WEBP — Max 2MB</span>
-            </div>
-            <img id="preview-img" src="" alt="Preview">
+    {{-- Cover / Main Photo (sirf 1) --}}
+    <div class="form-group" style="margin-bottom:22px;">
+        <label>Cover Photo (Main Image) *</label>
+        <div class="upload-area" id="uploadArea">
+            <input type="file" name="image" id="imageInput" accept="image/*"
+                   onchange="previewImage(event)" required>
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p>Click to upload or drag & drop</p>
+            <span>JPG, PNG, WEBP — Max 2MB</span>
+        </div>
+        <img id="preview-img" src="" alt="Preview">
+        @error('image') <span class="error-msg">{{ $message }}</span> @enderror
+    </div>
+
+    {{-- Additional Photos (ek line mein) --}}
+    <div class="form-group">
+        <label>Additional Photos (optional)</label>
+        <div class="upload-area">
+            <input type="file" id="imagesInput" accept="image/*"
+                   multiple onchange="handleNewImages(event)">
+            <i class="fa-solid fa-images"></i>
+            <p>Click to upload multiple photos</p>
+            <span>JPG, PNG, WEBP — Max 2MB each</span>
         </div>
 
-        {{-- SUBMIT --}}
+        <input type="file" name="images[]" id="hiddenImagesInput" multiple style="display:none;">
+
+        <div id="preview-multi" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;"></div>
+        @error('images.*') <span class="error-msg">{{ $message }}</span> @enderror
+    </div>
+</div>
+
+
+            {{-- SUBMIT --}}
         <button type="submit" class="submit-btn">
             <i class="fa-solid fa-paper-plane"></i>
             Post Property Listing
@@ -458,15 +481,68 @@ select { cursor: pointer; }
 
 <script>
 function previewImage(event) {
-    let reader = new FileReader();
-    reader.onload = function(){
-        let output = document.getElementById('preview-img');
-        output.src = reader.result;
-        output.style.display = "block";
+    var file = event.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var img = document.getElementById('preview-img');
+        img.src = e.target.result;
+        img.style.display = 'block';
     };
-    reader.readAsDataURL(event.target.files[0]);
+    reader.readAsDataURL(file);
+}
+
+// ===== Multiple images accumulate karne ka logic (ek line mein sab dikhengi) =====
+let selectedFiles = [];
+
+function handleNewImages(event) {
+    const newFiles = Array.from(event.target.files);
+    newFiles.forEach(file => selectedFiles.push(file));
+
+    updateFileInput();
+    renderPreviews();
+
+    event.target.value = ''; // taake dubara same file select ho sake
+}
+
+function removeSelectedFile(index) {
+    selectedFiles.splice(index, 1);
+    updateFileInput();
+    renderPreviews();
+}
+
+function updateFileInput() {
+    const dataTransfer = new DataTransfer();
+    selectedFiles.forEach(file => dataTransfer.items.add(file));
+    document.getElementById('hiddenImagesInput').files = dataTransfer.files;
+}
+
+function renderPreviews() {
+    const previewContainer = document.getElementById('preview-multi');
+    previewContainer.innerHTML = '';
+
+    selectedFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const wrapper = document.createElement('div');
+            wrapper.style.cssText = 'position:relative; width:100px;';
+
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.cssText = 'width:100px; height:90px; object-fit:cover; border-radius:8px;';
+
+            const removeBtn = document.createElement('div');
+            removeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            removeBtn.style.cssText = 'position:absolute; top:4px; right:4px; background:#fff; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 1px 4px rgba(0,0,0,0.3); font-size:11px; color:#c0392b;';
+            removeBtn.onclick = () => removeSelectedFile(index);
+
+            wrapper.appendChild(img);
+            wrapper.appendChild(removeBtn);
+            previewContainer.appendChild(wrapper);
+        };
+        reader.readAsDataURL(file);
+    });
 }
 </script>
-
 </body>
 </html>

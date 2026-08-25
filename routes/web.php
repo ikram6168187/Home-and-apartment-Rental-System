@@ -87,3 +87,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::delete('/messages/{id}',       [AdminController::class, 'deleteMessage'])->name('messages.delete');
 
 });
+Route::get('/property/{property}', [PropertyController::class, 'show'])->name('property.show');
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('otp.verify');
+Route::post('/resend-otp', [AuthController::class, 'resendOtp'])->name('otp.resend');

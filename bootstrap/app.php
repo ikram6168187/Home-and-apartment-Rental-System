@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // ✅ Role Middleware register
         $middleware->alias([
-            'role' => rolemiddleware::class,
+            'role' => RoleMiddleware::class,
         ]);
 
     })

@@ -39,6 +39,27 @@ tbody tr:hover { background:#fafafa; }
 .del-btns   { display:flex; gap:12px; }
 .btn-cancel-d { flex:1; padding:11px; border:1.5px solid #ddd; border-radius:30px; background:#fff; color:#555; font-size:14px; font-weight:600; cursor:pointer; }
 .btn-confirm-d { flex:1; padding:11px; border:none; border-radius:30px; background:#dc3545; color:#fff; font-size:14px; font-weight:600; cursor:pointer; }
+
+.role-admin{
+    display:inline-block;
+    background:#ffe5e5;
+    color:#dc3545;
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:600;
+}
+
+.role-user{
+    display:inline-block;
+    background:#e8f5e9;
+    color:#2e7d32;
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:600;
+}
+
 </style>
 </head>
 <body>
@@ -78,6 +99,7 @@ tbody tr:hover { background:#fafafa; }
                         <th>User</th>
                         <th>Properties</th>
                         <th>Joined</th>
+                           <th>Role</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -100,6 +122,13 @@ tbody tr:hover { background:#fafafa; }
                                 </div>
                             </div>
                         </td>
+                        <td>
+    @if($user->role == 'admin')
+        <span class="role-admin">Admin</span>
+    @else
+        <span class="role-user">User</span>
+    @endif
+</td>
                         <td><span class="prop-count">{{ $user->properties_count }} listings</span></td>
                         <td><span class="joined-date">{{ $user->created_at->format('d M Y') }}</span></td>
                         <td>
@@ -130,7 +159,8 @@ tbody tr:hover { background:#fafafa; }
             <button class="btn-confirm-d" id="delConfirmBtn"><i class="fa-solid fa-trash"></i> Delete</button>
         </div>
     </div>
-</div>
+</div> 
+
 
 <script>
 function openDeleteModal(id, name) {

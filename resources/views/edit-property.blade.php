@@ -373,30 +373,76 @@ textarea { resize:vertical; min-height:110px; }
             </div>
         </div>
 
-        {{-- SECTION 5: Photo --}}
-        <div class="form-card">
-            <div class="section-title">
-                <i class="fa-solid fa-camera"></i> Property Photo
-            </div>
+       {{-- SECTION 5: Photos --}}
+<div class="form-card">
+    <div class="section-title">
+        <i class="fa-solid fa-camera"></i> Property Photos
+    </div>
 
-            {{-- Current Image --}}
-            @if($property->image)
-            <div class="current-img-wrap">
-                <img src="{{ asset('storage/' . $property->image) }}" alt="Current Image">
-                <p class="current-img-label">Current Image</p>
-            </div>
-            @endif
+    {{-- Current Cover Image --}}
+    @if($property->image)
+    <div class="current-img-wrap">
+        <img src="{{ asset('storage/' . $property->image) }}" alt="Current Cover Image">
+        <p class="current-img-label">Current Cover Image</p>
+    </div>
+    @endif
 
-            <div class="upload-area">
-                <input type="file" name="image" id="imageInput"
-                       accept="image/*" onchange="previewImage(event)">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <p>Click to upload new photo (optional)</p>
-                <span>JPG, PNG, WEBP — Max 2MB</span>
-            </div>
-            <img id="preview-img" src="" alt="Preview">
+    <div class="form-group" style="margin-bottom:26px;">
+        <label>Change Cover Photo (optional)</label>
+        <div class="upload-area">
+            <input type="file" name="image" id="imageInput"
+                   accept="image/*" onchange="previewImage(event)">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p>Click to upload new cover photo</p>
+            <span>JPG, PNG, WEBP — Max 2MB</span>
         </div>
+        <img id="preview-img" src="" alt="Preview">
+        @error('image') <span class="error-msg">{{ $message }}</span> @enderror
+    </div>
 
+    {{-- Existing Additional Images --}}
+@if($property->images->count() > 0)
+<div class="form-group" style="margin-bottom:22px;">
+    <label>Current Additional Photos</label>
+    <div id="existing-images-wrap" style="display:flex; flex-wrap:wrap; gap:12px; margin-top:10px;">
+        @foreach($property->images as $img)
+        <div class="existing-img-box" id="existing-img-{{ $img->id }}" style="position:relative; width:110px; transition:all 0.2s;">
+            <img src="{{ asset('storage/' . $img->image_path) }}"
+                 style="width:110px; height:90px; object-fit:cover; border-radius:8px; border:2px solid #eee;">
+
+            <div onclick="toggleDeleteImage({{ $img->id }})"
+                 style="position:absolute; top:4px; right:4px; background:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 1px 4px rgba(0,0,0,0.25);">
+                <i id="trash-icon-{{ $img->id }}" class="fa-solid fa-trash" style="font-size:12px; color:#c0392b;"></i>
+            </div>
+
+            <input type="checkbox" name="delete_images[]" id="checkbox-{{ $img->id }}" value="{{ $img->id }}" style="display:none;">
+
+            <div id="marked-label-{{ $img->id }}" style="display:none; position:absolute; bottom:0; left:0; right:0; background:rgba(192,57,43,0.9); color:#fff; font-size:10px; text-align:center; padding:3px 0; border-radius:0 0 8px 8px;">
+                Will be deleted
+            </div>
+        </div>
+        @endforeach
+    </div>
+    <span style="font-size:11px; color:#999; margin-top:6px; display:block;">
+        <i class="fa-solid fa-circle-info"></i> Trash icon pe click karein image ko delete ke liye mark karne ke liye (dubara click karein undo ke liye)
+    </span>
+</div>
+@endif
+
+    {{-- Add New Additional Images --}}
+<div class="form-group">
+    <label>Add New Photos (optional)</label>
+    <div class="upload-area">
+        <input type="file" id="imagesInput"
+               accept="image/*" multiple onchange="handleNewImages(event)">
+        <i class="fa-solid fa-images"></i>
+        <p>Click to upload multiple new photos</p>
+        <span>JPG, PNG, WEBP — Max 2MB each</span>
+    </div>
+    <input type="file" name="images[]" id="hiddenImagesInput" multiple style="display:none;">
+    <div id="preview-multi" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;"></div>
+    @error('images.*') <span class="error-msg">{{ $message }}</span> @enderror
+</div>
         {{-- SECTION 6: Status --}}
         <div class="form-card">
             <div class="section-title">
@@ -438,11 +484,90 @@ function previewImage(event) {
         var img = document.getElementById('preview-img');
         img.src = e.target.result;
         img.style.display = 'block';
-        document.querySelector('.upload-area p').textContent = file.name;
     };
     reader.readAsDataURL(file);
 }
-</script>
 
+// ===== Multiple images ko accumulate karne ka logic =====
+let selectedFiles = []; // sab selected files yahan jama hongi
+
+function handleNewImages(event) {
+    const newFiles = Array.from(event.target.files);
+
+    // nayi files ko purani list mein add karein
+    newFiles.forEach(file => selectedFiles.push(file));
+
+    updateFileInput();
+    renderPreviews();
+
+    // input ko reset karein taake dubara same file select ho sake
+    event.target.value = '';
+}
+function toggleDeleteImage(imageId) {
+    const checkbox = document.getElementById('checkbox-' + imageId);
+    const box = document.getElementById('existing-img-' + imageId);
+    const label = document.getElementById('marked-label-' + imageId);
+    const icon = document.getElementById('trash-icon-' + imageId);
+
+    checkbox.checked = !checkbox.checked;
+
+    if (checkbox.checked) {
+        box.style.opacity = '0.5';
+        box.style.filter = 'grayscale(1)';
+        label.style.display = 'block';
+        icon.classList.remove('fa-trash');
+        icon.classList.add('fa-rotate-left'); // undo icon
+    } else {
+        box.style.opacity = '1';
+        box.style.filter = 'none';
+        label.style.display = 'none';
+        icon.classList.remove('fa-rotate-left');
+        icon.classList.add('fa-trash');
+    }
+}
+function removeSelectedFile(index) {
+    selectedFiles.splice(index, 1);
+    updateFileInput();
+    renderPreviews();
+}
+
+function updateFileInput() {
+    // DataTransfer se ek naya FileList banayein aur hidden input mein daal dein
+    const dataTransfer = new DataTransfer();
+    selectedFiles.forEach(file => dataTransfer.items.add(file));
+    document.getElementById('hiddenImagesInput').files = dataTransfer.files;
+}
+
+function renderPreviews() {
+    const previewContainer = document.getElementById('preview-multi');
+    previewContainer.innerHTML = '';
+
+    selectedFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'relative';
+            wrapper.style.width = '100px';
+
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.width = '100px';
+            img.style.height = '90px';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '8px';
+
+            const removeBtn = document.createElement('div');
+            removeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            removeBtn.style.cssText = 'position:absolute; top:4px; right:4px; background:#fff; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 1px 4px rgba(0,0,0,0.3); font-size:11px; color:#c0392b;';
+            removeBtn.onclick = () => removeSelectedFile(index);
+
+            wrapper.appendChild(img);
+            wrapper.appendChild(removeBtn);
+            previewContainer.appendChild(wrapper);
+        };
+        reader.readAsDataURL(file);
+    });
+}
+</script>
 </body>
 </html>

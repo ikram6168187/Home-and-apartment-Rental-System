@@ -61,14 +61,29 @@ window.onclick = function(event) {
 
 // ── ESC KEY ──
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') { closeLoginModal(); closeSignupModal(); closeLogoutConfirm(); }
+    if (e.key === 'Escape') { closeLoginModal(); closeSignupModal(); closeLogoutConfirm(); closeOtpModal(); }
 });
-
 // ── AUTO OPEN ──
 @if(session('show_login'))
     openLoginModal();
 @endif
-@if(session('show_signup') || ($errors->any() && !session('show_login')))
+@if(session('show_signup') || ($errors->any() && !session('show_login') && !session('show_otp')))
     openSignupModal();
 @endif
+@if(session('show_otp'))
+    openOtpModal();
+@endif
+
+// ── OTP MODAL ──
+function openOtpModal() {
+    document.getElementById('otpModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeOtpModal() {
+    document.getElementById('otpModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+function handleOtpOverlayClick(e) {
+    if (e.target === document.getElementById('otpModal')) closeOtpModal();
+}
 </script>

@@ -109,6 +109,42 @@ a { text-decoration:none; color:inherit; }
     .page-wrap { grid-template-columns:1fr; }
     .booking-card { position:static; }
 }
+
+/* ===== Carousel ===== */
+.carousel-arrow {
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:42px; height:42px; background:rgba(255,255,255,0.9);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:15px; color:#2d2926;
+    box-shadow:0 2px 10px rgba(0,0,0,0.2); transition:0.2s; z-index:5;
+}
+.carousel-arrow:hover { background:#fff; transform:translateY(-50%) scale(1.08); }
+.carousel-prev { left:16px; }
+.carousel-next { right:16px; }
+
+.carousel-counter {
+    position:absolute; bottom:16px; right:16px;
+    background:rgba(0,0,0,0.6); color:#fff; font-size:12px;
+    padding:4px 12px; border-radius:20px; z-index:5;
+}
+
+.carousel-slide {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    object-fit:cover; opacity:0; transition:opacity 0.4s ease; pointer-events:none;
+}
+.carousel-slide.active { opacity:1; pointer-events:auto; }
+
+.carousel-thumbs {
+    display:flex; gap:8px; margin-bottom:20px;
+    overflow-x:auto; padding-bottom:4px;
+}
+.carousel-thumbs img {
+    width:76px; height:56px; object-fit:cover; border-radius:8px;
+    cursor:pointer; opacity:0.55; border:2px solid transparent;
+    transition:0.2s; flex-shrink:0;
+}
+.carousel-thumbs img:hover { opacity:0.85; }
+.carousel-thumbs img.active { opacity:1; border-color:#2d2926; }
 </style>
 </head>
 <body>
@@ -143,16 +179,53 @@ a { text-decoration:none; color:inherit; }
     <!-- LEFT SIDE -->
     <div>
 
-        <!-- IMAGE -->
-        <div class="prop-image">
-            @if($property->image)
-                <img src="{{ asset('storage/'.$property->image) }}" alt="{{ $property->title }}">
-            @else
-                <i class="fa-solid fa-building no-img"></i>
-            @endif
-            <span class="type-badge">{{ ucfirst($property->type) }}</span>
-            <span class="status-badge"><i class="fa-solid fa-circle-check"></i> Available</span>
+       {{-- ===== Image Carousel ===== --}}
+@php
+    $allImages = collect();
+    if ($property->image) {
+        $allImages->push($property->image);
+    }
+    foreach ($property->images as $img) {
+        $allImages->push($img->image_path);
+    }
+@endphp
+
+<div class="prop-image">
+    @if($allImages->count() > 0)
+        @foreach($allImages as $index => $imgPath)
+            <img src="{{ asset('storage/'.$imgPath) }}"
+                 class="carousel-slide {{ $index == 0 ? 'active' : '' }}"
+                 alt="{{ $property->title }}">
+        @endforeach
+
+        @if($allImages->count() > 1)
+        <div class="carousel-arrow carousel-prev" onclick="changeSlide(-1)">
+            <i class="fa-solid fa-chevron-left"></i>
         </div>
+        <div class="carousel-arrow carousel-next" onclick="changeSlide(1)">
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+        <div class="carousel-counter">
+            <span id="current-slide">1</span> / {{ $allImages->count() }}
+        </div>
+        @endif
+    @else
+        <i class="fa-solid fa-building no-img"></i>
+    @endif
+
+    <span class="type-badge">{{ ucfirst($property->type) }}</span>
+    <span class="status-badge"><i class="fa-solid fa-circle-check"></i> Available</span>
+</div>
+
+@if($allImages->count() > 1)
+<div class="carousel-thumbs">
+    @foreach($allImages as $index => $imgPath)
+        <img src="{{ asset('storage/'.$imgPath) }}"
+             class="thumb {{ $index == 0 ? 'active' : '' }}"
+             onclick="goToSlide({{ $index }})">
+    @endforeach
+</div>
+@endif
 
         <!-- MAIN INFO -->
         <div class="info-card">
@@ -302,6 +375,7 @@ const price    = {{ $property->price }};
 function updateSummary() {
     if (!checkIn || !checkOut) return;
     const inDate  = new Date(checkIn.value);
+
     const outDate = new Date(checkOut.value);
     if (!checkIn.value || !checkOut.value || outDate <= inDate) {
         document.getElementById('summaryBox').style.display = 'none';
@@ -321,6 +395,40 @@ function updateSummary() {
 
 if (checkIn)  checkIn.addEventListener('change', updateSummary);
 if (checkOut) checkOut.addEventListener('change', updateSummary);
+// ===== Carousel Logic =====
+let currentSlide = 0;
+const totalSlides = {{ $allImages->count() }};
+
+function showSlide(index) {
+    const slides = document.querySelectorAll('.carousel-slide');
+    const thumbs = document.querySelectorAll('.carousel-thumbs img');
+
+    slides.forEach(s => s.classList.remove('active'));
+    thumbs.forEach(t => t.classList.remove('active'));
+
+    slides[index].classList.add('active');
+    if (thumbs[index]) thumbs[index].classList.add('active');
+
+    const counterEl = document.getElementById('current-slide');
+    if (counterEl) counterEl.innerText = index + 1;
+
+    currentSlide = index;
+}
+
+function changeSlide(direction) {
+    let newIndex = (currentSlide + direction + totalSlides) % totalSlides;
+    showSlide(newIndex);
+}
+
+function goToSlide(index) {
+    showSlide(index);
+}
+
+document.addEventListener('keydown', function(e) {
+    if (totalSlides <= 1) return;
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+});
 </script>
 
 </body>

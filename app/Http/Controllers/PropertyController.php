@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Property;
 use App\Models\Booking;
 use App\Models\Notification;
+use App\Models\PropertyImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -79,53 +80,64 @@ class PropertyController extends Controller
 
     // Store property
     public function store(Request $request)
-    {
-        $request->validate([
-            'title'       => 'required|string|max:255',
-            'type'        => 'required|in:house,apartment,room,shop,office',
-            'price'       => 'required|numeric|min:1',
-            'city'        => 'required|string|max:100',
-            'location'    => 'required|string|max:255',
-            'address'     => 'required|string',
-            'description' => 'required|string',
-            'bedrooms'    => 'nullable|integer|min:0',
-            'bathrooms'   => 'nullable|integer|min:0',
-            'area_sqft'   => 'nullable|integer|min:0',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        ]);
+{
+    $request->validate([
+        'title'       => 'required|string|max:255',
+        'type'        => 'required|in:house,apartment,room,shop,office',
+        'price'       => 'required|numeric|min:1',
+        'city'        => 'required|string|max:100',
+        'location'    => 'required|string|max:255',
+        'address'     => 'required|string',
+        'description' => 'required|string',
+        'bedrooms'    => 'nullable|integer|min:0',
+        'bathrooms'   => 'nullable|integer|min:0',
+        'area_sqft'   => 'nullable|integer|min:0',
+        'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'images.*'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
 
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('properties', 'public');
-        }
-
-        $property = Property::create([
-            'user_id'     => Auth::id(),
-            'title'       => $request->title,
-            'type'        => $request->type,
-            'price'       => $request->price,
-            'city'        => $request->city,
-            'location'    => $request->location,
-            'address'     => $request->address,
-            'description' => $request->description,
-            'bedrooms'    => $request->bedrooms ?? 0,
-            'bathrooms'   => $request->bathrooms ?? 0,
-            'area_sqft'   => $request->area_sqft,
-            'image'       => $imagePath,
-            'status'      => 'active',
-        ]);
-
-        Notification::create([
-            'user_id' => Auth::id(),
-            'title'   => 'Property Listed Successfully',
-            'message' => '"' . $property->title . '" is now live on Smart Rent.',
-            'type'    => 'success',
-            'icon'    => 'fa-circle-check',
-        ]);
-
-        return redirect()->route('dashboard')->with('success', 'Property listed successfully!');
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('properties', 'public');
     }
 
+    $property = Property::create([
+        'user_id'     => Auth::id(),
+        'title'       => $request->title,
+        'type'        => $request->type,
+        'price'       => $request->price,
+        'city'        => $request->city,
+        'location'    => $request->location,
+        'address'     => $request->address,
+        'description' => $request->description,
+        'bedrooms'    => $request->bedrooms ?? 0,
+        'bathrooms'   => $request->bathrooms ?? 0,
+        'area_sqft'   => $request->area_sqft,
+        'image'       => $imagePath,
+        'status'      => 'active',
+    ]);
+
+    // ===== NAYA CODE: Multiple images save karna =====
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $img) {
+            $path = $img->store('properties', 'public');
+            $property->images()->create([
+                'image_path' => $path,
+            ]);
+        }
+    }
+    // ===================================================
+
+    Notification::create([
+        'user_id' => Auth::id(),
+        'title'   => 'Property Listed Successfully',
+        'message' => '"' . $property->title . '" is now live on Smart Rent.',
+        'type'    => 'success',
+        'icon'    => 'fa-circle-check',
+    ]);
+
+    return redirect()->route('dashboard')->with('success', 'Property listed successfully!');
+}
     // Edit form
     public function edit($id)
     {
@@ -142,58 +154,84 @@ class PropertyController extends Controller
 
     // Update property
     public function update(Request $request, $id)
-    {
-        $userId = Auth::id();
-        $property = Property::where('user_id', $userId)->findOrFail($id);
+{
+    $userId = Auth::id();
+    $property = Property::where('user_id', $userId)->findOrFail($id);
 
-        $request->validate([
-            'title'       => 'required|string|max:255',
-            'type'        => 'required|in:house,apartment,room,shop,office',
-            'price'       => 'required|numeric|min:1',
-            'city'        => 'required|string|max:100',
-            'location'    => 'required|string|max:255',
-            'address'     => 'required|string',
-            'description' => 'required|string',
-            'bedrooms'    => 'nullable|integer|min:0',
-            'bathrooms'   => 'nullable|integer|min:0',
-            'area_sqft'   => 'nullable|integer|min:0',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'status'      => 'required|in:active,inactive',
-        ]);
+    $request->validate([
+        'title'            => 'required|string|max:255',
+        'type'             => 'required|in:house,apartment,room,shop,office',
+        'price'            => 'required|numeric|min:1',
+        'city'             => 'required|string|max:100',
+        'location'         => 'required|string|max:255',
+        'address'          => 'required|string',
+        'description'      => 'required|string',
+        'bedrooms'         => 'nullable|integer|min:0',
+        'bathrooms'        => 'nullable|integer|min:0',
+        'area_sqft'        => 'nullable|integer|min:0',
+        'image'            => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'images.*'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'status'           => 'required|in:active,inactive',
+        'delete_images'    => 'nullable|array',
+        'delete_images.*'  => 'exists:property_images,id',
+    ]);
 
-        $imagePath = $property->image;
-        if ($request->hasFile('image')) {
-            if ($property->image) {
-                Storage::disk('public')->delete($property->image);
-            }
-            $imagePath = $request->file('image')->store('properties', 'public');
+    // Cover image update
+    $imagePath = $property->image;
+    if ($request->hasFile('image')) {
+        if ($property->image) {
+            Storage::disk('public')->delete($property->image);
         }
-
-        $property->update([
-            'title'       => $request->title,
-            'type'        => $request->type,
-            'price'       => $request->price,
-            'city'        => $request->city,
-            'location'    => $request->location,
-            'address'     => $request->address,
-            'description' => $request->description,
-            'bedrooms'    => $request->bedrooms ?? 0,
-            'bathrooms'   => $request->bathrooms ?? 0,
-            'area_sqft'   => $request->area_sqft,
-            'image'       => $imagePath,
-            'status'      => $request->status,
-        ]);
-
-        Notification::create([
-            'user_id' => $userId,
-            'title'   => 'Property Updated',
-            'message' => '"' . $property->title . '" has been updated successfully.',
-            'type'    => 'info',
-            'icon'    => 'fa-pen-to-square',
-        ]);
-
-        return redirect()->route('dashboard')->with('success', 'Property updated successfully!');
+        $imagePath = $request->file('image')->store('properties', 'public');
     }
+
+    $property->update([
+        'title'       => $request->title,
+        'type'        => $request->type,
+        'price'       => $request->price,
+        'city'        => $request->city,
+        'location'    => $request->location,
+        'address'     => $request->address,
+        'description' => $request->description,
+        'bedrooms'    => $request->bedrooms ?? 0,
+        'bathrooms'   => $request->bathrooms ?? 0,
+        'area_sqft'   => $request->area_sqft,
+        'image'       => $imagePath,
+        'status'      => $request->status,
+    ]);
+
+    // ===== Purani additional images delete karna (agar user ne select ki hon) =====
+    if ($request->filled('delete_images')) {
+        $imagesToDelete = PropertyImage::where('property_id', $property->id)
+            ->whereIn('id', $request->delete_images)
+            ->get();
+
+        foreach ($imagesToDelete as $img) {
+            Storage::disk('public')->delete($img->image_path);
+            $img->delete();
+        }
+    }
+
+    // ===== Nayi additional images add karna =====
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $img) {
+            $path = $img->store('properties', 'public');
+            $property->images()->create([
+                'image_path' => $path,
+            ]);
+        }
+    }
+
+    Notification::create([
+        'user_id' => $userId,
+        'title'   => 'Property Updated',
+        'message' => '"' . $property->title . '" has been updated successfully.',
+        'type'    => 'info',
+        'icon'    => 'fa-pen-to-square',
+    ]);
+
+    return redirect()->route('dashboard')->with('success', 'Property updated successfully!');
+}
 
     // Toggle active/inactive
     public function toggle($id)
@@ -237,4 +275,9 @@ class PropertyController extends Controller
 
         return redirect()->route('my.listings')->with('success', 'Property deleted successfully!');
     }
+    public function show(Property $property)
+{
+     $property->load('images', 'user');   // saari images eager load
+    return view('show', compact('property'));
+}
 }

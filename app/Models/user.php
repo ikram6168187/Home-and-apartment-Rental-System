@@ -9,52 +9,37 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-
     protected $fillable = [
         'name',
         'email',
         'password',
         'role',
+        'otp',
+        'otp_expires_at',
+        'provider',
+        'provider_id',
     ];
-
 
     protected $attributes = [
         'role' => 'user',
     ];
 
-
     protected $hidden = [
         'password',
         'remember_token',
+        'otp',
     ];
-
 
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'otp_expires_at'    => 'datetime',
+            'password'          => 'hashed',
         ];
     }
 
-
-    // User ki properties
-    public function properties()
-    {
-        return $this->hasMany(Property::class);
-    }
-
-
-    // User ki bookings
-    public function bookings()
-    {
-        return $this->hasMany(Booking::class);
-    }
-
-
-    // User ki notifications
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class);
-    }
+    public function properties() { return $this->hasMany(Property::class); }
+    public function bookings() { return $this->hasMany(Booking::class); }
+    public function notifications() { return $this->hasMany(Notification::class); }
 }
