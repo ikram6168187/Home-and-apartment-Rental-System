@@ -17,71 +17,67 @@ class AuthController extends Controller
         return view('signup');
     }
 
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-            'terms'    => 'required'
-        ], [
-            'password.confirmed' => 'Passwords do not match!',
-            'terms.required'     => 'You must accept Terms & Conditions'
-        ]);
+   public function register(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'name'     => 'required|string|max:255',
+        'email'    => 'required|email|unique:users,email',
+        'password' => 'required|min:6|confirmed',
+        'terms'    => 'required'
+    ], [
+        'password.confirmed' => 'Passwords do not match!',
+        'terms.required'     => 'You must accept Terms & Conditions'
+    ]);
 
-        if ($validator->fails()) {
-            return redirect()->route('home')
-                ->with('show_signup', true)
-                ->withErrors($validator)
-                ->withInput();
-        }
+    if ($validator->fails()) {
+        return redirect()->route('home')
+            ->with('show_signup', true)
+            ->withErrors($validator)
+            ->withInput();
+    }
 
-        $validated = $validator->validated();
-        $otp = rand(100000, 999999);
+    $validated = $validator->validated();
 
-        $user = User::create([
-            'name'           => $validated['name'],
-            'email'          => $validated['email'],
-            'password'       => Hash::make($validated['password']),
-            'role'           => 'user',
-            'otp'            => $otp,
-            'otp_expires_at' => now()->addMinutes(10),
-        ]);
+    User::create([
+        'name'              => $validated['name'],
+        'email'             => $validated['email'],
+        'password'          => Hash::make($validated['password']),
+        'role'              => 'user',
+        'email_verified_at' => now(), // ab yahan OTP nahi, seedha verified
+    ]);
 
-        Mail::to($user->email)->send(new OtpMail($otp, 'Verify your Smart Rent account'));
+    return redirect()->route('home')
+        ->with('show_login', true)
+        ->with('success', 'Account created successfully! Please login to continue.');
+}
+   public function verifyOtp(Request $request)
+{
+    $request->validate(['otp' => 'required']);
 
-        session(['otp_email' => $user->email]);
+    $email = session('otp_email');
+    $user  = User::where('email', $email)->first();
 
+    if (!$user || $user->otp != $request->otp || now()->gt($user->otp_expires_at)) {
         return redirect()->route('home')
             ->with('show_otp', true)
-            ->with('success', 'Account created! Please check your email for the verification code.');
+            ->withErrors(['otp' => 'Invalid or expired OTP. Try again or resend.']);
     }
 
-    public function verifyOtp(Request $request)
-    {
-        $request->validate(['otp' => 'required']);
+    $user->update([
+        'email_verified_at' => $user->email_verified_at ?? now(),
+        'otp'               => null,
+        'otp_expires_at'    => null,
+    ]);
 
-        $email = session('otp_email');
-        $user  = User::where('email', $email)->first();
+    session()->forget('otp_email');
+    Auth::login($user);
 
-        if (!$user || $user->otp != $request->otp || now()->gt($user->otp_expires_at)) {
-            return redirect()->route('home')
-                ->with('show_otp', true)
-                ->withErrors(['otp' => 'Invalid or expired OTP. Try again or resend.']);
-        }
-
-        $user->update([
-            'email_verified_at' => now(),
-            'otp'               => null,
-            'otp_expires_at'    => null,
-        ]);
-
-        session()->forget('otp_email');
-        Auth::login($user);
-
-        return redirect()->route('home')->with('success', 'Email verified successfully! Welcome to Smart Rent.');
+    if ($user->role == 'admin') {
+        return redirect()->route('admin.dashboard')->with('success', 'Login successful!');
     }
 
+    return redirect()->route('home')->with('success', 'Login successful!');
+}
     public function resendOtp(Request $request)
     {
         $email = session('otp_email');

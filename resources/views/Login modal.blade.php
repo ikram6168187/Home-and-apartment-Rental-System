@@ -28,7 +28,7 @@
                         <i class="fa-regular fa-eye" id="modal_eye"></i>
                     </button>
                 </div>
-                <div class="m-forgot"><a href="#">Forgot Password?</a></div>
+                <div class="m-forgot"><a href="javascript:void(0);" onclick="closeLoginModal(); openForgotModal();">Forgot Password?</a></div>
                 <button type="submit" class="m-login-btn">Login</button>
             </form>
             <div class="m-divider">or continue with</div>

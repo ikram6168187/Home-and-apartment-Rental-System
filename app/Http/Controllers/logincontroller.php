@@ -32,26 +32,23 @@ class LoginController extends Controller
                 ->withInput($request->only('email'));
         }
 
-        // Agar email verify nahi hui to OTP bhejo
-        if (!$user->email_verified_at) {
-            $otp = rand(100000, 999999);
-            $user->update(['otp' => $otp, 'otp_expires_at' => now()->addMinutes(10)]);
-            Mail::to($user->email)->send(new OtpMail($otp, 'Verify your Smart Rent account'));
-            session(['otp_email' => $user->email]);
+        // Har login pe OTP bhejo — chahe admin ho ya normal user
+        $otp = rand(100000, 999999);
+        $user->update(['otp' => $otp, 'otp_expires_at' => now()->addMinutes(10)]);
 
+        try {
+            Mail::to($user->email)->send(new OtpMail($otp, 'Your Smart Rent login code'));
+        } catch (\Exception $e) {
             return redirect()->route('home')
-                ->with('show_otp', true)
-                ->with('success', 'Please verify your email. A new OTP has been sent.');
+                ->with('show_login', true)
+                ->withErrors(['email' => 'Could not send OTP email. Please check your email address.']);
         }
 
-        Auth::login($user);
-        $request->session()->regenerate();
+        session(['otp_email' => $user->email]);
 
-        if ($user->role == 'admin') {
-            return redirect()->route('admin.dashboard');
-        }
-
-        return redirect()->route('home');
+        return redirect()->route('home')
+            ->with('show_otp', true)
+            ->with('success', 'An OTP has been sent to your email. Please verify to continue.');
     }
 
     public function logout(Request $request)
@@ -76,7 +73,14 @@ class LoginController extends Controller
 
         $otp = rand(100000, 999999);
         $user->update(['otp' => $otp, 'otp_expires_at' => now()->addMinutes(10)]);
-        Mail::to($user->email)->send(new OtpMail($otp, 'Reset your Smart Rent password'));
+
+        try {
+            Mail::to($user->email)->send(new OtpMail($otp, 'Reset your Smart Rent password'));
+        } catch (\Exception $e) {
+            return redirect()->route('home')
+                ->with('show_forgot', true)
+                ->withErrors(['email' => 'Could not send OTP. Please check the email address.']);
+        }
 
         session(['reset_email' => $user->email]);
 
@@ -96,7 +100,13 @@ class LoginController extends Controller
 
         $otp = rand(100000, 999999);
         $user->update(['otp' => $otp, 'otp_expires_at' => now()->addMinutes(10)]);
-        Mail::to($user->email)->send(new OtpMail($otp, 'Your new Smart Rent reset code'));
+
+        try {
+            Mail::to($user->email)->send(new OtpMail($otp, 'Your new Smart Rent reset code'));
+        } catch (\Exception $e) {
+            return redirect()->route('home')->with('show_reset', true)
+                ->withErrors(['otp' => 'Could not resend OTP right now.']);
+        }
 
         return redirect()->route('home')
             ->with('show_reset', true)

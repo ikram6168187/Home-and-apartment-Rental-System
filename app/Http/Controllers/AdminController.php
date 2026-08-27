@@ -47,9 +47,8 @@ class AdminController extends Controller
     // Users list
     public function users()
     {
-        $users = User::where('role', 'user')
-                     ->withCount('properties')
-                     ->latest()->get();
+       $users = User::withCount('properties')
+                 ->latest()->get();
 
         return view('admin.users', compact('users'));
     }

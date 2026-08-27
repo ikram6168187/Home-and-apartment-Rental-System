@@ -304,11 +304,11 @@ select { cursor: pointer; }
                            {{ old('purpose','rent') == 'rent' ? 'checked' : '' }}>
                     <label for="rent"><i class="fa-solid fa-key"></i> For Rent</label>
 
-                    <input type="radio" name="purpose" id="sale" value="sale"
+                  {{-- <input type="radio" name="purpose" id="sale" value="sale"
                            {{ old('purpose') == 'sale' ? 'checked' : '' }}>
-                    <label for="sale"><i class="fa-solid fa-tag"></i> For Sale</label>
+                    <label for="sale"><i class="fa-solid fa-tag"></i> For Sale</label> --}}
                 </div>
-            </div>
+            </div>  
 
             {{-- Property Type --}}
             <div class="form-group">

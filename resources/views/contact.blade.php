@@ -243,21 +243,21 @@ a { text-decoration:none; color:inherit; }
                     <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
                     <div>
                         <h4>Our Location</h4>
-                        <p>Main Boulevard, Gujranwala<br>Punjab, Pakistan</p>
+                        <p>Main Market satellite town, Gujranwala<br>Punjab, Pakistan</p>
                     </div>
                 </div>
                 <div class="info-card">
                     <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
                     <div>
                         <h4>Email Us</h4>
-                        <p>support@smartrent.pk<br>info@smartrent.pk</p>
+                        <p>studygrw@gmail.com<br></p>
                     </div>
                 </div>
                 <div class="info-card">
                     <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
                     <div>
                         <h4>Call Us</h4>
-                        <p>+92 300 0000000<br>Mon–Sat, 9am–6pm</p>
+                        <p>+92 3229859984<br>Mon–Sat, 9am–6pm</p>
                     </div>
                 </div>
                 <div class="info-card">

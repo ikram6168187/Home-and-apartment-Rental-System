@@ -361,8 +361,9 @@ a { text-decoration:none; color:inherit; }
     @include('login modal')
     @include('signup modal')
     @include('logout modal')
-   @include('otp_verify')
-     
+    @include('otp_verify')
+    @include('forgot-password')
+    @include('reset-password')
    <!-- HERO -->
     <div class="b">
         <div class="hero">
