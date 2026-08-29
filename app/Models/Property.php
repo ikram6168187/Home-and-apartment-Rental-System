@@ -16,8 +16,25 @@ class Property extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function images()
-{
-    return $this->hasMany(PropertyImage::class);
-}
+    {
+        return $this->hasMany(PropertyImage::class);
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    // average nikalne ka helper
+    public function getAvgRatingAttribute()
+    {
+        return $this->ratings()->avg('stars');
+    }
+
+    public function getRatingCountAttribute()
+    {
+        return $this->ratings()->count();
+    }
 }

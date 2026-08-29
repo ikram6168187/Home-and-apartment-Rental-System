@@ -17,7 +17,7 @@ class AuthController extends Controller
         return view('signup');
     }
 
-   public function register(Request $request)
+  public function register(Request $request)
 {
     $validator = Validator::make($request->all(), [
         'name'     => 'required|string|max:255',
@@ -37,20 +37,33 @@ class AuthController extends Controller
     }
 
     $validated = $validator->validated();
+    $otp = rand(100000, 999999);
 
-    User::create([
-        'name'              => $validated['name'],
-        'email'             => $validated['email'],
-        'password'          => Hash::make($validated['password']),
-        'role'              => 'user',
-        'email_verified_at' => now(), // ab yahan OTP nahi, seedha verified
+    $user = User::create([
+        'name'           => $validated['name'],
+        'email'          => $validated['email'],
+        'password'       => Hash::make($validated['password']),
+        'role'           => 'user',
+        'otp'            => $otp,
+        'otp_expires_at' => now()->addMinutes(10),
     ]);
 
+    try {
+        Mail::to($user->email)->send(new OtpMail($otp, 'Verify your Smart Rent account'));
+    } catch (\Exception $e) {
+        return redirect()->route('home')
+            ->with('show_signup', true)
+            ->withErrors(['email' => 'Could not send OTP. Please check your email address.']);
+    }
+
+    session(['otp_email' => $user->email]);
+
     return redirect()->route('home')
-        ->with('show_login', true)
-        ->with('success', 'Account created successfully! Please login to continue.');
+        ->with('show_otp', true)
+        ->with('success', 'Account created! Please check your email for the verification code.');
 }
-   public function verifyOtp(Request $request)
+
+public function verifyOtp(Request $request)
 {
     $request->validate(['otp' => 'required']);
 
@@ -64,19 +77,17 @@ class AuthController extends Controller
     }
 
     $user->update([
-        'email_verified_at' => $user->email_verified_at ?? now(),
+        'email_verified_at' => now(),
         'otp'               => null,
         'otp_expires_at'    => null,
     ]);
 
     session()->forget('otp_email');
-    Auth::login($user);
 
-    if ($user->role == 'admin') {
-        return redirect()->route('admin.dashboard')->with('success', 'Login successful!');
-    }
-
-    return redirect()->route('home')->with('success', 'Login successful!');
+    // Auto-login NAHI — seedha Login modal khulega
+    return redirect()->route('home')
+        ->with('show_login', true)
+        ->with('success', 'Email verified successfully! Please login to continue.');
 }
     public function resendOtp(Request $request)
     {

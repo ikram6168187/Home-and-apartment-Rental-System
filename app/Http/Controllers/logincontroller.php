@@ -17,40 +17,30 @@ class LoginController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required'
-        ]);
+{
+    $request->validate([
+        'email'    => 'required|email',
+        'password' => 'required'
+    ]);
 
-        $user = User::where('email', $request->email)->first();
+    $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return redirect()->route('home')
-                ->with('show_login', true)
-                ->withErrors(['email' => 'Email or password is incorrect.'])
-                ->withInput($request->only('email'));
-        }
-
-        // Har login pe OTP bhejo — chahe admin ho ya normal user
-        $otp = rand(100000, 999999);
-        $user->update(['otp' => $otp, 'otp_expires_at' => now()->addMinutes(10)]);
-
-        try {
-            Mail::to($user->email)->send(new OtpMail($otp, 'Your Smart Rent login code'));
-        } catch (\Exception $e) {
-            return redirect()->route('home')
-                ->with('show_login', true)
-                ->withErrors(['email' => 'Could not send OTP email. Please check your email address.']);
-        }
-
-        session(['otp_email' => $user->email]);
-
+    if (!$user || !Hash::check($request->password, $user->password)) {
         return redirect()->route('home')
-            ->with('show_otp', true)
-            ->with('success', 'An OTP has been sent to your email. Please verify to continue.');
+            ->with('show_login', true)
+            ->withErrors(['email' => 'Email or password is incorrect.'])
+            ->withInput($request->only('email'));
     }
 
+    Auth::login($user);
+    $request->session()->regenerate();
+
+    if ($user->role == 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+
+    return redirect()->route('home');
+}
     public function logout(Request $request)
     {
         Auth::logout();

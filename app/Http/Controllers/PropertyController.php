@@ -7,6 +7,7 @@ use App\Models\Property;
 use App\Models\Booking;
 use App\Models\Notification;
 use App\Models\PropertyImage;
+use App\Models\Rating;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,7 +24,11 @@ class PropertyController extends Controller
     {
         $userId = Auth::id();
 
-        $properties = Property::where('user_id', $userId)->latest()->get();
+        $properties = Property::where('user_id', $userId)
+            ->withCount('ratings')
+            ->withAvg('ratings', 'stars')
+            ->latest()
+            ->get();
 
         $total    = $properties->count();
         $active   = $properties->where('status', 'active')->count();
@@ -68,7 +73,11 @@ class PropertyController extends Controller
     public function myListings()
     {
         $userId = Auth::id();
-        $properties = Property::where('user_id', $userId)->latest()->get();
+        $properties = Property::where('user_id', $userId)
+            ->withCount('ratings')
+            ->withAvg('ratings', 'stars')
+            ->latest()
+            ->get();
         $unreadNotifications = Notification::where('user_id', $userId)
                                 ->where('is_read', false)->count();
         $pendingBookings = Booking::whereHas('property', function ($q) use ($userId) {
@@ -275,9 +284,60 @@ class PropertyController extends Controller
 
         return redirect()->route('my.listings')->with('success', 'Property deleted successfully!');
     }
-    public function show(Property $property)
+
+   public function show(Property $property)
 {
-     $property->load('images', 'user');   // saari images eager load
-    return view('show', compact('property'));
+    // 1. Eager loading aur Aggregates ko ek sath chain karein
+    $property->load([
+        'images', 
+        'user', 
+        'ratings.user'
+    ])
+    ->loadCount('ratings')
+    ->loadAvg('ratings', 'stars');
+
+    // 2. Auth check ko compact/clean tariqe se handle karein
+    $userRating = Auth::check() 
+        ? Rating::where('user_id', Auth::id())
+                ->where('property_id', $property->id)
+                ->first()
+        : null;
+
+    return view('show', compact('property', 'userRating'));
 }
+
+    // ===== NAYA CODE: Rating store/update karna =====
+    public function storeRating(Request $request, Property $property)
+    {
+        $request->validate([
+            'stars'   => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:500',
+        ]);
+
+        Rating::updateOrCreate(
+            [
+                'user_id'     => Auth::id(),
+                'property_id' => $property->id,
+            ],
+            [
+                'stars'   => $request->stars,
+                'comment' => $request->comment,
+            ]
+        );
+
+        // Property owner ko notification (khud ko rate karne par notification na bheje)
+        if ($property->user_id !== Auth::id()) {
+            Notification::create([
+                'user_id' => $property->user_id,
+                'title'   => 'New Rating Received',
+                'message' => '"' . $property->title . '" received a ' . $request->stars . '-star rating.',
+                'type'    => 'info',
+                'icon'    => 'fa-star',
+            ]);
+        }
+
+        return back()->with('success', 'Thanks for your feedback!');
+    }
+    // ===================================================
+
 }

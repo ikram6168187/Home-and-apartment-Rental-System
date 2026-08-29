@@ -94,4 +94,9 @@ Route::post('/resend-otp', [AuthController::class, 'resendOtp'])->name('otp.rese
 Route::post('/forgot-password',  [LoginController::class, 'sendResetOtp'])->name('password.email');
 Route::post('/resend-reset-otp', [LoginController::class, 'resendResetOtp'])->name('password.resend');
 Route::post('/reset-password',   [LoginController::class, 'resetPassword'])->name('password.update');
+
+
+Route::post('/property/{property}/rate', [PropertyController::class, 'storeRating'])
+    ->middleware('auth')
+    ->name('property.rate');
   

@@ -35,6 +35,13 @@ a { text-decoration:none; color:inherit; }
 .prop-location { font-size:14px; color:#888; display:flex; align-items:center; gap:6px; margin-bottom:16px; }
 .prop-location i { color:#2d2926; }
 
+/* ===== Rating summary (under title) ===== */
+.rating-summary { display:flex; align-items:center; gap:8px; margin-bottom:16px; font-size:14px; }
+.rating-summary .stars-static { color:#f5a623; letter-spacing:1px; }
+.rating-summary .stars-static .empty { color:#ddd; }
+.rating-summary .count-text { color:#777; }
+.no-reviews-text { color:#999; font-style:italic; font-size:14px; margin-bottom:16px; }
+
 .features-row { display:flex; gap:20px; flex-wrap:wrap; padding:16px 0; border-top:1px solid #f5f5f5; border-bottom:1px solid #f5f5f5; margin-bottom:16px; }
 .feature { display:flex; align-items:center; gap:8px; font-size:13px; color:#555; }
 .feature i { color:#8a7060; font-size:16px; }
@@ -49,6 +56,39 @@ a { text-decoration:none; color:inherit; }
 .owner-info h4 { font-size:15px; font-weight:700; color:#1a1a2e; margin-bottom:3px; }
 .owner-info p  { font-size:12px; color:#888; margin:0; }
 .owner-info span { font-size:12px; color:#2d2926; font-weight:600; }
+
+/* ===== Rating form card ===== */
+.rating-form-card { background:#fff; border-radius:16px; padding:24px; border:1px solid #eee; margin-bottom:16px; }
+.star-rating-input { display:inline-flex; flex-direction:row-reverse; font-size:32px; }
+.star-rating-input input { display:none; }
+.star-rating-input label { color:#ddd; cursor:pointer; padding:0 3px; transition:.15s; }
+.star-rating-input input:checked ~ label,
+.star-rating-input label:hover,
+.star-rating-input label:hover ~ label { color:#f5a623; }
+.rating-form-card textarea {
+    width:100%; margin-top:14px; padding:10px 12px; border-radius:10px;
+    border:1.5px solid #e0e0e0; font-family:inherit; font-size:14px; resize:vertical; background:#fafafa;
+}
+.rating-form-card textarea:focus { border-color:#2d2926; background:#fff; outline:none; }
+.rating-submit-btn {
+    margin-top:14px; background:#2d2926; color:#fff; padding:11px 28px;
+    border:none; border-radius:24px; font-size:14px; font-weight:700; cursor:pointer; transition:0.2s;
+}
+.rating-submit-btn:hover { background:#1a1a1a; }
+.rating-success-msg { color:#2e7d32; margin-top:10px; font-size:13px; }
+.rating-login-prompt { color:#888; font-size:13px; }
+.rating-login-prompt a { color:#2d2926; font-weight:700; }
+
+/* ===== Reviews list ===== */
+.reviews-list { display:flex; flex-direction:column; gap:16px; }
+.review-item { border-bottom:1px solid #f5f5f5; padding-bottom:16px; }
+.review-item:last-child { border-bottom:none; padding-bottom:0; }
+.review-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.reviewer-name { font-weight:700; font-size:14px; color:#1a1a2e; }
+.review-date { font-size:12px; color:#999; }
+.review-stars { color:#f5a623; font-size:13px; margin-bottom:6px; }
+.review-stars .empty { color:#ddd; }
+.review-comment { color:#666; font-size:14px; line-height:1.6; }
 
 /* RIGHT SIDE — BOOKING FORM */
 .booking-card { background:#fff; border-radius:16px; padding:24px; border:1px solid #eee; position:sticky; top:84px; }
@@ -235,6 +275,24 @@ a { text-decoration:none; color:inherit; }
                 {{ $property->address }}, {{ $property->location }}, {{ $property->city }}
             </p>
 
+            {{-- ===== NAYA CODE: Average rating summary ===== --}}
+            @if(($property->ratings_count ?? 0) > 0)
+                @php $avgRounded = round($property->ratings_avg_stars); @endphp
+                <div class="rating-summary">
+                    <span class="stars-static">
+                        @for($i = 1; $i <= 5; $i++)
+                            <i class="fa-solid fa-star {{ $i > $avgRounded ? 'empty' : '' }}"></i>
+                        @endfor
+                    </span>
+                    <span class="count-text">
+                        {{ number_format($property->ratings_avg_stars, 1) }} ({{ $property->ratings_count }} {{ $property->ratings_count == 1 ? 'review' : 'reviews' }})
+                    </span>
+                </div>
+            @else
+                <p class="no-reviews-text">No reviews yet</p>
+            @endif
+            {{-- =============================================== --}}
+
             <div class="features-row">
                 <div class="feature"><i class="fa-solid fa-bed"></i> {{ $property->bedrooms }} Bedrooms</div>
                 <div class="feature"><i class="fa-solid fa-bath"></i> {{ $property->bathrooms }} Bathrooms</div>
@@ -265,6 +323,65 @@ a { text-decoration:none; color:inherit; }
                 @endif
             </div>
         </div>
+
+        {{-- ===== NAYA CODE: Rating Form ===== --}}
+        <div class="rating-form-card">
+            <div class="section-title">Rate this Property</div>
+
+            @auth
+                <form action="{{ route('property.rate', $property->id) }}" method="POST">
+                    @csrf
+
+                    <div class="star-rating-input">
+                        @for ($i = 5; $i >= 1; $i--)
+                            <input type="radio" id="star{{ $i }}" name="stars" value="{{ $i }}"
+                                {{ old('stars', ($userRating?->stars ?? 0)) == $i ? 'checked' : '' }} required>
+                            <label for="star{{ $i }}">&#9733;</label>
+                        @endfor
+                    </div>
+
+                    <textarea name="comment" rows="3" placeholder="Apna feedback likhein (optional)">{{ old('comment', $userRating?->comment ?? '') }}</textarea>
+
+                    <br>
+                    <button type="submit" class="rating-submit-btn">
+                        {{ (isset($userRating) && $userRating) ? 'Update Rating' : 'Submit Rating' }}
+                    </button>
+                </form>
+
+                @if(session('success'))
+                    <p class="rating-success-msg">{{ session('success') }}</p>
+                @endif
+            @else
+                <p class="rating-login-prompt">Rating dene ke liye pehle <a href="{{ route('home') }}">login</a> karein.</p>
+            @endauth
+        </div>
+        {{-- =================================== --}}
+
+        {{-- ===== NAYA CODE: Reviews List ===== --}}
+        @if($property->ratings->count() > 0)
+        <div class="info-card">
+            <div class="section-title">Reviews ({{ $property->ratings->count() }})</div>
+            <div class="reviews-list">
+                @foreach($property->ratings as $review)
+                    <div class="review-item">
+                        <div class="review-top">
+                            <span class="reviewer-name">{{ $review->user->name ?? 'Anonymous' }}</span>
+                            <span class="review-date">{{ $review->created_at->diffForHumans() }}</span>
+                        </div>
+                        <div class="review-stars">
+                            @for($i = 1; $i <= 5; $i++)
+                                <i class="fa-solid fa-star {{ $i > $review->stars ? 'empty' : '' }}"></i>
+                            @endfor
+                        </div>
+                        @if($review->comment)
+                            <p class="review-comment">{{ $review->comment }}</p>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+        {{-- ================================== --}}
 
     </div>
 

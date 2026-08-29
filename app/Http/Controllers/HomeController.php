@@ -47,7 +47,12 @@ class HomeController extends Controller
             $query->whereNotIn('id', $bookedPropertyIds);
         }
 
-        $properties = $query->latest()->get();
+        // ===== NAYA CODE: rating count + average stars ke sath fetch karo =====
+        $properties = $query->withCount('ratings')
+            ->withAvg('ratings', 'stars')
+            ->latest()
+            ->get();
+        // ========================================================================
 
         return view('home', compact('properties'));
     }
