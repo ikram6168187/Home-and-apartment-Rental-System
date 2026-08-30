@@ -152,7 +152,11 @@ a {
 }
 
 .search-btn {
+
     height: 66px;
+
+  
+
 
     display: flex;
     align-items: center;
