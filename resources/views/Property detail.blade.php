@@ -352,7 +352,7 @@ a { text-decoration:none; color:inherit; }
                     <p class="rating-success-msg">{{ session('success') }}</p>
                 @endif
             @else
-                <p class="rating-login-prompt">Rating dene ke liye pehle <a href="{{ route('home') }}">login</a> karein.</p>
+                <p class="rating-login-prompt">please login for rating</p>
             @endauth
         </div>
         {{-- =================================== --}}
