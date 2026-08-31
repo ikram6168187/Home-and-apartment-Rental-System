@@ -154,10 +154,6 @@ a {
 .search-btn {
 
     height: 66px;
-
-  
-
-
     display: flex;
     align-items: center;
 
@@ -662,6 +658,7 @@ a {
 ========================================================= */
 
 .why-section {
+    
     width: 95%;
 
     margin: 45px auto 0;
@@ -672,6 +669,14 @@ a {
     border-radius: 28px;
 
     box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+}
+
+.why-heading{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
 }
 
 .section-label {
@@ -1636,10 +1641,13 @@ a {
 
     <!-- WHY SMART RENT -->
     <div class="why-section">
-        <div class="section-label">Why Choose Us</div>
-        <h2 class="why-title">Why <span>Smart Rent</span> is Different</h2>
-        <p class="why-sub">We built Smart Rent to make renting in Pakistan simple, safe, and stress-free — for both owners and renters.</p>
 
+        <div class="why-heading">
+            <div class="section-label">Why Choose Us</div>
+            <h2 class="why-title">Why <span>Smart Rent</span> is Different</h2>
+            <p class="why-sub">We built Smart Rent to make renting in Pakistan simple, safe, and stress-free — for both owners and renters.</p>
+        </div>
+        
         <div class="why-grid">
             <div class="why-card">
                 <div class="why-icon"><i class="fa-solid fa-shield-halved"></i></div>
