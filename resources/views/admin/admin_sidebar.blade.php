@@ -104,6 +104,30 @@ body { display:flex; height:100vh; overflow:hidden; background:#f0ece8; }
                 <span class="nav-badge">{{ $unreadMessages }}</span>
             @endif
         </a>
+        @php
+    $pendingServiceRequestsCount = \App\Models\ServiceRequest::where('status', 'pending')->count();
+@endphp
+
+<a href="{{ route('admin.service-requests') }}"
+   class="nav-item {{ request()->routeIs('admin.service-requests') ? 'active' : '' }}">
+
+    <i class="fa-solid fa-screwdriver-wrench"></i>
+    Service Requests
+
+    @if($pendingServiceRequestsCount > 0)
+        <span class="nav-badge">
+            {{ $pendingServiceRequestsCount }}
+        </span>
+    @endif
+
+        </a>
+        <a href="{{ route('admin.blogs') }}" 
+        class="nav-item {{ request()->routeIs('admin.blogs*') ? 'active' : '' }}">
+            
+            <i class="fa-solid fa-blog"></i> Blogs
+
+        </a>
+
         <div class="nav-divider"></div>
         <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display:none;">@csrf</form>
         <a href="#" class="nav-item danger" onclick="event.preventDefault(); openLogoutConfirm();">

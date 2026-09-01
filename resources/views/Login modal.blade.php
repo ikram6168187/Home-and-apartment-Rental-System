@@ -16,6 +16,9 @@
             <h2>Login</h2>
             <p class="modal-subtitle">Enter your credentials to continue</p>
             <form method="POST" action="{{ route('home.login') }}">
+
+            <input type="hidden" name="redirect_to" id="redirectTo" value="">
+
                 @csrf
                 <div class="m-input-group">
                     <span class="m-input-group-icon"><i class="fa-regular fa-envelope"></i></span>

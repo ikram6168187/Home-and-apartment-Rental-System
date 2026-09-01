@@ -268,80 +268,6 @@ a { text-decoration:none; color:inherit; }
     border-color: rgb(51,47,46);
 }
 
-/* FOOTER COLUMNS */
-.footer-col h4 {
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.footer-col ul {
-    list-style: none;
-}
-
-.footer-col ul li {
-    margin-bottom: 10px;
-}
-
-.footer-col ul li a {
-    font-size: 13px;
-    color: rgba(255,255,255,0.45);
-    transition: 0.2s;
-}
-
-.footer-col ul li a:hover {
-    color: #c8a882;
-}
-
-/* FOOTER CONTACT */
-.footer-contact li {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 13px;
-    color: rgba(255,255,255,0.45);
-    margin-bottom: 10px;
-}
-
-.footer-contact li i {
-    color: #c8a882;
-    margin-top: 2px;
-    font-size: 12px;
-}
-
-/* FOOTER BOTTOM */
-.footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.08);
-    padding-top: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.footer-bottom p {
-    font-size: 12px;
-    color: rgba(255,255,255,0.3);
-}
-
-.footer-links {
-    display: flex;
-    gap: 20px;
-}
-
-.footer-links a {
-    font-size: 12px;
-    color: rgba(255,255,255,0.3);
-    transition: 0.2s;
-}
-
-.footer-links a:hover {
-    color: #c8a882;
-}
 
 /* =========================================================
    MOBILE RESPONSIVE
@@ -520,68 +446,9 @@ a { text-decoration:none; color:inherit; }
 
 </div>
 
-<!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-grid">
 
-            <div class="footer-brand">
-                <div class="f-logo">
-                    <i class="fa-solid fa-house-chimney"></i> Smart Rent
-                </div>
-                <p>Pakistan's trusted rental platform connecting property owners with renters across the country.</p>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fa-brands fa-whatsapp"></i></a>
-                </div>
-            </div>
 
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="{{ route('home') }}">Home</a></li>
-                    <li><a href="{{ route('about') }}">About Us</a></li>
-                    <li><a href="{{ route('contact') }}">Contact</a></li>
-                    @auth
-                    <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    @endauth
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Property Types</h4>
-                <ul>
-                    <li><a href="#">Houses</a></li>
-                    <li><a href="#">Apartments</a></li>
-                    <li><a href="#">Rooms</a></li>
-                    <li><a href="#">Shops</a></li>
-                    <li><a href="#">Offices</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Contact Us</h4>
-                <ul class="footer-contact">
-                    <li><i class="fa-solid fa-location-dot"></i> Main Market satellite town, Gujranwala<br>Punjab, Pakistan</li>
-                    <li><i class="fa-solid fa-envelope"></i> studygrw@gmail.com</li>
-                    <li><i class="fa-solid fa-phone"></i> +92 3229859984</li>
-                    <li><i class="fa-solid fa-clock"></i> Mon–Sat, 9am–6pm</li>
-                </ul>
-            </div>
-
-        </div>
-
-        <div class="footer-bottom">
-            <p>© 2026 Smart Rent. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="{{ route('contact') }}">Support</a>
-            </div>
-        </div>
-    </footer>
-
+  @include('footer')
 {{-- MODAL SCRIPTS --}}
 @include('Modal scripts')
 

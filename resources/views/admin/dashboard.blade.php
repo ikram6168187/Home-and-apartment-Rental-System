@@ -6,6 +6,186 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard — Smart Rent</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+   <style>
+    /* =========================================
+   RECENT SERVICE REQUESTS
+========================================= */
+
+.recent-services-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 24px;
+}
+
+.dashboard-card-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid #eee;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-card-header h3 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1209;
+}
+
+.dashboard-card-header h3 i {
+    color: #8a6040;
+    margin-right: 6px;
+}
+
+.dashboard-card-header p {
+    margin: 0;
+    font-size: 11px;
+    color: #999;
+}
+
+.view-all-btn {
+    text-decoration: none;
+    font-size: 12px;
+    color: #8a6040;
+    font-weight: 600;
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.view-all-btn:hover {
+    color: #1a1209;
+}
+
+
+/* TABLE */
+
+.recent-services-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.recent-services-table th {
+    background: #fafafa;
+    color: #999;
+
+    font-size: 10px;
+    text-transform: uppercase;
+
+    padding: 12px 15px;
+    text-align: left;
+
+    border-bottom: 1px solid #eee;
+}
+
+.recent-services-table td {
+    padding: 14px 15px;
+
+    border-bottom: 1px solid #f2f2f2;
+
+    font-size: 12px;
+    color: #555;
+}
+
+.recent-services-table tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* USER */
+
+.service-user {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.service-user-avatar {
+    width: 32px;
+    height: 32px;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #c8a882,
+        #8a6040
+    );
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.service-user strong {
+    display: block;
+    font-size: 12px;
+    color: #1a1209;
+}
+
+.service-user small {
+    font-size: 10px;
+    color: #999;
+}
+
+
+/* SERVICE */
+
+.service-type {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    font-weight: 600;
+    color: #444;
+}
+
+.service-type i {
+    color: #8a6040;
+}
+
+
+/* EMPTY */
+
+.dashboard-empty-state {
+    padding: 45px;
+    text-align: center;
+    color: #999;
+}
+
+.dashboard-empty-state i {
+    font-size: 35px;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+.dashboard-empty-state p {
+    font-size: 13px;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:768px) {
+
+    .dashboard-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+}
+</style>
+
 </head>
 <body>
 
@@ -60,6 +240,12 @@
                 <span style="display:inline-block; margin-top:8px; background:#ffcdd2; color:#c0392b; padding:2px 10px; border-radius:10px; font-size:10px; font-weight:600;">Unread</span>
             </div>
 
+<div style="background:#e4f0ea; border:1px solid #c9e4d8; border-radius:14px; padding:20px; position:relative; overflow:hidden;">
+    <i class="fa-solid fa-envelope" style="font-size:22px; color:#2e9c6f; margin-bottom:12px; display:block; opacity:0.85;"></i>
+    <h2 style="font-size:28px; font-weight:800; color:#1a1209; margin:0 0 4px;">{{ $totalServiceRequests ?? 0 }}</h2>
+    <p style="font-size:12px; color:#888; margin:0;">Total Service Requests</p>
+    <span style="display:inline-block; margin-top:8px; background:#cdecdd; color:#1e7d53; padding:2px 10px; border-radius:10px; font-size:10px; font-weight:600;">{{ $pendingServiceRequests }} Pending</span>
+</div>
         </div>
 
         <!-- ROW 2 -->
@@ -102,6 +288,8 @@
                     @endforeach
                 </table>
             </div>
+        
+           
 
             <!-- CITY BREAKDOWN -->
             <div style="background:#fff; border-radius:14px; padding:20px; border:1px solid #eee;">
@@ -149,6 +337,206 @@
                 @endforeach
             </div>
 
+             <div class="dashboard-card recent-services-card">
+
+    <div class="dashboard-card-header">
+
+        <div>
+            <h3>
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+                Recent Service Requests
+            </h3>
+
+            <p>
+                Latest service requests submitted by users
+            </p>
+        </div>
+
+        <a href="{{ route('admin.service-requests') }}"
+           class="view-all-btn">
+
+            View All
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+    </div>
+
+
+    @if($recentServiceRequests->count() > 0)
+
+        <div class="table-responsive">
+
+            <table class="recent-services-table">
+
+                <thead>
+
+                    <tr>
+                        <th>User</th>
+                        <th>Service</th>
+                        <th>Property</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    @foreach($recentServiceRequests as $serviceRequest)
+
+                        <tr>
+
+                            {{-- USER --}}
+                            <td>
+
+                                <div class="service-user">
+
+                                    <div class="service-user-avatar">
+
+                                        {{ strtoupper(substr($serviceRequest->user->name ?? 'U', 0, 1)) }}
+
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            {{ $serviceRequest->user->name ?? 'Unknown User' }}
+                                        </strong>
+
+                                        <small>
+                                            {{ $serviceRequest->user->email ?? '' }}
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            {{-- SERVICE --}}
+                            <td>
+
+                                @php
+
+                                    $serviceNames = [
+
+                                        'home_maintenance' =>
+                                            'Home Maintenance',
+
+                                        'property_inspection' =>
+                                            'Property Inspection',
+
+                                        'digital_rental_agreement' =>
+                                            'Digital Rental Agreement',
+
+                                        'moving_relocation' =>
+                                            'Moving & Relocation',
+
+                                        'photography_virtual_tour' =>
+                                            'Photography & Virtual Tour',
+
+                                    ];
+
+                                @endphp
+
+                                <span class="service-type">
+
+                                    <i class="fa-solid fa-screwdriver-wrench"></i>
+
+                                    {{ $serviceNames[$serviceRequest->service_type]
+                                        ?? ucfirst(str_replace('_', ' ', $serviceRequest->service_type)) }}
+
+                                </span>
+
+                            </td>
+
+
+                            {{-- PROPERTY --}}
+                            <td>
+
+                                @if($serviceRequest->property)
+
+                                    {{ $serviceRequest->property->title
+                                        ?? 'Property #' . $serviceRequest->property->id }}
+
+                                @else
+
+                                    <span class="not-selected">
+                                        Not Selected
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+
+                            {{-- DATE --}}
+                            <td>
+
+                                @if($serviceRequest->preferred_date)
+
+                                    {{ \Carbon\Carbon::parse(
+                                        $serviceRequest->preferred_date
+                                    )->format('d M Y') }}
+
+                                @else
+
+                                    <span class="not-selected">
+                                        Not Specified
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+
+                            {{-- STATUS --}}
+                            <td>
+
+                                <span class="status-badge status-{{ $serviceRequest->status }}">
+
+                                    {{ ucwords(
+                                        str_replace(
+                                            '_',
+                                            ' ',
+                                            $serviceRequest->status
+                                        )
+                                    ) }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    @else
+
+        <div class="dashboard-empty-state">
+
+            <i class="fa-solid fa-clipboard-list"></i>
+
+            <p>
+                No service requests available yet.
+            </p>
+
+        </div>
+
+    @endif
+
+</div>
+
+
             <!-- RECENT ACTIVITY -->
             <div style="background:#fff; border-radius:14px; padding:20px; border:1px solid #eee;">
                 <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid #f5f5f5;">
@@ -177,6 +565,7 @@
 
     </div>
 </div>
+
 
 </body>
 </html>

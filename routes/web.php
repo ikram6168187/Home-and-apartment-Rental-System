@@ -10,6 +10,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\BlogController;
 
 // Home
 Route::get('/home', [HomeController::class, 'home'])->name('home');
@@ -85,6 +87,36 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/bookings',               [AdminController::class, 'bookings'])->name('bookings');
     Route::get('/messages',               [AdminController::class, 'messages'])->name('messages');
     Route::delete('/messages/{id}',       [AdminController::class, 'deleteMessage'])->name('messages.delete');
+        // Service Requests
+        Route::get(
+            '/service-requests',
+            [AdminController::class, 'serviceRequests']
+        )->name('service-requests');
+
+        Route::patch(
+            '/service-requests/{id}/status',
+            [AdminController::class, 'updateServiceRequest']
+        )->name('service-requests.update');
+
+        // Blog Management
+            Route::get('/blogs', [AdminController::class, 'blogs'])
+                ->name('blogs');
+
+            Route::get('/blogs/create', [AdminController::class, 'createBlog'])
+                ->name('blogs.create');
+
+            Route::post('/blogs', [AdminController::class, 'storeBlog'])
+                ->name('blogs.store');
+
+            Route::get('/blogs/{id}/edit', [AdminController::class, 'editBlog'])
+                ->name('blogs.edit');
+
+            Route::put('/blogs/{id}', [AdminController::class, 'updateBlog'])
+                ->name('blogs.update');
+
+            Route::delete('/blogs/{id}', [AdminController::class, 'deleteBlog'])
+                ->name('blogs.delete');
+
 
 });
 Route::get('/property/{property}', [PropertyController::class, 'show'])->name('property.show');
@@ -99,4 +131,39 @@ Route::post('/reset-password',   [LoginController::class, 'resetPassword'])->nam
 Route::post('/property/{property}/rate', [PropertyController::class, 'storeRating'])
     ->middleware('auth')
     ->name('property.rate');
+
+    /*
+|--------------------------------------------------------------------------
+| Services Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/services', [ServiceController::class, 'index'])
+    ->name('services.index');
+
+Route::middleware('auth')->group(function () {
+
+    // Service Request Form
+    Route::get('/services/request', [ServiceController::class, 'create'])
+        ->name('services.request');
+
+    // Store Service Request
+    Route::post('/services/request', [ServiceController::class, 'store'])
+        ->name('services.store');
+
+    // My Service Requests
+    Route::get('/my-service-requests', [ServiceController::class, 'myRequests'])
+        ->name('services.myRequests');
+
+    // Cancel Service Request
+    Route::patch('/service-request/{id}/cancel', [ServiceController::class, 'cancel'])
+        ->name('services.cancel');
+
+});
+
+Route::get('/blog', [BlogController::class, 'index'])
+    ->name('blog.index');
+
+Route::get('/blog/{blog}', [BlogController::class, 'show'])
+    ->name('blog.show');
   

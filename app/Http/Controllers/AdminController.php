@@ -8,6 +8,8 @@ use App\Models\Property;
 use App\Models\Booking;
 use App\Models\Notification;
 use App\Models\ContactMessage;
+use App\Models\ServiceRequest;
+use App\Models\Blog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,34 +17,64 @@ class AdminController extends Controller
 {
     // Dashboard
     public function dashboard()
-    {
-        $totalUsers      = User::where('role', 'user')->count();
-        $totalProperties = Property::count();
-        $totalBookings   = Booking::count();
-        $pendingBookings = Booking::where('status', 'pending')->count();
-        $unreadMessages  = ContactMessage::where('is_read', false)->count();
+{
+    // Dashboard Counts
+    $totalUsers      = User::where('role', 'user')->count();
+    $totalProperties = Property::count();
+    $totalBookings   = Booking::count();
+    $pendingBookings = Booking::where('status', 'pending')->count();
+    $unreadMessages  = ContactMessage::where('is_read', false)->count();
 
-        $cityBreakdown = Property::selectRaw('city, count(*) as total')
-                            ->groupBy('city')
-                            ->orderByDesc('total')
-                            ->get();
+    // Service Requests Counts
+    $totalServiceRequests   = ServiceRequest::count();
+    $pendingServiceRequests = ServiceRequest::where('status', 'pending')->count();
 
-        $recentUsers = User::where('role', 'user')
-                            ->withCount('properties')
-                            ->latest()->take(5)->get();
+    // Property City Breakdown
+    $cityBreakdown = Property::selectRaw('city, count(*) as total')
+        ->groupBy('city')
+        ->orderByDesc('total')
+        ->get();
 
-        $recentBookings = Booking::with(['property', 'user'])
-                            ->latest()->take(5)->get();
+    // Recent Users
+    $recentUsers = User::where('role', 'user')
+        ->withCount('properties')
+        ->latest()
+        ->take(5)
+        ->get();
 
-        $recentActivity = Notification::with('user')
-                            ->latest()->take(6)->get();
+    // Recent Bookings
+    $recentBookings = Booking::with(['property', 'user'])
+        ->latest()
+        ->take(5)
+        ->get();
 
-        return view('admin.dashboard', compact(
-            'totalUsers', 'totalProperties', 'totalBookings',
-            'pendingBookings', 'unreadMessages', 'cityBreakdown',
-            'recentUsers', 'recentBookings', 'recentActivity'
-        ));
-    }
+    // Recent Service Requests
+    $recentServiceRequests = ServiceRequest::with(['user', 'property'])
+        ->latest()
+        ->take(5)
+        ->get();
+
+    // Recent Activity
+    $recentActivity = Notification::with('user')
+        ->latest()
+        ->take(6)
+        ->get();
+
+    return view('admin.dashboard', compact(
+        'totalUsers',
+        'totalProperties',
+        'totalBookings',
+        'pendingBookings',
+        'unreadMessages',
+        'totalServiceRequests',
+        'pendingServiceRequests',
+        'cityBreakdown',
+        'recentUsers',
+        'recentBookings',
+        'recentServiceRequests',
+        'recentActivity'
+    ));
+}
 
     // Users list
     public function users()
@@ -136,4 +168,205 @@ class AdminController extends Controller
         return redirect()->route('admin.messages')
                          ->with('success', 'Message deleted!');
     }
+
+    /*
+|--------------------------------------------------------------------------
+| Service Requests List
+|--------------------------------------------------------------------------
+*/
+
+public function serviceRequests()
+{
+    $serviceRequests = ServiceRequest::with([
+            'user',
+            'property'
+        ])
+        ->latest()
+        ->get();
+
+    $pending = $serviceRequests
+        ->where('status', 'pending')
+        ->count();
+
+    $inProgress = $serviceRequests
+        ->where('status', 'in_progress')
+        ->count();
+
+    $completed = $serviceRequests
+        ->where('status', 'completed')
+        ->count();
+
+    $cancelled = $serviceRequests
+        ->where('status', 'cancelled')
+        ->count();
+
+    return view(
+        'admin.service-requests',
+        compact(
+            'serviceRequests',
+            'pending',
+            'inProgress',
+            'completed',
+            'cancelled'
+        )
+    );
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Update Service Request Status
+|--------------------------------------------------------------------------
+*/
+
+public function updateServiceRequest(Request $request, $id)
+{
+    $request->validate([
+        'status' => 'required|in:pending,in_progress,completed,cancelled',
+    ]);
+
+    $serviceRequest = ServiceRequest::findOrFail($id);
+
+    $serviceRequest->update([
+        'status' => $request->status,
+    ]);
+
+    return redirect()
+        ->route('admin.service-requests')
+        ->with(
+            'success',
+            'Service request status updated successfully!'
+        );
+}
+public function blogs()
+{
+    $blogs = Blog::with('user')
+        ->latest()
+        ->get();
+
+    $published = Blog::where('status', 'published')->count();
+
+    $draft = Blog::where('status', 'draft')->count();
+
+    return view(
+        'admin.blogs',
+        compact(
+            'blogs',
+            'published',
+            'draft'
+        )
+    );
+}
+public function createBlog()
+{
+    return view('admin.create-blog');
+}
+
+public function storeBlog(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'category' => 'required|string|max:100',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'excerpt' => 'nullable|string|max:500',
+        'content' => 'required|string|min:20',
+        'status' => 'required|in:draft,published',
+    ]);
+
+    $imagePath = null;
+
+    if ($request->hasFile('image')) {
+
+        $imagePath = $request
+            ->file('image')
+            ->store('blogs', 'public');
+    }
+
+    Blog::create([
+        'user_id' => Auth::id(),
+        'title' => $request->title,
+        'category' => $request->category,
+        'image' => $imagePath,
+        'excerpt' => $request->excerpt,
+        'content' => $request->content,
+        'status' => $request->status,
+        'published_at' => $request->status === 'published'
+            ? now()
+            : null,
+    ]);
+
+    return redirect()
+        ->route('admin.blogs')
+        ->with('success', 'Blog created successfully!');
+}
+public function editBlog($id)
+{
+    $blog = Blog::findOrFail($id);
+
+    return view(
+        'admin.edit-blog',
+        compact('blog')
+    );
+}
+public function updateBlog(Request $request, $id)
+{
+    $blog = Blog::findOrFail($id);
+
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'category' => 'required|string|max:100',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'excerpt' => 'nullable|string|max:500',
+        'content' => 'required|string|min:20',
+        'status' => 'required|in:draft,published',
+    ]);
+
+    $data = [
+        'title' => $request->title,
+        'category' => $request->category,
+        'excerpt' => $request->excerpt,
+        'content' => $request->content,
+        'status' => $request->status,
+    ];
+
+    if (
+        $request->status === 'published' &&
+        !$blog->published_at
+    ) {
+        $data['published_at'] = now();
+    }
+
+    if ($request->hasFile('image')) {
+
+        if ($blog->image) {
+            Storage::disk('public')->delete($blog->image);
+        }
+
+        $data['image'] = $request
+            ->file('image')
+            ->store('blogs', 'public');
+    }
+
+    $blog->update($data);
+
+    return redirect()
+        ->route('admin.blogs')
+        ->with('success', 'Blog updated successfully!');
+}
+
+public function deleteBlog($id)
+{
+    $blog = Blog::findOrFail($id);
+
+    if ($blog->image) {
+        Storage::disk('public')->delete($blog->image);
+    }
+
+    $blog->delete();
+
+    return redirect()
+        ->route('admin.blogs')
+        ->with('success', 'Blog deleted successfully!');
+}
+
 }

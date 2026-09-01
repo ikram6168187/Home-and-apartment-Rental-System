@@ -37,4 +37,9 @@ class Property extends Model
     {
         return $this->ratings()->count();
     }
+
+    public function serviceRequests()
+{
+    return $this->hasMany(ServiceRequest::class);
+}
 }

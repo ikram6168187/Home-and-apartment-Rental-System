@@ -33,13 +33,23 @@ class LoginController extends Controller
     }
 
     Auth::login($user);
-    $request->session()->regenerate();
+$request->session()->regenerate();
 
-    if ($user->role == 'admin') {
-        return redirect()->route('admin.dashboard');
-    }
+if ($user->role == 'admin') {
+    return redirect()->route('admin.dashboard');
+}
 
-    return redirect()->route('home');
+/*
+|--------------------------------------------------------------------------
+| Redirect User to Intended Page
+|--------------------------------------------------------------------------
+*/
+
+if ($request->filled('redirect_to')) {
+    return redirect($request->redirect_to);
+}
+
+return redirect()->route('home');
 }
     public function logout(Request $request)
     {

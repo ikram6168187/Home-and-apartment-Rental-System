@@ -809,16 +809,7 @@ a {
         font-size: 28px;
     }
 
-    /* Footer Responsive */
-    .footer {
-        width: 100%;
-        margin: 20px 0 0 !important;
-        border-radius: 0;
-    }
-
-    .footer-grid {
-        grid-template-columns: 1fr 1fr;
-    }
+    
 }
 
 </style>
@@ -935,68 +926,8 @@ a {
     </div>
 </section>
 
- <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-grid">
-
-            <div class="footer-brand">
-                <div class="f-logo">
-                    <i class="fa-solid fa-house-chimney"></i> Smart Rent
-                </div>
-                <p>Pakistan's trusted rental platform connecting property owners with renters across the country.</p>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fa-brands fa-whatsapp"></i></a>
-                </div>
-            </div>
-
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="{{ route('home') }}">Home</a></li>
-                    <li><a href="{{ route('about') }}">About Us</a></li>
-                    <li><a href="{{ route('contact') }}">Contact</a></li>
-                    @auth
-                    <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    @endauth
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Property Types</h4>
-                <ul>
-                    <li><a href="#">Houses</a></li>
-                    <li><a href="#">Apartments</a></li>
-                    <li><a href="#">Rooms</a></li>
-                    <li><a href="#">Shops</a></li>
-                    <li><a href="#">Offices</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Contact Us</h4>
-                <ul class="footer-contact">
-                    <li><i class="fa-solid fa-location-dot"></i>Main Market satellite town, Gujranwala<br>Punjab, Pakistan</li>
-                    <li><i class="fa-solid fa-envelope"></i> studygrw@gmail.com</li>
-                    <li><i class="fa-solid fa-phone"></i> +92 3229859984</li>
-                    <li><i class="fa-solid fa-clock"></i> Mon–Sat, 9am–6pm</li>
-                </ul>
-            </div>
-
-        </div>
-
-        <div class="footer-bottom">
-            <p>© 2026 Smart Rent. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="{{ route('contact') }}">Support</a>
-            </div>
-        </div>
-    </footer>
-
+ 
+  @include('footer')
 {{-- MODAL SCRIPTS --}}
 @include('Modal scripts')
 
