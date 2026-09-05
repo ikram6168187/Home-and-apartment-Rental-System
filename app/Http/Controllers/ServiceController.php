@@ -106,7 +106,7 @@ class ServiceController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function cancel($id)
+    public function cancel(int $id)
     {
         $serviceRequest = ServiceRequest::where('id', $id)
             ->where('user_id', Auth::id())

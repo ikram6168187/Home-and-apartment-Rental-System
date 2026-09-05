@@ -12,6 +12,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\PageController;
 
 // Home
 Route::get('/home', [HomeController::class, 'home'])->name('home');
@@ -87,6 +88,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/bookings',               [AdminController::class, 'bookings'])->name('bookings');
     Route::get('/messages',               [AdminController::class, 'messages'])->name('messages');
     Route::delete('/messages/{id}',       [AdminController::class, 'deleteMessage'])->name('messages.delete');
+    Route::patch('/users/{user}/role', [AdminController::class, 'updateRole'])->name('users.updateRole');
         // Service Requests
         Route::get(
             '/service-requests',
@@ -167,3 +169,4 @@ Route::get('/blog', [BlogController::class, 'index'])
 Route::get('/blog/{blog}', [BlogController::class, 'show'])
     ->name('blog.show');
   
+    Route::get('/about-system', [PageController::class, 'aboutSystem'])->name('about.system');

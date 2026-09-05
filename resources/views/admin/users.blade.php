@@ -1,9 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Users — Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
 <style>
@@ -59,6 +59,27 @@ tbody tr:hover { background:#fafafa; }
     font-size:11px;
     font-weight:600;
 }
+
+/* ROLE DROPDOWN (editable) */
+.role-select {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 26px 5px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23888'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px;
+    transition: opacity 0.2s;
+}
+.role-select.role-admin-bg { background-color:#ffe5e5; color:#dc3545; }
+.role-select.role-user-bg  { background-color:#e8f5e9; color:#2e7d32; }
+.role-select:disabled { opacity: 0.6; cursor: not-allowed; }
 
 </style>
 </head>
@@ -123,11 +144,13 @@ tbody tr:hover { background:#fafafa; }
                             </div>
                         </td>
                         <td>
-    @if($user->role == 'admin')
-        <span class="role-admin">Admin</span>
-    @else
-        <span class="role-user">User</span>
-    @endif
+    <select
+        class="role-select {{ $user->role == 'admin' ? 'role-admin-bg' : 'role-user-bg' }}"
+        data-user-id="{{ $user->id }}"
+        onchange="updateRole(this)">
+        <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+    </select>
 </td>
                         <td><span class="prop-count">{{ $user->properties_count }} listings</span></td>
                         <td><span class="joined-date">{{ $user->created_at->format('d M Y') }}</span></td>
@@ -180,6 +203,45 @@ function searchUsers() {
     });
 }
 document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeDeleteModal(); });
+
+// ROLE UPDATE (AJAX -> Laravel -> MySQL)
+function updateRole(selectEl) {
+    var userId = selectEl.dataset.userId;
+    var newRole = selectEl.value;
+    var previousRole = newRole === 'admin' ? 'user' : 'admin';
+
+    selectEl.disabled = true;
+
+    fetch(`/admin/users/${userId}/role`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ role: newRole })
+    })
+    .then(function(res) {
+        if (!res.ok) throw new Error('Request failed');
+        return res.json();
+    })
+    .then(function(data) {
+        if (data.success) {
+            selectEl.classList.remove('role-admin-bg', 'role-user-bg');
+            selectEl.classList.add(newRole === 'admin' ? 'role-admin-bg' : 'role-user-bg');
+        } else {
+            selectEl.value = previousRole;
+            alert('Role update failed. Please try again.');
+        }
+    })
+    .catch(function() {
+        selectEl.value = previousRole;
+        alert('Something went wrong. Role could not be updated.');
+    })
+    .finally(function() {
+        selectEl.disabled = false;
+    });
+}
 </script>
 </body>
 </html>

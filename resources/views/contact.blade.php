@@ -9,9 +9,19 @@
     @include('Modal style')
 
 <style> 
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Arial, sans-serif; } 
-body { background:#f4f6f9; color:#1a1a2e; } 
-a { text-decoration:none; color:inherit; } 
+* { margin:0;
+    padding:0; 
+    box-sizing:border-box; 
+    font-family:'Segoe UI', Arial, sans-serif;
+} 
+body {
+    background:#f4f6f9; 
+    color:#1a1a2e; 
+} 
+a {
+    text-decoration:none; 
+    color:inherit; 
+} 
  
 /* HERO */ 
 .contact-hero { 
@@ -24,16 +34,24 @@ a { text-decoration:none; color:inherit; }
     border-radius: 25px; 
 } 
 .contact-hero::before { 
-    content:''; position:absolute; 
-    width:400px; height:400px; border-radius:50%; 
+    content:''; 
+    position:absolute; 
+    top:-150px; 
+    right:-80px; 
+    width:400px; 
+    height:400px; 
+    border-radius:50%; 
     background:rgba(255,255,255,0.04); 
-    top:-150px; right:-80px; 
 } 
 .contact-hero::after { 
-    content:''; position:absolute; 
-    width:250px; height:250px; border-radius:50%; 
+    content:''; 
+    position:absolute; 
+    width:250px; 
+    height:250px; 
+    border-radius:50%; 
     background:rgba(255,255,255,0.04); 
-    bottom:-80px; left:-40px; 
+    bottom:-80px; 
+    left:-40px; 
 } 
 .hero-badge { 
     display:inline-block; 
@@ -49,8 +67,15 @@ a { text-decoration:none; color:inherit; }
  
 /* BODY */ 
 .contact-body { 
-    padding: 50px 5%; 
-    max-width: 1100px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20;
+    padding: 50px 10px; 
+    width: 95%;
+    /* max-width: 1100px;  */
     margin: 35px auto; 
     border-radius: 25px; 
 } 
@@ -60,11 +85,17 @@ a { text-decoration:none; color:inherit; }
     display: grid; 
     grid-template-columns: 1fr 1.5fr; 
     gap: 28px; 
-    margin-bottom: 40px; 
+    margin-bottom: 80px; 
+    width: 90%;
 } 
  
 /* INFO CARDS */ 
-.info-cards { display: flex; flex-direction: column; gap: 14px; } 
+.info-cards { 
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; 
+    gap: 14px; 
+} 
 .info-card { 
     background: #fff; 
     border-radius: 14px; 
@@ -177,10 +208,20 @@ a { text-decoration:none; color:inherit; }
 } 
  
 /* FAQ */ 
-.faq-section { margin-top: 10px; } 
+.faq-section {
+     /* margin-top: 10px; */
+     border: 1px solid black;
+     background: linear-gradient(135deg, rgb(51, 47, 46), #5c4a3a);
+     border-radius: 20px;
+     width: 100%;
+     padding: 50px;
+ } 
 .faq-header { text-align: center; margin-bottom: 24px; } 
-.faq-header h2 { font-size: 26px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; } 
-.faq-header p  { font-size: 14px; color: #888; } 
+.faq-header h2 { font-size: 32px; font-weight: 700; color: #ffffff; margin-bottom: 6px; } 
+.faq-header p  { 
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.75);
+} 
 .faq-grid { 
     display: grid; 
     grid-template-columns: repeat(2, 1fr); 
@@ -196,7 +237,8 @@ a { text-decoration:none; color:inherit; }
 .faq-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); } 
 .faq-card h4 { 
     font-size: 14px; font-weight: 600; 
-    color: #1a1a2e; margin-bottom: 8px; 
+    color: #1a1a2e; 
+    /* margin-bottom: 8px;  */
     display: flex; align-items: center; gap: 8px; 
 } 
 .faq-card h4 i { color: rgb(51,47,46); font-size: 14px; } 
@@ -206,25 +248,25 @@ a { text-decoration:none; color:inherit; }
    FOOTER (UPDATED)
    ========================================================= */
 
-.footer {
+/* .footer {
     width: 100%;
     margin: 50px 0 0 !important;
     border-radius: 0;
     border-top: none;
     background: #0f0e0d;
     padding: 60px 5% 30px;
-}
+} */
 
 /* FOOTER GRID */
-.footer-grid {
+/* .footer-grid {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 40px;
     margin-bottom: 50px;
-}
+} */
 
 /* FOOTER BRAND */
-.footer-brand .f-logo {
+/* .footer-brand .f-logo {
     font-size: 20px;
     font-weight: 700;
     color: #fff;
@@ -240,10 +282,10 @@ a { text-decoration:none; color:inherit; }
     line-height: 1.8;
     max-width: 260px;
     margin-bottom: 20px;
-}
+} */
 
 /* SOCIAL LINKS */
-.social-links {
+/* .social-links {
     display: flex;
     gap: 10px;
 }
@@ -266,7 +308,7 @@ a { text-decoration:none; color:inherit; }
     background: rgb(51,47,46);
     color: #fff;
     border-color: rgb(51,47,46);
-}
+} */
 
 
 /* =========================================================
@@ -279,15 +321,15 @@ a { text-decoration:none; color:inherit; }
     .contact-hero h1 { font-size: 28px; }
 
     /* Footer Responsive */
-    .footer {
+    /* .footer {
         width: 100%;
         margin: 20px 0 0 !important;
         border-radius: 0;
-    }
+    } */
 
-    .footer-grid {
+    /* .footer-grid {
         grid-template-columns: 1fr 1fr;
-    }
+    } */
 } 
 
 </style>

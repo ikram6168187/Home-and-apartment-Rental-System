@@ -58,8 +58,7 @@ a {
     background: linear-gradient(
         to bottom,
         rgba(20,15,10,0.3),
-        rgba(20,15,10,0.65)
-    );
+        rgba(20,15,10,0.65));
 
     color: white;
     padding: 60px 0;
@@ -91,7 +90,7 @@ a {
 ========================================================= */
 
 .box {
-    width: 85%;
+    /* width: 85%; */
 
     display: flex;
     justify-content: center;
@@ -495,7 +494,7 @@ a {
 }
 
 .prop-body {
-    padding: 18px 18px 10px;
+    padding: 15px;
 }
 
 .prop-title {
@@ -546,6 +545,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 15px;
 }
 
 .prop-price {
@@ -561,7 +561,7 @@ a {
     font-weight: 400;
 }
 
-.book-btn {
+.book-btn1 {
     padding: 9px 20px;
 
     background: rgb(51,47,46);
@@ -575,7 +575,7 @@ a {
     transition: 0.2s;
 }
 
-.book-btn:hover {
+.book-btn1:hover {
     background: #1a1a1a;
     transform: translateY(-1px);
 }
@@ -733,16 +733,20 @@ a {
 }
 
 .why-grid {
-    display: grid;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    flex-wrap: wrap;
 
-    grid-template-columns: repeat(3, 1fr);
 
-    gap: 28px;
+    /* grid-template-columns: repeat(3, 1fr); */
+
+    gap: 20px;
 }
 
 .why-card {
     padding: 30px 26px;
-
+    width: 320px;
     background: #fafafa;
 
     border: 1px solid #eee;
@@ -800,11 +804,14 @@ a {
 ========================================================= */
 
 .stats-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 50;
     width: 95%;
-
-    margin: 45px auto 0;
+    margin: 45px auto;
     padding: 65px 5%;
-
     background: linear-gradient(
         135deg,
         rgb(51,47,46),
@@ -819,15 +826,19 @@ a {
 }
 
 .stats-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     max-width: 900px;
 
     margin: 0 auto;
 
-    display: grid;
+    /* display: grid; */
 
     grid-template-columns: repeat(4, 1fr);
 
-    gap: 20px;
+    gap: 60px;
 
     text-align: center;
 }
@@ -1274,7 +1285,7 @@ a {
                 <p>Find Your Dream Place</p>
                 <h1>your Next Home Just a Click Away!</h1>
 
-                <form action="{{ route('home') }}" method="GET" style="width:88%;">
+                <form action="{{ route('home') }}" method="GET">
                     <div class="box">
                         <div class="box1">
                             <p>Where</p>
@@ -1326,29 +1337,39 @@ a {
     </div>
 
     <!-- PROPERTIES SECTION -->
-    <div class="properties-section" style="margin-bottom:20px;">
+<div id="properties" class="properties-section" style="margin-bottom:20px; scroll-margin-top:100px;">
 
-        @if(request('search') || request('check_in') || request('city'))
+    @if(request('search') || request('check_in') || request('city'))
         <div class="results-banner" style="display:flex;">
             <div>
                 <h3>
                     @if(request('check_in') && request('check_out'))
                         Available from {{ \Carbon\Carbon::parse(request('check_in'))->format('d M') }}
                         to {{ \Carbon\Carbon::parse(request('check_out'))->format('d M Y') }}
-                        @if(request('search')) in "{{ request('search') }}" @endif
+                        @if(request('search')) 
+                            in "{{ request('search') }}" 
+                        @endif
+
                     @elseif(request('city'))
                         Properties in {{ request('city') }}
+
                     @else
                         Results for "{{ request('search') }}"
                     @endif
                 </h3>
-                <p>{{ $properties->count() }} {{ $properties->count() == 1 ? 'property' : 'properties' }} found</p>
+
+                <p>
+                    {{ $properties->count() }}
+                    {{ $properties->count() == 1 ? 'property' : 'properties' }}
+                    found
+                </p>
             </div>
+
             <a href="{{ route('home') }}" class="close-search">
                 <i class="fa-solid fa-xmark"></i> Clear
             </a>
         </div>
-        @endif
+    @endif
 
         <div class="section-header">
             <div class="section-header-left">
@@ -1418,7 +1439,7 @@ a {
             <span class="prop-price">₨ {{ number_format($property->price) }}</span>
             <small>/month</small>
         </div>
-        <a href="{{ route('property.show', $property->id) }}" class="book-btn">Book Now</a>
+        <a href="{{ route('property.show', $property->id) }}" class="book-btn1">Book Now</a>
     </div>
 
 </div>
@@ -1454,11 +1475,13 @@ a {
     <!-- WHY SMART RENT -->
     <div class="why-section">
 
+        <!-- why-Heading -->
         <div class="why-heading">
             <div class="section-label">Why Choose Us</div>
             <h2 class="why-title">Why <span>Smart Rent</span> is Different</h2>
             <p class="why-sub">We built Smart Rent to make renting in Pakistan simple, safe, and stress-free — for both owners and renters.</p>
         </div>
+        <!-- end why-Heading -->
         
         <div class="why-grid">
             <div class="why-card">

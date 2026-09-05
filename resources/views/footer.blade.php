@@ -7,8 +7,7 @@
     <title>Smart Rent - Footer</title>
 
     <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
         * {
@@ -18,10 +17,13 @@
         }
 
         .footer {
-            width: 100%;
+            margin: 0px 31px;
+            width: 95%;
             margin-top: 50px;
-            background: #0f0e0d;
+            background: rgb(51, 47, 46);
             padding: 60px 5% 30px;
+            border-top-left-radius:20px;
+            border-top-right-radius:20px;
         }
 
         .footer-grid {
@@ -140,6 +142,8 @@
 
         @media (max-width: 768px) {
             .footer {
+                margin: 0px 10px;
+                width: 95%;
                 padding: 45px 6% 25px;
             }
 
@@ -203,6 +207,8 @@
             <h4>Quick Links</h4>
             <ul>
                 <li><a href="{{ route('home') }}">Home</a></li>
+                <li><a href="{{ route('services.index') }}">Services</a></li>
+                <li><a href="{{ route('blog.index') }}">Blog</a></li>
                 <li><a href="{{ route('about') }}">About Us</a></li>
                 <li><a href="{{ route('contact') }}">Contact</a></li>
 
@@ -213,15 +219,40 @@
         </div>
 
         <div class="footer-col">
-            <h4>Property Types</h4>
-            <ul>
-                <li><a href="#">Houses</a></li>
-                <li><a href="#">Apartments</a></li>
-                <li><a href="#">Rooms</a></li>
-                <li><a href="#">Shops</a></li>
-                <li><a href="#">Offices</a></li>
-            </ul>
-        </div>
+    <h4>Property Types</h4>
+
+    <ul>
+        <li>
+            <a href="{{ route('home', ['type' => 'house']) }}#properties">
+                Houses
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ route('home', ['type' => 'apartment']) }}#properties">
+                Apartments
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ route('home', ['type' => 'room']) }}#properties">
+                Rooms
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ route('home', ['type' => 'shop']) }}#properties">
+                Shops
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ route('home', ['type' => 'office']) }}#properties">
+                Offices
+            </a>
+        </li>
+    </ul>
+</div>
 
         <div class="footer-col">
             <h4>Contact Us</h4>
@@ -261,4 +292,4 @@
 
 </body>
 </html>
-```
+

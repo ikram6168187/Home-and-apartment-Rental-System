@@ -1,1075 +1,1346 @@
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
+
+
     <meta charset="UTF-8">
+
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
+
 
     <title>Blog | Smart Rent</title>
 
 
     <!-- Font Awesome -->
-
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 
     <style>
 
+
         /* =========================================
            GLOBAL
         ========================================= */
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Segoe UI', Arial, sans-serif;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
 
 
-        body{
-            background:#f6f4f1;
-            color:#1a1209;
+        body {
+            background: #f6f4f1;
+            color: #1a1209;
         }
 
 
-        a{
-            text-decoration:none;
+        a {
+            text-decoration: none;
         }
+
 
 
         /* =========================================
            CONTAINER
         ========================================= */
 
-        .container{
-            width:90%;
-            max-width:1200px;
-            margin:auto;
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
         }
+
 
 
         /* =========================================
            HERO SECTION
         ========================================= */
 
-        .blog-hero{
 
-    background:
-    linear-gradient(
-        135deg,
-        rgba(26,18,9,0.95),
-        rgba(59,43,31,0.92)
-    );
-
-    padding:80px 20px;
-
-    text-align:center;
-
-    color:#fff;
-
-    /* NEW: card jaisa look — margin + rounded corners */
-    max-width:1200px;
-    margin:20px auto 0;
-    border-radius:30px;
-
-    position:relative;
-    overflow:hidden;
-
-}
+        .blog-hero {
+            background: linear-gradient(
+                135deg,
+                rgba(26, 18, 9, 0.95),
+                rgba(59, 43, 31, 0.92)
+            );
 
 
-        /* =========================================
-           NEW: CURVED BOTTOM EDGE FOR HERO
-           (creates the smooth curve instead of a
-           sharp/cone-like straight edge)
-        ========================================= 
-
-        .blog-hero::after{
-
-            content:"";
-
-            position:absolute;
-
-            left:-5%;
-
-            bottom:-1px;
-
-            width:110%;
-
-            height:70px;
-
-            background:#f6f4f1; /* matches body background */
-
-           /*  border-radius:50% 50% 0 0 / 100% 100% 0 0;
-
-        } 
-         */
+            padding: 80px 20px;
+            text-align: center;
+            color: #fff;
 
 
-        .blog-hero .hero-icon{
+            max-width: 1200px;
+            margin: 20px auto 0;
 
-            width:70px;
-            height:70px;
 
-            background:rgba(255,255,255,0.12);
+            border-radius: 30px;
 
-            border:1px solid rgba(255,255,255,0.15);
 
-            border-radius:50%;
+            position: relative;
+            overflow: hidden;
 
-            display:flex;
 
-            justify-content:center;
-            align-items:center;
-
-            margin:0 auto 20px;
-
-            font-size:28px;
-
-            color:#c8a882;
-
-            position:relative;
-            z-index:2;
-
+            z-index: 1;
         }
 
 
-        .blog-hero h1{
+        .blog-hero .hero-icon {
 
-            font-size:44px;
 
-            font-weight:700;
+            width: 70px;
+            height: 70px;
 
-            margin-bottom:12px;
 
-            position:relative;
-            z-index:2;
+            background: rgba(255,255,255,0.12);
 
+
+            border: 1px solid rgba(255,255,255,0.15);
+
+
+            border-radius: 50%;
+
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+
+            margin: 0 auto 20px;
+
+
+            font-size: 28px;
+
+
+            color: #c8a882;
+
+
+            position: relative;
+            z-index: 2;
         }
 
 
-        .blog-hero p{
+        .blog-hero h1 {
 
-            max-width:650px;
 
-            margin:auto;
+            font-size: 44px;
+            font-weight: 700;
 
-            color:#ddd;
 
-            font-size:16px;
+            margin-bottom: 12px;
 
-            line-height:1.7;
 
-            position:relative;
-            z-index:2;
-
+            position: relative;
+            z-index: 2;
         }
+
+
+        .blog-hero p {
+
+
+            max-width: 650px;
+
+
+            margin: auto;
+
+
+            color: #ddd;
+
+
+            font-size: 16px;
+
+
+            line-height: 1.7;
+
+
+            position: relative;
+            z-index: 2;
+        }
+
 
 
         /* =========================================
            SEARCH & FILTER AREA
         ========================================= */
 
-        .blog-tools{
 
-            background:#fff;
+        .blog-tools {
 
-            padding:20px;
 
-            border-radius:15px;
+            background: #fff;
 
-            margin-top:-32px;
 
-            position:relative;
-            z-index:3;
+            padding: 20px;
+
+
+            border-radius: 15px;
+
+
+            margin-top: -32px;
+
+
+            position: relative;
+            z-index: 3;
+
 
             box-shadow:
-            0 10px 30px rgba(0,0,0,0.08);
+                0 10px 30px rgba(0,0,0,0.08);
 
-            display:flex;
 
-            gap:14px;
+            display: flex;
 
-            align-items:center;
 
-            flex-wrap:wrap;
+            gap: 14px;
 
+
+            align-items: center;
+
+
+            flex-wrap: wrap;
         }
 
 
-        .search-box{
+        .search-box {
 
-            flex:1;
 
-            min-width:250px;
+            flex: 1;
 
-            position:relative;
 
+            min-width: 250px;
+
+
+            position: relative;
         }
 
 
-        .search-box i{
+        .search-box i {
 
-            position:absolute;
 
-            left:15px;
+            position: absolute;
 
-            top:50%;
 
-            transform:translateY(-50%);
+            left: 15px;
+            top: 50%;
 
-            color:#999;
 
+            transform: translateY(-50%);
+
+
+            color: #999;
         }
 
 
-        .search-box input{
+        .search-box input {
 
-            width:100%;
 
-            height:46px;
+            width: 100%;
 
-            padding:12px 15px 12px 43px;
 
-            border:1px solid #ddd;
+            height: 46px;
 
-            border-radius:8px;
 
-            outline:none;
+            padding: 12px 15px 12px 43px;
 
-            font-size:14px;
 
-            transition:0.3s;
+            border: 1px solid #ddd;
 
+
+            border-radius: 8px;
+
+
+            outline: none;
+
+
+            font-size: 14px;
+
+
+            transition: 0.3s;
         }
 
 
-        .search-box input:focus{
+        .search-box input:focus {
 
-            border-color:#8a6040;
+
+            border-color: #8a6040;
+
 
             box-shadow:
-            0 0 0 3px rgba(138,96,64,0.10);
-
+                0 0 0 3px rgba(138,96,64,0.10);
         }
 
 
-        .category-select{
+        .category-select {
 
-            height:46px;
 
-            padding:0 14px;
+            height: 46px;
 
-            border:1px solid #ddd;
 
-            border-radius:8px;
+            padding: 0 14px;
 
-            background:#fff;
 
-            min-width:190px;
+            border: 1px solid #ddd;
 
-            outline:none;
 
-            color:#555;
+            border-radius: 8px;
 
-            cursor:pointer;
 
+            background: #fff;
+
+
+            min-width: 190px;
+
+
+            outline: none;
+
+
+            color: #555;
+
+
+            cursor: pointer;
         }
 
 
-        .category-select:focus{
+        .category-select:focus {
 
-            border-color:#8a6040;
 
+            border-color: #8a6040;
         }
 
 
-        .filter-btn{
+        .filter-btn {
 
-            height:46px;
 
-            border:none;
+            height: 46px;
 
-            background:#1a1209;
 
-            color:#fff;
+            border: none;
 
-            padding:0 22px;
 
-            border-radius:8px;
+            background: #1a1209;
 
-            cursor:pointer;
 
-            font-weight:600;
+            color: #fff;
 
-            transition:0.3s;
 
+            padding: 0 22px;
+
+
+            border-radius: 8px;
+
+
+            cursor: pointer;
+
+
+            font-weight: 600;
+
+
+            transition: 0.3s;
         }
 
 
-        .filter-btn:hover{
+        .filter-btn:hover {
 
-            background:#3b2b1f;
 
-            transform:translateY(-2px);
+            background: #3b2b1f;
 
+
+            transform: translateY(-2px);
         }
 
 
-        .clear-btn{
+        .clear-btn {
 
-            height:46px;
 
-            display:flex;
+            height: 46px;
 
-            align-items:center;
 
-            gap:7px;
+            display: flex;
 
-            padding:0 18px;
 
-            border:1px solid #ddd;
+            align-items: center;
 
-            color:#666;
 
-            background:#fff;
+            gap: 7px;
 
-            border-radius:8px;
 
-            font-size:14px;
+            padding: 0 18px;
 
-            transition:0.3s;
 
+            border: 1px solid #ddd;
+
+
+            color: #666;
+
+
+            background: #fff;
+
+
+            border-radius: 8px;
+
+
+            font-size: 14px;
+
+
+            transition: 0.3s;
         }
 
 
-        .clear-btn:hover{
+        .clear-btn:hover {
 
-            border-color:#dc3545;
 
-            color:#dc3545;
+            border-color: #dc3545;
 
+
+            color: #dc3545;
         }
+
 
 
         /* =========================================
            SECTION
         ========================================= */
 
-        .section{
 
-            padding:60px 0;
+        .section {
 
+
+            padding: 60px 0;
         }
 
 
-        .section-heading{
+        .section-heading {
 
-            display:flex;
 
-            justify-content:space-between;
+            display: flex;
 
-            align-items:center;
 
-            margin-bottom:25px;
+            justify-content: space-between;
 
-            gap:15px;
 
+            align-items: center;
+
+
+            margin-bottom: 25px;
+
+
+            gap: 15px;
         }
 
 
-        .section-title{
+        .section-title {
 
-            font-size:27px;
 
-            font-weight:700;
+            font-size: 27px;
 
-            color:#1a1209;
 
+            font-weight: 700;
+
+
+            color: #1a1209;
         }
 
 
-        .results-info{
+        .results-info {
 
-            font-size:13px;
 
-            color:#888;
+            font-size: 13px;
 
+
+            color: #888;
         }
+
 
 
         /* =========================================
            FEATURED BLOG
         ========================================= */
 
-        .featured-blog{
 
-            display:grid;
+        .featured-blog {
 
-            grid-template-columns:1fr 1fr;
 
-            background:#fff;
+            display: grid;
 
-            border-radius:20px;
 
-            overflow:hidden;
+            grid-template-columns: 1fr 1fr;
+
+
+            background: #fff;
+
+
+            border-radius: 20px;
+
+
+            overflow: hidden;
+
 
             box-shadow:
-            0 8px 25px rgba(0,0,0,0.08);
+                0 8px 25px rgba(0,0,0,0.08);
 
-            margin-bottom:65px;
 
-            transition:0.3s;
+            margin-bottom: 65px;
 
+
+            transition: 0.3s;
         }
 
 
-        .featured-blog:hover{
+        .featured-blog:hover {
 
-            transform:translateY(-4px);
+
+            transform: translateY(-4px);
+
 
             box-shadow:
-            0 15px 35px rgba(0,0,0,0.12);
-
+                0 15px 35px rgba(0,0,0,0.12);
         }
 
 
-        .featured-image{
+        .featured-image {
 
-            height:370px;
 
-            overflow:hidden;
+            height: 370px;
 
+
+            overflow: hidden;
         }
 
 
-        .featured-image img{
+        .featured-image img {
 
-            width:100%;
 
-            height:100%;
+            width: 100%;
+            height: 100%;
 
-            object-fit:cover;
 
-            transition:0.5s;
+            object-fit: cover;
 
+
+            transition: 0.5s;
         }
 
 
-        .featured-blog:hover .featured-image img{
+        .featured-blog:hover .featured-image img {
 
-            transform:scale(1.05);
 
+            transform: scale(1.05);
         }
 
 
-        .featured-content{
+        .featured-content {
 
-            padding:45px;
 
-            display:flex;
+            padding: 45px;
 
-            flex-direction:column;
 
-            justify-content:center;
+            display: flex;
 
+
+            flex-direction: column;
+
+
+            justify-content: center;
         }
+
 
 
         /* =========================================
            CATEGORY
         ========================================= */
 
-        .category{
 
-            color:#8a6040;
+        .category {
 
-            font-size:11px;
 
-            font-weight:700;
+            color: #8a6040;
 
-            text-transform:uppercase;
 
-            letter-spacing:1.5px;
+            font-size: 11px;
 
-            margin-bottom:12px;
 
+            font-weight: 700;
+
+
+            text-transform: uppercase;
+
+
+            letter-spacing: 1.5px;
+
+
+            margin-bottom: 12px;
         }
 
 
-        .featured-content h2{
+        .featured-content h2 {
 
-            font-size:31px;
 
-            line-height:1.35;
+            font-size: 31px;
 
-            margin-bottom:15px;
 
-            color:#1a1209;
+            line-height: 1.35;
 
+
+            margin-bottom: 15px;
+
+
+            color: #1a1209;
         }
 
 
-        .featured-content p{
+        .featured-content p {
 
-            color:#777;
 
-            font-size:15px;
+            color: #777;
 
-            line-height:1.8;
 
-            margin-bottom:20px;
+            font-size: 15px;
 
+
+            line-height: 1.8;
+
+
+            margin-bottom: 20px;
         }
 
 
-        .blog-meta{
+        .blog-meta {
 
-            display:flex;
 
-            flex-wrap:wrap;
+            display: flex;
 
-            gap:15px;
 
-            font-size:12px;
+            flex-wrap: wrap;
 
-            color:#999;
 
-            margin-bottom:25px;
+            gap: 15px;
 
+
+            font-size: 12px;
+
+
+            color: #999;
+
+
+            margin-bottom: 25px;
         }
 
 
-        .blog-meta span{
+        .blog-meta span {
 
-            display:flex;
 
-            align-items:center;
+            display: flex;
 
-            gap:6px;
 
+            align-items: center;
+
+
+            gap: 6px;
         }
 
 
-        .blog-meta i{
+        .blog-meta i {
 
-            color:#8a6040;
 
+            color: #8a6040;
         }
 
 
-        .read-btn{
+        .read-btn {
 
-            display:inline-flex;
 
-            align-items:center;
+            display: inline-flex;
 
-            gap:8px;
 
-            background:#1a1209;
+            align-items: center;
 
-            color:#fff;
 
-            padding:12px 22px;
+            gap: 8px;
 
-            border-radius:8px;
 
-            width:max-content;
+            background: #1a1209;
 
-            font-size:14px;
 
-            font-weight:600;
+            color: #fff;
 
-            transition:0.3s;
 
+            padding: 12px 22px;
+
+
+            border-radius: 8px;
+
+
+            width: max-content;
+
+
+            font-size: 14px;
+
+
+            font-weight: 600;
+
+
+            transition: 0.3s;
         }
 
 
-        .read-btn:hover{
+        .read-btn:hover {
 
-            background:#8a6040;
 
-            transform:translateX(4px);
+            background: #8a6040;
 
+
+            transform: translateX(4px);
         }
+
 
 
         /* =========================================
            BLOG GRID
         ========================================= */
 
-        .blog-grid{
 
-            display:grid;
+        .blog-grid {
+
+
+            display: grid;
+
 
             grid-template-columns:
-            repeat(3,1fr);
+                repeat(3, 1fr);
 
-            gap:25px;
 
+            gap: 25px;
         }
 
 
-        .blog-card{
+        .blog-card {
 
-            background:#fff;
 
-            border-radius:16px;
+            background: #fff;
 
-            overflow:hidden;
+
+            border-radius: 16px;
+
+
+            overflow: hidden;
+
 
             box-shadow:
-            0 4px 15px rgba(0,0,0,0.06);
+                0 4px 15px rgba(0,0,0,0.06);
 
-            transition:0.35s;
 
-            display:flex;
+            transition: 0.35s;
 
-            flex-direction:column;
 
+            display: flex;
+
+
+            flex-direction: column;
         }
 
 
-        .blog-card:hover{
+        .blog-card:hover {
 
-            transform:translateY(-7px);
+
+            transform: translateY(-7px);
+
 
             box-shadow:
-            0 15px 30px rgba(0,0,0,0.12);
-
+                0 15px 30px rgba(0,0,0,0.12);
         }
+
 
 
         /* =========================================
            BLOG IMAGE
         ========================================= */
 
-        .blog-image{
 
-            height:210px;
+        .blog-image {
 
-            overflow:hidden;
 
-            position:relative;
+            height: 210px;
 
+
+            overflow: hidden;
+
+
+            position: relative;
         }
 
 
-        .blog-image img{
+        .blog-image img {
 
-            width:100%;
 
-            height:100%;
+            width: 100%;
+            height: 100%;
 
-            object-fit:cover;
 
-            transition:0.5s;
+            object-fit: cover;
 
+
+            transition: 0.5s;
         }
 
 
-        .blog-card:hover .blog-image img{
+        .blog-card:hover .blog-image img {
 
-            transform:scale(1.08);
 
+            transform: scale(1.08);
         }
+
 
 
         /* =========================================
            BLOG CONTENT
         ========================================= */
 
-        .blog-content{
 
-            padding:22px;
+        .blog-content {
 
-            display:flex;
 
-            flex-direction:column;
+            padding: 22px;
 
-            flex:1;
 
+            display: flex;
+
+
+            flex-direction: column;
+
+
+            flex: 1;
         }
 
 
-        .blog-content h3{
+        .blog-content h3 {
 
-            font-size:19px;
 
-            line-height:1.45;
+            font-size: 19px;
 
-            color:#1a1209;
 
-            margin-bottom:12px;
+            line-height: 1.45;
 
+
+            color: #1a1209;
+
+
+            margin-bottom: 12px;
         }
 
 
-        .blog-content h3:hover{
+        .blog-content h3:hover {
 
-            color:#8a6040;
 
+            color: #8a6040;
         }
 
 
-        .blog-content p{
+        .blog-content p {
 
-            font-size:14px;
 
-            color:#777;
+            font-size: 14px;
 
-            line-height:1.7;
 
-            margin-bottom:20px;
+            color: #777;
 
+
+            line-height: 1.7;
+
+
+            margin-bottom: 20px;
         }
+
 
 
         /* =========================================
            BLOG FOOTER
         ========================================= */
 
-        .blog-footer{
 
-            margin-top:auto;
+        .blog-footer {
 
-            display:flex;
 
-            justify-content:space-between;
+            margin-top: auto;
 
-            align-items:center;
 
-            border-top:1px solid #eee;
+            display: flex;
 
-            padding-top:15px;
 
-            gap:10px;
+            justify-content: space-between;
 
+
+            align-items: center;
+
+
+            border-top: 1px solid #eee;
+
+
+            padding-top: 15px;
+
+
+            gap: 10px;
         }
 
 
-        .blog-date{
+        .blog-date {
 
-            font-size:12px;
 
-            color:#999;
+            font-size: 12px;
 
-            display:flex;
 
-            align-items:center;
+            color: #999;
 
-            gap:6px;
 
+            display: flex;
+
+
+            align-items: center;
+
+
+            gap: 6px;
         }
 
 
-        .read-more{
+        .read-more {
 
-            color:#8a6040;
 
-            font-size:13px;
+            color: #8a6040;
 
-            font-weight:700;
 
-            display:flex;
+            font-size: 13px;
 
-            align-items:center;
 
-            gap:6px;
+            font-weight: 700;
 
-            transition:0.3s;
 
+            display: flex;
+
+
+            align-items: center;
+
+
+            gap: 6px;
+
+
+            transition: 0.3s;
         }
 
 
-        .read-more:hover{
+        .read-more:hover {
 
-            color:#1a1209;
 
-            gap:10px;
+            color: #1a1209;
 
+
+            gap: 10px;
         }
+
 
 
         /* =========================================
            EMPTY STATE
         ========================================= */
 
-        .empty{
 
-            background:#fff;
+        .empty {
 
-            border-radius:15px;
 
-            text-align:center;
+            background: #fff;
 
-            padding:80px 20px;
+
+            border-radius: 15px;
+
+
+            text-align: center;
+
+
+            padding: 80px 20px;
+
 
             box-shadow:
-            0 4px 15px rgba(0,0,0,0.05);
-
+                0 4px 15px rgba(0,0,0,0.05);
         }
 
 
-        .empty-icon{
+        .empty-icon {
 
-            width:75px;
 
-            height:75px;
+            width: 75px;
+            height: 75px;
 
-            margin:0 auto 20px;
 
-            border-radius:50%;
+            margin: 0 auto 20px;
 
-            background:#f6f4f1;
 
-            color:#8a6040;
+            border-radius: 50%;
 
-            display:flex;
 
-            align-items:center;
+            background: #f6f4f1;
 
-            justify-content:center;
 
-            font-size:30px;
+            color: #8a6040;
 
+
+            display: flex;
+
+
+            align-items: center;
+
+
+            justify-content: center;
+
+
+            font-size: 30px;
         }
 
 
-        .empty h3{
+        .empty h3 {
 
-            font-size:22px;
 
-            margin-bottom:10px;
+            font-size: 22px;
 
-            color:#1a1209;
 
+            margin-bottom: 10px;
+
+
+            color: #1a1209;
         }
 
 
-        .empty p{
+        .empty p {
 
-            color:#888;
 
-            font-size:14px;
+            color: #888;
 
-            margin-bottom:20px;
 
+            font-size: 14px;
+
+
+            margin-bottom: 20px;
         }
 
 
-        .empty a{
+        .empty a {
 
-            display:inline-block;
 
-            background:#1a1209;
+            display: inline-block;
 
-            color:#fff;
 
-            padding:10px 20px;
+            background: #1a1209;
 
-            border-radius:7px;
 
-            font-size:13px;
+            color: #fff;
 
+
+            padding: 10px 20px;
+
+
+            border-radius: 7px;
+
+
+            font-size: 13px;
         }
+
 
 
         /* =========================================
            PAGINATION
         ========================================= */
 
-        .pagination-wrapper{
 
-            display:flex;
+        .pagination-wrapper {
 
-            justify-content:center;
 
-            margin-top:50px;
+            display: flex;
 
+
+            justify-content: center;
+
+
+            margin-top: 50px;
         }
 
 
-        .pagination-wrapper nav{
+        .pagination-wrapper nav {
 
-            width:auto;
 
+            width: auto;
         }
 
 
-        .pagination-wrapper svg{
+        .pagination-wrapper svg {
 
-            width:18px;
 
-            height:18px;
-
+            width: 18px;
+            height: 18px;
         }
+
+
+
+        /* =========================================
+           LOGIN MODAL - BLOG PAGE FIX
+        ========================================= */
+
+
+        /*
+         * IMPORTANT:
+         * Blog page ki CSS modal ko affect na kare.
+         */
+
+
+        #loginModal.modal-overlay {
+
+
+            display: none !important;
+
+
+            position: fixed !important;
+
+
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+
+
+            width: 100% !important;
+            height: 100% !important;
+
+
+            z-index: 999999 !important;
+        }
+
+
+        #loginModal.modal-overlay.show {
+
+
+            display: flex !important;
+        }
+
+
+
+        /*
+         * Modal ke andar Blog ki global CSS ka
+         * interference kam karne ke liye.
+         */
+
+
+        #loginModal .login-card {
+
+
+            font-family: Arial, sans-serif;
+
+
+            position: relative;
+
+
+            z-index: 1000000;
+        }
+
+
+        #loginModal .login-card *,
+        #loginModal .login-card input,
+        #loginModal .login-card button,
+        #loginModal .login-card a {
+
+
+            font-family: Arial, sans-serif;
+        }
+
 
 
         /* =========================================
            RESPONSIVE
         ========================================= */
 
-        @media(max-width:1000px){
 
-            .blog-grid{
+        @media(max-width:1000px) {
+
+
+            .blog-grid {
+
 
                 grid-template-columns:
-                repeat(2,1fr);
-
+                    repeat(2, 1fr);
             }
-
         }
 
 
-        @media(max-width:900px){
 
-            .featured-blog{
+        @media(max-width:900px) {
 
-                grid-template-columns:1fr;
 
+            .featured-blog {
+
+
+                grid-template-columns: 1fr;
             }
 
 
-            .featured-image{
+            .featured-image {
 
-                height:300px;
 
+                height: 300px;
             }
 
 
-            .featured-content{
+            .featured-content {
 
-                padding:30px;
 
+                padding: 30px;
             }
-
         }
 
 
-        @media(max-width:650px){
 
-            .container{
+        @media(max-width:650px) {
 
-                width:92%;
 
+            .container {
+
+
+                width: 92%;
             }
 
 
-            .blog-hero{
-
-        padding:60px 15px;
-        margin:12px auto 0;
-        border-radius:18px;
-
-    }
+            .blog-hero {
 
 
-            .blog-hero h1{
+                padding: 60px 15px;
 
-                font-size:34px;
 
+                margin: 12px auto 0;
+
+
+                border-radius: 18px;
             }
 
 
-            .blog-tools{
+            .blog-hero h1 {
 
-                margin-top:-25px;
 
-                padding:15px;
-
+                font-size: 34px;
             }
 
 
-            .search-box{
+            .blog-tools {
 
-                flex-basis:100%;
 
+                margin-top: -25px;
+
+
+                padding: 15px;
             }
 
 
-            .category-select{
+            .search-box {
 
-                width:100%;
 
+                flex-basis: 100%;
             }
 
 
-            .filter-btn{
+            .category-select {
 
-                flex:1;
 
+                width: 100%;
             }
 
 
-            .section{
+            .filter-btn {
 
-                padding:45px 0;
 
+                flex: 1;
             }
 
 
-            .section-heading{
+            .section {
 
-                flex-direction:column;
 
-                align-items:flex-start;
-
+                padding: 45px 0;
             }
 
 
-            .section-title{
+            .section-heading {
 
-                font-size:24px;
 
+                flex-direction: column;
+
+
+                align-items: flex-start;
             }
 
 
-            .blog-grid{
+            .section-title {
 
-                grid-template-columns:1fr;
 
+                font-size: 24px;
             }
 
 
-            .featured-image{
+            .blog-grid {
 
-                height:240px;
 
+                grid-template-columns: 1fr;
             }
 
 
-            .featured-content{
+            .featured-image {
 
-                padding:25px;
 
+                height: 240px;
             }
 
 
-            .featured-content h2{
+            .featured-content {
 
-                font-size:25px;
 
+                padding: 25px;
             }
 
+
+            .featured-content h2 {
+
+
+                font-size: 25px;
+            }
         }
+
 
     </style>
+
 
 </head>
 
 
+
 <body>
+
 
 
     {{-- =========================================
        NAVBAR
     ========================================= --}}
 
+
     @include('Navbar')
+ @include('login modal')
+@include('Modal scripts')
+@include('Modal style')
+@include('Signup modal')
+
+
+
+   
+ 
 
 
 
@@ -1077,46 +1348,62 @@
        HERO SECTION
     ========================================= --}}
 
+
     <section class="blog-hero">
+
 
         <div class="hero-icon">
 
+
             <i class="fa-solid fa-blog"></i>
 
+
         </div>
+
 
 
         <h1>Smart Rent Blog</h1>
 
 
+
         <p>
+
 
             Discover rental tips, property guides, expert advice
             and useful insights to help you make smarter decisions.
 
+
         </p>
 
+
     </section>
+
 
 
 
     <div class="container">
 
 
+
         {{-- =========================================
            SEARCH & FILTER
         ========================================= --}}
+
 
         <form method="GET"
               action="{{ route('blog.index') }}"
               class="blog-tools">
 
 
+
             {{-- SEARCH --}}
+
 
             <div class="search-box">
 
+
                 <i class="fa-solid fa-magnifying-glass"></i>
+
 
                 <input
                     type="text"
@@ -1125,187 +1412,256 @@
                     placeholder="Search blogs..."
                 >
 
+
             </div>
+
 
 
 
             {{-- CATEGORY --}}
 
+
             <select name="category"
                     class="category-select">
+
 
                 <option value="">
                     All Categories
                 </option>
 
 
+
                 @foreach($categories as $category)
+
 
                     <option
                         value="{{ $category }}"
                         {{ request('category') == $category ? 'selected' : '' }}
                     >
 
+
                         {{ $category }}
+
 
                     </option>
 
+
                 @endforeach
+
 
             </select>
 
 
 
+
             {{-- FILTER BUTTON --}}
+
 
             <button type="submit"
                     class="filter-btn">
 
+
                 <i class="fa-solid fa-filter"></i>
 
+
                 Filter
+
 
             </button>
 
 
 
+
             {{-- CLEAR FILTER --}}
 
+
             @if(request('search') || request('category'))
+
 
                 <a href="{{ route('blog.index') }}"
                    class="clear-btn">
 
+
                     <i class="fa-solid fa-xmark"></i>
+
 
                     Clear
 
+
                 </a>
 
+
             @endif
+
 
 
         </form>
 
 
 
+
         <section class="section">
+
 
 
             {{-- =========================================
                FEATURED ARTICLE
             ========================================= --}}
 
+
             @if($featuredBlog && !request('search') && !request('category'))
+
 
                 <h2 class="section-title">
 
+
                     Featured Article
 
+
                 </h2>
+
 
 
                 <div class="featured-blog">
 
 
+
                     {{-- IMAGE --}}
+
 
                     <div class="featured-image">
 
+
                         @if($featuredBlog->image)
+
 
                             <img
                                 src="{{ asset('storage/'.$featuredBlog->image) }}"
                                 alt="{{ $featuredBlog->title }}"
                             >
 
+
                         @else
+
 
                             <img
                                 src="{{ asset('images/default-blog.jpg') }}"
                                 alt="Default Blog Image"
                             >
 
+
                         @endif
+
 
                     </div>
 
 
 
+
                     {{-- CONTENT --}}
+
 
                     <div class="featured-content">
 
 
+
                         <div class="category">
 
+
                             {{ $featuredBlog->category }}
+
 
                         </div>
 
 
+
                         <h2>
 
+
                             {{ $featuredBlog->title }}
+
 
                         </h2>
 
 
+
                         <p>
 
+
                             {{ Str::limit($featuredBlog->excerpt, 220) }}
+
 
                         </p>
 
 
 
+
                         {{-- META --}}
+
 
                         <div class="blog-meta">
 
 
+
                             <span>
+
 
                                 <i class="fa-solid fa-user"></i>
 
+
                                 {{ $featuredBlog->user->name ?? 'Smart Rent Team' }}
 
+
                             </span>
+
 
 
                             <span>
 
+
                                 <i class="fa-regular fa-calendar"></i>
+
 
                                 {{ $featuredBlog->created_at->format('d M Y') }}
 
+
                             </span>
+
 
 
                         </div>
 
 
 
+
                         {{-- READ FULL ARTICLE --}}
+
 
                         <a
                             href="{{ route('blog.show', $featuredBlog->id) }}"
                             class="read-btn"
                         >
 
+
                             Read Full Article
+
 
                             <i class="fa-solid fa-arrow-right"></i>
 
+
                         </a>
+
 
 
                     </div>
 
 
+
                 </div>
 
+
             @endif
+
 
 
 
@@ -1313,40 +1669,55 @@
                SECTION HEADING
             ========================================= --}}
 
+
             <div class="section-heading">
+
 
 
                 <h2 class="section-title">
 
 
+
                     @if(request('search') || request('category'))
+
 
                         Search Results
 
+
                     @else
+
 
                         Latest Articles
 
+
                     @endif
+
 
 
                 </h2>
 
 
 
+
                 @if(request('search'))
 
+
                     <div class="results-info">
+
 
                         Results for:
                         <strong>"{{ request('search') }}"</strong>
 
+
                     </div>
+
 
                 @endif
 
 
+
             </div>
+
 
 
 
@@ -1354,125 +1725,170 @@
                BLOG GRID
             ========================================= --}}
 
+
             @if($blogs->count())
+
 
 
                 <div class="blog-grid">
 
 
+
                     @foreach($blogs as $blog)
+
 
 
                         {{-- BLOG CARD --}}
 
+
                         <article class="blog-card">
+
 
 
                             {{-- BLOG IMAGE --}}
 
+
                             <div class="blog-image">
 
 
+
                                 @if($blog->image)
+
 
                                     <img
                                         src="{{ asset('storage/'.$blog->image) }}"
                                         alt="{{ $blog->title }}"
                                     >
 
+
                                 @else
+
 
                                     <img
                                         src="{{ asset('images/default-blog.jpg') }}"
                                         alt="Default Blog Image"
                                     >
 
+
                                 @endif
+
 
 
                             </div>
 
 
 
+
                             {{-- BLOG CONTENT --}}
+
 
                             <div class="blog-content">
 
 
+
                                 {{-- CATEGORY --}}
+
 
                                 <div class="category">
 
+
                                     {{ $blog->category }}
+
 
                                 </div>
 
 
 
+
                                 {{-- TITLE --}}
+
 
                                 <h3>
 
+
                                     {{ $blog->title }}
+
 
                                 </h3>
 
 
 
+
                                 {{-- EXCERPT --}}
+
 
                                 <p>
 
+
                                     {{ Str::limit($blog->excerpt, 120) }}
+
 
                                 </p>
 
 
 
+
                                 {{-- FOOTER --}}
+
 
                                 <div class="blog-footer">
 
 
+
                                     {{-- DATE --}}
+
 
                                     <span class="blog-date">
 
+
                                         <i class="fa-regular fa-calendar"></i>
 
+
                                         {{ $blog->created_at->format('d M Y') }}
+
 
                                     </span>
 
 
 
+
                                     {{-- READ MORE --}}
+
 
                                     <a
                                         href="{{ route('blog.show', $blog->id) }}"
                                         class="read-more"
                                     >
 
+
                                         Read More
+
 
                                         <i class="fa-solid fa-arrow-right"></i>
 
+
                                     </a>
+
 
 
                                 </div>
 
 
+
                             </div>
+
 
 
                         </article>
 
 
+
                     @endforeach
 
 
+
                 </div>
+
 
 
 
@@ -1480,70 +1896,113 @@
                    PAGINATION
                 ========================================= --}}
 
+
                 @if(method_exists($blogs, 'links'))
+
 
                     <div class="pagination-wrapper">
 
+
                         {{ $blogs->withQueryString()->links() }}
+
 
                     </div>
 
+
                 @endif
+
 
 
 
             @else
 
 
+
                 {{-- =========================================
                    EMPTY STATE
                 ========================================= --}}
 
+
                 <div class="empty">
+
 
 
                     <div class="empty-icon">
 
+
                         <i class="fa-solid fa-magnifying-glass"></i>
+
 
                     </div>
 
 
+
                     <h3>
 
+
                         No Blogs Found
+
 
                     </h3>
 
 
+
                     <p>
+
 
                         We couldn't find any articles matching
                         your search criteria.
 
+
                     </p>
+
 
 
                     <a href="{{ route('blog.index') }}">
 
+
                         <i class="fa-solid fa-arrow-left"></i>
+
 
                         View All Blogs
 
+
                     </a>
+
 
 
                 </div>
 
 
+
             @endif
+
 
 
         </section>
 
 
+
     </div>
 
+
+
+
+    
+
+
+
+    {{-- =========================================
+       FOOTER
+    ========================================= --}}
+
+
     @include('footer')
+
+
+
 </body>
+
+
 </html>
+

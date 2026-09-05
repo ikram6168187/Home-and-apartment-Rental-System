@@ -313,7 +313,8 @@
 
     {{-- ================= HEADER ================= --}}
     @include('Navbar')
-
+    @include('Modal style')
+  @include('Modal scripts')
 
     <div class="page-container">
 
@@ -517,7 +518,8 @@
 
         @endif
 
-    </div>
 
+    </div>
+@include('footer')
 </body>
 </html>

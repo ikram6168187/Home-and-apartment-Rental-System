@@ -600,25 +600,25 @@ a {
    FOOTER (UPDATED)
    ========================================================= */
 
-.footer {
+/* .footer {
     width: 100%;
     margin: 30px 0 0 !important;
     border-radius: 0;
     border-top: none;
     background: #0f0e0d;
     padding: 60px 5% 30px;
-}
+} */
 
 /* FOOTER GRID */
-.footer-grid {
+/* .footer-grid {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 40px;
     margin-bottom: 50px;
-}
+} */
 
 /* FOOTER BRAND */
-.footer-brand .f-logo {
+/* .footer-brand .f-logo {
     font-size: 20px;
     font-weight: 700;
     color: #fff;
@@ -626,18 +626,18 @@ a {
     align-items: center;
     gap: 8px;
     margin-bottom: 14px;
-}
+} */
 
-.footer-brand p {
+/* .footer-brand p {
     font-size: 13px;
     color: rgba(255,255,255,0.45);
     line-height: 1.8;
     max-width: 260px;
     margin-bottom: 20px;
-}
+} */
 
 /* SOCIAL LINKS */
-.social-links {
+/* .social-links {
     display: flex;
     gap: 10px;
 }
@@ -660,10 +660,10 @@ a {
     background: rgb(51,47,46);
     color: #fff;
     border-color: rgb(51,47,46);
-}
+} */
 
 /* FOOTER COLUMNS */
-.footer-col h4 {
+/* .footer-col h4 {
     font-size: 13px;
     font-weight: 700;
     color: #fff;
@@ -688,10 +688,10 @@ a {
 
 .footer-col ul li a:hover {
     color: #c8a882;
-}
+} */
 
 /* FOOTER CONTACT */
-.footer-contact li {
+/* .footer-contact li {
     display: flex;
     align-items: flex-start;
     gap: 8px;
@@ -704,10 +704,10 @@ a {
     color: #c8a882;
     margin-top: 2px;
     font-size: 12px;
-}
+} */
 
 /* FOOTER BOTTOM */
-.footer-bottom {
+/* .footer-bottom {
     border-top: 1px solid rgba(255,255,255,0.08);
     padding-top: 24px;
     display: flex;
@@ -735,7 +735,7 @@ a {
 
 .footer-links a:hover {
     color: #c8a882;
-}
+} */
 
 
 /* =========================================================

@@ -103,6 +103,7 @@ class PropertyController extends Controller
         'area_sqft'   => 'nullable|integer|min:0',
         'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         'images.*'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'map_link' => 'nullable|url|max:500',
     ]);
 
     $imagePath = null;
@@ -124,6 +125,7 @@ class PropertyController extends Controller
         'area_sqft'   => $request->area_sqft,
         'image'       => $imagePath,
         'status'      => 'active',
+        'map_link' => $request->map_link,
     ]);
 
     // ===== NAYA CODE: Multiple images save karna =====
@@ -148,7 +150,7 @@ class PropertyController extends Controller
     return redirect()->route('dashboard')->with('success', 'Property listed successfully!');
 }
     // Edit form
-    public function edit($id)
+    public function edit(int $id)
     {
         $userId = Auth::id();
         $property = Property::where('user_id', $userId)->findOrFail($id);
@@ -183,6 +185,7 @@ class PropertyController extends Controller
         'status'           => 'required|in:active,inactive',
         'delete_images'    => 'nullable|array',
         'delete_images.*'  => 'exists:property_images,id',
+        'map_link' => 'nullable|url|max:500',
     ]);
 
     // Cover image update
@@ -207,6 +210,7 @@ class PropertyController extends Controller
         'area_sqft'   => $request->area_sqft,
         'image'       => $imagePath,
         'status'      => $request->status,
+        'map_link' => $request->map_link,
     ]);
 
     // ===== Purani additional images delete karna (agar user ne select ki hon) =====

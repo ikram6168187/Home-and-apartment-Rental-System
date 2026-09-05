@@ -9,7 +9,7 @@ class Property extends Model
     protected $fillable = [
         'user_id', 'title', 'type', 'price',
         'location', 'city', 'address', 'description',
-        'bedrooms', 'bathrooms', 'area_sqft', 'image', 'status'
+        'bedrooms', 'bathrooms', 'area_sqft', 'image', 'status','map_link',
     ];
 
     public function user()

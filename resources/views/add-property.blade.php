@@ -237,7 +237,71 @@ select { cursor: pointer; }
     .form-card { padding: 22px 18px; }
     .topbar { padding: 14px 20px; }
 }
+/* =========================================================
+   GOOGLE MAPS LOCATION LINK - FORM GROUP
+========================================================= */
 
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #2d2926;
+    margin-bottom: 8px;
+}
+
+.form-group label i {
+    color: #c8a882;
+    font-size: 15px;
+}
+
+.form-group .form-control {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #333;
+    background: #fafafa;
+    outline: none;
+    transition: 0.2s ease;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.form-group .form-control::placeholder {
+    color: #aaa;
+}
+
+.form-group .form-control:focus {
+    border-color: #2d2926;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(45, 41, 38, 0.08);
+}
+
+.form-group .form-control:hover {
+    border-color: #c8a882;
+}
+
+.form-group small {
+    font-size: 12.5px;
+    color: #999;
+    margin-top: 6px;
+    display: block;
+    line-height: 1.5;
+}
+
+.form-group .text-danger {
+    display: block;
+    color: #dc3545;
+    font-size: 12.5px;
+    margin-top: 6px;
+    font-weight: 500;
+}
 </style>
 </head>
 
@@ -369,6 +433,28 @@ select { cursor: pointer; }
                 <textarea name="address" placeholder="Street no, house no, near landmark..." required>{{ old('address') }}</textarea>
                 @error('address') <span class="error-msg">{{ $message }}</span> @enderror
             </div>
+            <div class="form-group">
+    <label>
+        <i class="fa-solid fa-map-location-dot"></i>
+        Google Maps Location Link
+    </label>
+
+    <input
+        type="url"
+        name="map_link"
+        class="form-control"
+        placeholder="Paste Google Maps location link here"
+        value="{{ old('map_link') }}"
+    >
+
+    <small style="color:#888; display:block; margin-top:6px;">
+        Open Google Maps, select your property location, click Share and paste the link here.
+    </small>
+
+    @error('map_link')
+        <span class="text-danger">{{ $message }}</span>
+    @enderror
+</div>
         </div>
 
         {{-- ── SECTION 3: Price & Details ── --}}

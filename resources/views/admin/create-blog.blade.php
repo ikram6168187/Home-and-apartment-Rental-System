@@ -134,9 +134,11 @@
                             <option value="Renting Tips">
                                 Renting Tips
                             </option>
-
+                              <option value="Apartment Tips">
+                                Apartment Tips
+                            </option>
                             <option value="Property Management">
-                                Property Management
+                                Property Owner tips
                             </option>
 
                             <option value="Rental Guide">

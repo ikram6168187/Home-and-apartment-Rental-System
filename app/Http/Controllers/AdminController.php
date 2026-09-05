@@ -368,5 +368,21 @@ public function deleteBlog($id)
         ->route('admin.blogs')
         ->with('success', 'Blog deleted successfully!');
 }
+public function updateRole(Request $request, User $user)
+{
+    $request->validate([
+        'role' => 'required|in:user,admin',
+    ]);
+
+    $user->role = $request->role;
+    $user->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Role updated successfully',
+        'role' => $user->role,
+    ]);
+}
+
 
 }

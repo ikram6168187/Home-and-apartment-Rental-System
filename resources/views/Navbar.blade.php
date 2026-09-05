@@ -381,8 +381,7 @@ body{
 
 
                         <li>
-                            <a href="#">
-
+                            <a href="{{ route('contact') }}">
                                 <i class="fa-solid fa-headset"></i>
                                 Support & Help
 
@@ -391,7 +390,7 @@ body{
 
 
                         <li>
-                            <a href="{{ route('about') }}">
+                            <a href="{{ route('about.system') }}">
 
                                 <i class="fa-solid fa-circle-info"></i>
                                 About System
