@@ -308,6 +308,7 @@
 @include('Modal scripts')
 @include('Modal style')
 @include('Signup modal')
+@include('Logout modal')
 
 
 <!-- BLOG HEADER -->

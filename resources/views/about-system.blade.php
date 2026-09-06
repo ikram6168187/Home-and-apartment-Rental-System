@@ -140,6 +140,7 @@
    @include('Modal style')
    @include('login modal')
    @include('Signup modal')
+   @include('Logout modal')
     <!-- HERO -->
     <div class="as-hero">
         <h1>About This System</h1>

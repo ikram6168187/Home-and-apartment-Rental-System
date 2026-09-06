@@ -1085,78 +1085,63 @@
 
 
 
-        /* =========================================
-           LOGIN MODAL - BLOG PAGE FIX
-        ========================================= */
+       /* =========================================
+   LOGIN MODAL - BLOG PAGE FIX
+========================================= */
+
+/*
+ * IMPORTANT:
+ * Blog page ki CSS modal ko affect na kare.
+ */
+
+  /*#loginModal.modal-overlay {
+
+    display: none !important;
+
+    position: fixed !important;
+
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    z-index: 999999 !important;
+}
+
+#loginModal.modal-overlay.active {
+
+    display: flex !important;
+}
 
 
-        /*
-         * IMPORTANT:
-         * Blog page ki CSS modal ko affect na kare.
-         */
+/*
+ * Modal ke andar Blog ki global CSS ka
+ * interference kam karne ke liye.
+ */
 
+#loginModal .login-card {
 
-        #loginModal.modal-overlay {
+    font-family: Arial, sans-serif;
 
+    position: relative;
 
-            display: none !important;
+    z-index: 1000000;
+}
 
+#loginModal .login-card input,
+#loginModal .login-card button,
+#loginModal .login-card a,
+#loginModal .login-card h1,
+#loginModal .login-card h2,
+#loginModal .login-card p,
+#loginModal .login-card span,
+#loginModal .login-card label  {
 
-            position: fixed !important;
-
-
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-
-
-            width: 100% !important;
-            height: 100% !important;
-
-
-            z-index: 999999 !important;
-        }
-
-
-        #loginModal.modal-overlay.show {
-
-
-            display: flex !important;
-        }
-
-
-
-        /*
-         * Modal ke andar Blog ki global CSS ka
-         * interference kam karne ke liye.
-         */
-
-
-        #loginModal .login-card {
-
-
-            font-family: Arial, sans-serif;
-
-
-            position: relative;
-
-
-            z-index: 1000000;
-        }
-
-
-        #loginModal .login-card *,
-        #loginModal .login-card input,
-        #loginModal .login-card button,
-        #loginModal .login-card a {
-
-
-            font-family: Arial, sans-serif;
-        }
-
-
-
+    font-family: Arial, sans-serif;
+}*/
         /* =========================================
            RESPONSIVE
         ========================================= */
@@ -1336,7 +1321,7 @@
 @include('Modal scripts')
 @include('Modal style')
 @include('Signup modal')
-
+@include('Logout modal ')
 
 
    

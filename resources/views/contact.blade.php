@@ -397,7 +397,7 @@ a {
                 </iframe>
                 <div class="map-footer">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span>Main Boulevard, Gujranwala, Punjab, Pakistan</span>
+                    <span>Main Market Satellite Town, Gujranwala, Punjab, Pakistan</span>
                 </div>
             </div>
         </div>

@@ -120,6 +120,7 @@ a{text-decoration:none;color:inherit}
 @include('Modal scripts')
 @include('Modal style')
 @include('Signup modal')
+@include('Logout modal')
 
 <div class="page-wrap">
 <div class="back-listing-wrap">
