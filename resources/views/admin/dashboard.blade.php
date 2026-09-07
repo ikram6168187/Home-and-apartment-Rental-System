@@ -210,20 +210,68 @@
         <!-- STAT CARDS -->
         <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px;">
 
-            <div style="background:#1a1209; border-radius:14px; padding:20px; position:relative; overflow:hidden;">
-                <div style="position:absolute; width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,0.04); top:-20px; right:-20px;"></div>
-                <i class="fa-solid fa-users" style="font-size:22px; color:rgba(200,168,130,0.6); margin-bottom:12px; display:block;"></i>
-                <h2 style="font-size:28px; font-weight:800; color:#fff; margin:0 0 4px;">{{ $totalUsers }}</h2>
-                <p style="font-size:12px; color:rgba(255,255,255,0.45); margin:0;">Total Users</p>
-                <span style="display:inline-block; margin-top:8px; background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:2px 10px; border-radius:10px; font-size:10px; font-weight:600;">Registered</span>
+            <div style="background:#1a1209; 
+            border-radius:14px; 
+            padding:20px; 
+            position:relative; 
+            overflow:hidden;">
+                <div style="position:absolute; 
+                width:80px; 
+                height:80px; 
+                border-radius:50%; 
+                background:rgba(255,255,255,0.04); 
+                top:-20px; 
+                right:-20px;"></div>
+                <i class="fa-solid fa-users" style="font-size:22px; 
+                color:rgba(200,168,130,0.6); 
+                margin-bottom:12px; 
+                display:block;"></i>
+                <h2 style="font-size:28px; 
+                font-weight:800; 
+                color:#fff; 
+                margin:0 0 4px;">{{ $totalUsers }}</h2>
+                <p style="font-size:12px; 
+                color:rgba(255,255,255,0.45); 
+                margin:0;">Total Users</p>
+                <span style="display:inline-block; 
+                margin-top:8px; 
+                background:rgba(255,255,255,0.1); 
+                color:rgba(255,255,255,0.7); 
+                padding:2px 10px; 
+                border-radius:10px; 
+                font-size:10px; 
+                font-weight:600;">Registered</span>
             </div>
 
-            <div style="background:#c8a882; border-radius:14px; padding:20px; position:relative; overflow:hidden;">
-                <div style="position:absolute; width:80px; height:80px; border-radius:50%; background:rgba(0,0,0,0.06); top:-20px; right:-20px;"></div>
-                <i class="fa-solid fa-building" style="font-size:22px; color:rgba(26,18,9,0.5); margin-bottom:12px; display:block;"></i>
-                <h2 style="font-size:28px; font-weight:800; color:#1a1209; margin:0 0 4px;">{{ $totalProperties }}</h2>
-                <p style="font-size:12px; color:rgba(26,18,9,0.55); margin:0;">Total Properties</p>
-                <span style="display:inline-block; margin-top:8px; background:rgba(0,0,0,0.1); color:#1a1209; padding:2px 10px; border-radius:10px; font-size:10px; font-weight:600;">Listed</span>
+            <div style="background:#c8a882; 
+            border-radius:14px; 
+            padding:20px; 
+            position:relative; 
+            overflow:hidden;">
+                <div style="position:absolute; 
+                width:80px; 
+                height:80px; 
+                border-radius:50%; 
+                background:rgba(0,0,0,0.06); 
+                top:-20px; right:-20px;"></div>
+                <i class="fa-solid fa-building" style="font-size:22px; 
+                color:rgba(26,18,9,0.5);
+                margin-bottom:12px; 
+                display:block;"></i>
+                <h2 style="font-size:28px; font-weight:800; 
+                color:#1a1209; 
+                margin:0 0 4px;">{{ $totalProperties }}</h2>
+                <p style="font-size:12px; 
+                color:rgba(26,18,9,0.55); 
+                margin:0;">Total Properties</p>
+                <span style="display:inline-block; 
+                margin-top:8px; 
+                background:rgba(0,0,0,0.1); 
+                color:#1a1209; 
+                padding:2px 10px; 
+                border-radius:10px; f
+                ont-size:10px; 
+                font-weight:600;">Listed</span>
             </div>
 
             <div style="background:#fff; border:1px solid #eee; border-radius:14px; padding:20px; position:relative; overflow:hidden;">
@@ -549,8 +597,18 @@
                     $colors = ['success'=>['#e8f5e9','#2e7d32','fa-circle-check'], 'info'=>['#e3f2fd','#1565c0','fa-circle-info'], 'warning'=>['#fff3e0','#e65100','fa-triangle-exclamation'], 'danger'=>['#fff0f0','#c0392b','fa-trash']];
                     $c = $colors[$activity->type] ?? $colors['info'];
                 @endphp
-                <div style="display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px solid #f8f8f8;">
-                    <div style="width:32px; height:32px; border-radius:8px; background:{{ $c[0] }}; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <div style="display:flex; 
+                align-items:flex-start; 
+                gap:10px; padding:9px 0; 
+                border-bottom:1px solid #f8f8f8;">
+                    <div style="width:32px; 
+                    height:32px; 
+                    border-radius:8px; 
+                    background:{{ $c[0] }}; 
+                    display:flex; 
+                    align-items:center; 
+                    justify-content:center; 
+                    flex-shrink:0;">
                         <i class="fa-solid {{ $c[2] }}" style="font-size:13px; color:{{ $c[1] }};"></i>
                     </div>
                     <div>
