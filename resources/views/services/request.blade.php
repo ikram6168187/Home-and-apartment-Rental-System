@@ -308,7 +308,8 @@
         </div>
 
 
-        <form action="{{ route('services.store') }}"
+        <form id="serviceRequestForm"
+              action="{{ route('services.store') }}"
               method="POST">
 
             @csrf
@@ -398,9 +399,16 @@
                 </label>
 
                 <textarea
+                    id="requestDetailsField"
                     name="request_details"
                     class="form-control"
                     placeholder="Please describe your requirements in detail...">{{ old('request_details') }}</textarea>
+
+                <span class="error-message"
+                      id="requestDetailsClientError"
+                      style="display:none;">
+                    The request details field is required.
+                </span>
 
                 @error('request_details')
 
@@ -472,13 +480,72 @@
 
     }
 
+
+    // ================================
+    // AUTH CHECK BEFORE SUBMIT
+    // ================================
+
+    const isUserLoggedIn = @json(auth()->check());
+
+    const serviceForm = document.getElementById('serviceRequestForm');
+
+    serviceForm.addEventListener('submit', function (e) {
+
+        // 1) Agar user login nahi hai -> LOGIN modal kholein (signup nahi)
+        if (!isUserLoggedIn) {
+
+            e.preventDefault();
+
+            // NOTE: 'loginModal' ki jagah apka actual login modal ka
+            // ID / function daalein jo "Modal scripts" file mein defined hai.
+            // Misal ke tor par agar Bootstrap modal hai:
+
+            const loginModalEl = document.getElementById('loginModal');
+
+            if (loginModalEl && typeof bootstrap !== 'undefined') {
+
+                const loginModal = new bootstrap.Modal(loginModalEl);
+                loginModal.show();
+
+            } else if (typeof openLoginModal === 'function') {
+
+                // Agar apki modal scripts file mein custom function ho
+                openLoginModal();
+
+            } else {
+
+                console.warn('Login modal open karne wala function/ID nahi mila. Please "Modal scripts" file check karein.');
+
+            }
+
+            return;
+        }
+
+        // 2) User login hai -> Request Details required field check karein
+        const detailsField = document.getElementById('requestDetailsField');
+        const detailsError = document.getElementById('requestDetailsClientError');
+
+        if (detailsField.value.trim() === '') {
+
+            e.preventDefault();
+            detailsError.style.display = 'block';
+            detailsField.focus();
+
+        } else {
+
+            detailsError.style.display = 'none';
+
+        }
+
+    });
+
 </script>
 
 
 {{-- MODAL SCRIPTS --}}
 @include('Modal scripts')
 
-
+@include('footer')
 </body>
 
 </html>

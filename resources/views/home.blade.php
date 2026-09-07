@@ -23,6 +23,7 @@
 
 body {
     background: #f5f5f5;
+    padding: 0px 5px;
 }
 
 a {
@@ -870,6 +871,11 @@ a {
 ========================================================= */
 
 .how-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     width: 95%;
 
     margin: 45px auto 0;
@@ -883,21 +889,27 @@ a {
 }
 
 .how-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
     max-width: 960px;
 
     margin: 50px auto 0;
 
-    display: grid;
+    /* display: grid;
 
     grid-template-columns: repeat(3, 1fr);
 
-    gap: 28px;
+    gap: 28px; */
 }
 
 .how-card {
+    width: 300px;
     position: relative;
 
-    padding: 36px 28px;
+    padding: 30px;
 
     background: #fff;
 
@@ -906,7 +918,7 @@ a {
 
     text-align: center;
 
-    transition: 0.3s;
+    transition: 0.5s all ease-in-out;
 }
 
 .how-card:hover {
@@ -997,16 +1009,24 @@ a {
 }
 
 .test-grid {
-    display: grid;
-
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    /* display: grid;
     grid-template-columns: repeat(3, 1fr);
-
-    gap: 24px;
+    gap: 24px; */
 
     margin-top: 50px;
 }
 
 .test-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 330px;
     padding: 28px;
 
     background: #f8f4f0;
