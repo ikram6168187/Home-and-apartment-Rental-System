@@ -1,201 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookings — Admin</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
-<style>
-.stat-row { 
-    display:grid; 
-    grid-template-columns:repeat(3,1fr); 
-    gap:14px; margin-bottom:20px; 
-}
-.stat-card { 
-    background:#fff; 
-    border-radius:12px; 
-    padding:16px 20px; 
-    border:1px solid #eee; 
-    display:flex; 
-    align-items:center; 
-    gap:14px; 
-}
-.stat-icon { 
-    width:42px; 
-    height:42px; 
-    border-radius:12px; 
-    display:flex; 
-    align-items:center; 
-    justify-content:center; 
-    font-size:18px; 
-    flex-shrink:0; 
-}
-.stat-icon.orange { 
-    background:#fff3e0; 
-    color:#e65100; 
-}
-.stat-icon.green  {
-    background:#e8f5e9; 
-    color:#2e7d32; 
-}
-.stat-icon.red    { 
-    background:#fff0f0; 
-    color:#c0392b;
- }
-.stat-info h3 { 
-    font-size:22px; 
-    font-weight:700; 
-    color:#1a1209; 
-    margin:0 0 2px;
- }
-.stat-info p  { 
-    font-size:12px; 
-    color:#888; 
-    margin:0; 
-}
-.filter-bar { 
-    display:flex; 
-    gap:8px; 
-    margin-bottom:20px; 
-    flex-wrap:wrap; 
-    align-items:center; }
-.filter-btn { 
-    padding:7px 18px; 
-    border-radius:20px; 
-    border:1.5px solid #e0e0e0; 
-    background:#fff; 
-    font-size:12px; 
-    font-weight:600; 
-    color:#666; 
-    cursor:pointer; 
-    transition:0.2s; 
-}
-.filter-btn.active,.filter-btn:hover { 
-    background:#1a1209; 
-    color:#fff;
-    border-color:#1a1209; 
-    }
-.search-input { 
-    flex:1; 
-    padding:10px 16px; 
-    border:1.5px solid #e0e0e0; 
-    border-radius:10px; 
-    font-size:14px; 
-    outline:none; 
-    min-width:200px; 
-}
-.booking-card { 
-    background:#fff; 
-    border:1px solid #eee; 
-    border-radius:14px;
-    padding:18px 20px; 
-    margin-bottom:12px; 
-    display:flex; 
-    align-items:center; 
-    gap:16px; 
-    transition:0.2s; 
-}
-.booking-card:hover { 
-    box-shadow:0 4px 16px rgba(0,0,0,0.07); 
-}
-.b-thumb { 
-    width:70px; 
-    height:56px; 
-    border-radius:10px; 
-    overflow:hidden; 
-    flex-shrink:0; 
-    background:#f0ebe4; 
-    display:flex; 
-    align-items:center; 
-    justify-content:center; 
-    font-size:22px; 
-    color:#c8a882; 
-}
-.b-thumb img { 
-    width:100%; 
-    height:100%; 
-    object-fit:cover; 
-}
-.b-info { 
-    flex:1; 
-}
-.b-info h4 { 
-    font-size:14px; 
-    font-weight:700; 
-    color:#1a1209; 
-    margin:0 0 4px; 
-}
-.b-info p  { 
-    font-size:12px; 
-    color:#888; 
-    margin:0 0 6px; 
-}
-.b-meta { 
-    display:flex; 
-    gap:14px; 
-    flex-wrap:wrap; }
-.meta-item { 
-    display:flex; 
-    align-items:center; 
-    gap:4px; 
-    font-size:12px; 
-    color:#666; 
-}
-.meta-item i { 
-    color:#8a7060; 
-    font-size:12px;
- }
-.b-right { 
-    text-align:right; 
-    flex-shrink:0; 
-}
-.b-price { 
-    font-size:15px; 
-    font-weight:700; 
-    color:#1a1209; 
-    margin-bottom:6px; 
-}
-.b-price span { 
-    font-size:11px; 
-    color:#888; 
-    font-weight:400; 
-}
-.badge { 
-    font-size:11px; 
-    padding:4px 12px; 
-    border-radius:20px; 
-    font-weight:600; 
-}
-.badge-pending   { 
-    background:#fff3e0; 
-    color:#e65100; 
-}
-.badge-confirmed { 
-    background:#e8f5e9; 
-    color:#2e7d32; 
-}
-.badge-cancelled { 
-    background:#fff0f0; 
-    color:#c0392b; 
-}
-.empty-state { 
-    text-align:center; 
-    padding:60px; 
-    background:#fff; 
-    border-radius:14px; 
-    border:1px solid #eee; 
-}
-.empty-state i { 
-    font-size:52px; 
-    color:#ddd; display:block; 
-    margin-bottom:16px; 
-}
-.empty-state h3 { 
-    font-size:16px; 
-    color:#888; }
-</style>
-</head>
-<body>
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/admin_bookings.css') }}">
+@endpush
 
 @include('admin.admin_sidebar')
 
@@ -252,7 +57,7 @@
 
             <div class="b-info">
                 <h4>{{ $booking->property->title ?? 'N/A' }}</h4>
-                <p><i class="fa-solid fa-location-dot" style="color:#8a7060; font-size:11px;"></i>
+                <p><i class="fa-solid fa-location-dot icon-loc"></i>
                     {{ $booking->property->location ?? '' }}, {{ $booking->property->city ?? '' }}
                 </p>
                 <div class="b-meta">
@@ -266,7 +71,7 @@
             <div class="b-right">
                 <div class="b-price">₨ {{ number_format($booking->property->price ?? 0) }}<span>/mo</span></div>
                 <span class="badge badge-{{ $booking->status }}">{{ ucfirst($booking->status) }}</span>
-                <div style="font-size:11px; color:#aaa; margin-top:6px;">{{ $booking->created_at->diffForHumans() }}</div>
+                <div class="b-time">{{ $booking->created_at->diffForHumans() }}</div>
             </div>
 
         </div>
@@ -295,5 +100,3 @@ function searchBookings(val) {
     });
 }
 </script>
-</body>
-</html>

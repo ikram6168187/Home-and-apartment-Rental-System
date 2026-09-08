@@ -1,0 +1,665 @@
+/* =========================================================
+   STAT CARDS ROW
+   ========================================================= */
+
+.stat-cards-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+/* shared circle decoration used inside the colored stat cards */
+.stat-card-circle-light {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    top: -20px;
+    right: -20px;
+}
+
+.stat-card-circle-dark {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.06);
+    top: -20px;
+    right: -20px;
+}
+
+/* dark card (Total Users) */
+.stat-card-dark {
+    background: #1a1209;
+    border-radius: 14px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+.stat-icon-dark {
+    font-size: 22px;
+    color: rgba(200,168,130,0.6);
+    margin-bottom: 12px;
+    display: block;
+}
+.stat-value-dark {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 4px;
+}
+.stat-label-dark {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    margin: 0;
+}
+.stat-badge-dark {
+    display: inline-block;
+    margin-top: 8px;
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* gold card (Total Properties) */
+.stat-card-gold {
+    background: #c8a882;
+    border-radius: 14px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+.stat-icon-gold {
+    font-size: 22px;
+    color: rgba(26,18,9,0.5);
+    margin-bottom: 12px;
+    display: block;
+}
+.stat-value-gold {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1209;
+    margin: 0 0 4px;
+}
+.stat-label-gold {
+    font-size: 12px;
+    color: rgba(26,18,9,0.55);
+    margin: 0;
+}
+.stat-badge-gold {
+    display: inline-block;
+    margin-top: 8px;
+    background: rgba(0,0,0,0.1);
+    color: #1a1209;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* light/white cards (Bookings, Messages, Service Requests) */
+.stat-card-light {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+.stat-card-red {
+    background: #fff0f0;
+    border: 1px solid #ffcdd2;
+    border-radius: 14px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+.stat-card-green {
+    background: #e4f0ea;
+    border: 1px solid #c9e4d8;
+    border-radius: 14px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-icon-blue {
+    font-size: 22px;
+    color: #1565c0;
+    margin-bottom: 12px;
+    display: block;
+    opacity: 0.7;
+}
+.stat-icon-red {
+    font-size: 22px;
+    color: #c0392b;
+    margin-bottom: 12px;
+    display: block;
+    opacity: 0.7;
+}
+.stat-icon-green {
+    font-size: 22px;
+    color: #2e9c6f;
+    margin-bottom: 12px;
+    display: block;
+    opacity: 0.85;
+}
+
+.stat-value-light {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1209;
+    margin: 0 0 4px;
+}
+.stat-label-light {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+}
+
+.stat-badge-orange {
+    display: inline-block;
+    margin-top: 8px;
+    background: #fff3e0;
+    color: #e65100;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+}
+.stat-badge-red {
+    display: inline-block;
+    margin-top: 8px;
+    background: #ffcdd2;
+    color: #c0392b;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+}
+.stat-badge-green {
+    display: inline-block;
+    margin-top: 8px;
+    background: #cdecdd;
+    color: #1e7d53;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   DASHBOARD ROWS / PANELS
+   ========================================================= */
+
+.dashboard-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.dashboard-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.dashboard-panel {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #eee;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.panel-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1209;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.panel-title .icon-brand {
+    color: #8a7060;
+}
+
+.panel-view-all {
+    font-size: 11px;
+    color: #8a7060;
+    border: 1px solid #eee;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   RECENT USERS TABLE
+   ========================================================= */
+
+.panel-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.panel-table th {
+    font-size: 10px;
+    font-weight: 700;
+    color: #aaa;
+    text-transform: uppercase;
+    padding: 6px 8px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.panel-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #f8f8f8;
+}
+
+.td-strong {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1209;
+}
+
+.td-muted {
+    font-size: 11px;
+    color: #888;
+}
+
+.count-badge {
+    background: #f5ede0;
+    color: #8a5c30;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.inline-form {
+    display: inline;
+}
+
+.btn-delete-sm {
+    background: #fff0f0;
+    color: #c0392b;
+    border: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   CITY BREAKDOWN
+   ========================================================= */
+
+.city-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.city-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+    width: 90px;
+    flex-shrink: 0;
+}
+
+.city-bar-track {
+    flex: 1;
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.city-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(to right, #1a1209, #8a6040);
+    /* width is set inline per row since it's a dynamic percentage from PHP */
+}
+
+.city-count {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a1209;
+    width: 20px;
+    text-align: right;
+}
+
+
+/* =========================================================
+   RECENT BOOKINGS
+   ========================================================= */
+
+.booking-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f8f8f8;
+}
+
+.booking-row-info {
+    flex: 1;
+}
+
+.booking-row-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1209;
+    margin: 0 0 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+}
+
+.booking-row-sub {
+    font-size: 11px;
+    color: #888;
+    margin: 0;
+}
+
+.booking-status-badge {
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    /* background/color set inline per row since it depends on booking status */
+}
+
+
+/* =========================================================
+   RECENT ACTIVITY
+   ========================================================= */
+
+.activity-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid #f8f8f8;
+}
+
+.activity-icon-wrap {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    /* background color set inline per row since it depends on activity type */
+}
+
+.activity-icon {
+    font-size: 13px;
+    /* color set inline per row since it depends on activity type */
+}
+
+.activity-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1a1209;
+    margin: 0 0 2px;
+}
+
+.activity-sub {
+    font-size: 11px;
+    color: #aaa;
+    margin: 0;
+}
+
+
+/* =========================================================
+   RECENT SERVICE REQUESTS
+   ========================================================= */
+
+/* generic white card wrapper - used by markup that referenced
+   .dashboard-card but had no matching definition anywhere */
+.dashboard-card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #eee;
+}
+
+.recent-services-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 24px;
+}
+
+.dashboard-card-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid #eee;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-card-header h3 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1209;
+}
+
+.dashboard-card-header h3 i {
+    color: #8a6040;
+    margin-right: 6px;
+}
+
+.dashboard-card-header p {
+    margin: 0;
+    font-size: 11px;
+    color: #999;
+}
+
+.view-all-btn {
+    text-decoration: none;
+    font-size: 12px;
+    color: #8a6040;
+    font-weight: 600;
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.view-all-btn:hover {
+    color: #1a1209;
+}
+
+/* generic horizontal scroll wrapper for wide tables - referenced
+   in the markup but had no matching definition anywhere */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* TABLE */
+
+.recent-services-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.recent-services-table th {
+    background: #fafafa;
+    color: #999;
+
+    font-size: 10px;
+    text-transform: uppercase;
+
+    padding: 12px 15px;
+    text-align: left;
+
+    border-bottom: 1px solid #eee;
+}
+
+.recent-services-table td {
+    padding: 14px 15px;
+
+    border-bottom: 1px solid #f2f2f2;
+
+    font-size: 12px;
+    color: #555;
+}
+
+.recent-services-table tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* USER */
+
+.service-user {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.service-user-avatar {
+    width: 32px;
+    height: 32px;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #c8a882,
+        #8a6040
+    );
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.service-user strong {
+    display: block;
+    font-size: 12px;
+    color: #1a1209;
+}
+
+.service-user small {
+    font-size: 10px;
+    color: #999;
+}
+
+
+/* SERVICE */
+
+.service-type {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    font-weight: 600;
+    color: #444;
+}
+
+.service-type i {
+    color: #8a6040;
+}
+
+/* placeholder text used when property/date wasn't selected - referenced
+   in the markup but had no matching definition anywhere */
+.not-selected {
+    color: #bbb;
+    font-style: italic;
+}
+
+/* status pill used for service-request status - referenced in the
+   markup but had no matching definition anywhere. Adjust the status
+   keys below (status-pending etc.) if your ServiceRequest model
+   uses different status values. */
+.status-badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+.status-pending {
+    background: #fff3e0;
+    color: #e65100;
+}
+.status-in_progress {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+.status-completed {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+.status-cancelled {
+    background: #fff0f0;
+    color: #c0392b;
+}
+
+
+/* EMPTY */
+
+.dashboard-empty-state {
+    padding: 45px;
+    text-align: center;
+    color: #999;
+}
+
+.dashboard-empty-state i {
+    font-size: 35px;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+.dashboard-empty-state p {
+    font-size: 13px;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:768px) {
+
+    .dashboard-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+}

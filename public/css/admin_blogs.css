@@ -1,0 +1,217 @@
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.topbar-subtitle {
+    color: #888;
+    font-size: 12px;
+}
+
+.create-blog-btn {
+    background: #1a1209;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   STATS CARDS
+   ========================================================= */
+
+.blog-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    margin: 0;
+    color: #1a1209;
+}
+
+.stat-value-published {
+    margin: 0;
+    color: #198754;
+}
+
+.stat-value-draft {
+    margin: 0;
+    color: #d39e00;
+}
+
+
+/* =========================================================
+   BLOG TABLE CARD
+   ========================================================= */
+
+.blog-table-card {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    overflow: hidden;
+}
+
+.blog-table-header {
+    padding: 18px;
+    border-bottom: 1px solid #eee;
+    font-weight: 700;
+    color: #1a1209;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.blog-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.blog-table thead {
+    background: #fafafa;
+}
+
+.blog-table th {
+    padding: 14px;
+    text-align: left;
+    font-size: 12px;
+}
+
+.blog-table th.th-center {
+    text-align: center;
+}
+
+.blog-table tbody tr {
+    border-top: 1px solid #eee;
+}
+
+.blog-table td {
+    padding: 12px;
+}
+
+.blog-table td.td-center {
+    text-align: center;
+}
+
+.blog-table td.td-muted-sm {
+    font-size: 12px;
+}
+
+.blog-table td.td-date {
+    font-size: 12px;
+    color: #777;
+}
+
+
+/* =========================================================
+   THUMBNAIL
+   ========================================================= */
+
+.blog-thumb {
+    width: 65px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.blog-thumb-placeholder {
+    width: 65px;
+    height: 45px;
+    background: #eee;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+}
+
+.blog-title-text {
+    font-size: 13px;
+    color: #1a1209;
+}
+
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.badge {
+    padding: 5px 9px;
+    border-radius: 15px;
+    font-size: 11px;
+}
+
+.badge-category {
+    background: #f3eee8;
+    color: #8a6040;
+}
+
+.badge-published {
+    background: #eaf7ef;
+    color: #198754;
+}
+
+.badge-draft {
+    background: #fff8e1;
+    color: #d39e00;
+}
+
+
+/* =========================================================
+   ROW ACTIONS
+   ========================================================= */
+
+.action-edit {
+    color: #0d6efd;
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+.inline-form {
+    display: inline;
+}
+
+.action-delete {
+    border: none;
+    background: none;
+    color: #dc3545;
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.blog-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.blog-empty-state-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.blog-empty-state-text {
+    font-size: 13px;
+}

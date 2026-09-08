@@ -1,3 +1,7 @@
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/admin_edit_blogs.css') }}">
+@endpush
+
 @include('admin.admin_sidebar')
 
 <div class="main">
@@ -10,18 +14,14 @@
                 Edit Blog
             </div>
 
-            <small style="color:#888;font-size:12px;">
+            <small class="topbar-subtitle">
                 Update blog information
             </small>
 
         </div>
 
 
-        <a href="{{ route('admin.blogs') }}"
-           style=
-           "color:#555;
-           text-decoration:none;
-           font-size:13px;">
+        <a href="{{ route('admin.blogs') }}" class="back-link">
               <i class="fa-solid fa-arrow-left"></i>
             Back to Blogs
 
@@ -32,14 +32,7 @@
 
     <div class="content">
 
-        <div style="
-            max-width:900px;
-            margin:auto;
-            background:#fff;
-            border:1px solid #eee;
-            border-radius:14px;
-            padding:30px;
-        ">
+        <div class="form-card">
 
             @if($errors->any())
 
@@ -66,9 +59,9 @@
 
                 <!-- TITLE -->
 
-                <div style="margin-bottom:20px;">
+                <div class="form-group">
 
-                    <label style="display:block;margin-bottom:7px;font-size:13px;font-weight:600;">
+                    <label class="form-label">
                         Blog Title
                     </label>
 
@@ -76,39 +69,24 @@
                            name="title"
                            value="{{ old('title', $blog->title) }}"
                            required
-                           style="
-                                width:100%;
-                                padding:12px;
-                                border:1px solid #ddd;
-                                border-radius:8px;
-                           ">
+                           class="form-control">
 
                 </div>
 
 
                 <!-- CATEGORY + STATUS -->
 
-                <div style="
-                    display:grid;
-                    grid-template-columns:1fr 1fr;
-                    gap:20px;
-                    margin-bottom:20px;
-                ">
+                <div class="form-grid-2">
 
                     <div>
 
-                        <label style="display:block;margin-bottom:7px;font-size:13px;font-weight:600;">
+                        <label class="form-label">
                             Category
                         </label>
 
                         <select name="category"
                                 required
-                                style="
-                                    width:100%;
-                                    padding:12px;
-                                    border:1px solid #ddd;
-                                    border-radius:8px;
-                                ">
+                                class="form-control">
 
                             @php
                                 $categories = [
@@ -140,18 +118,13 @@
 
                     <div>
 
-                        <label style="display:block;margin-bottom:7px;font-size:13px;font-weight:600;">
+                        <label class="form-label">
                             Status
                         </label>
 
                         <select name="status"
                                 required
-                                style="
-                                    width:100%;
-                                    padding:12px;
-                                    border:1px solid #ddd;
-                                    border-radius:8px;
-                                ">
+                                class="form-control">
 
                             <option value="draft"
                                 {{ old('status', $blog->status) == 'draft' ? 'selected' : '' }}>
@@ -172,50 +145,40 @@
 
                 <!-- EXCERPT -->
 
-                <div style="margin-bottom:20px;">
+                <div class="form-group">
 
-                    <label style="display:block;margin-bottom:7px;font-size:13px;font-weight:600;">
+                    <label class="form-label">
                         Short Description
                     </label>
 
                     <textarea name="excerpt"
                               rows="3"
-                              style="
-                                width:100%;
-                                padding:12px;
-                                border:1px solid #ddd;
-                                border-radius:8px;
-                              ">{{ old('excerpt', $blog->excerpt) }}</textarea>
+                              class="form-textarea">{{ old('excerpt', $blog->excerpt) }}</textarea>
 
                 </div>
 
 
                 <!-- CONTENT -->
 
-                <div style="margin-bottom:20px;">
+                <div class="form-group">
 
-                    <label style="display:block;margin-bottom:7px;font-size:13px;font-weight:600;">
+                    <label class="form-label">
                         Blog Content
                     </label>
 
                     <textarea name="content"
                               rows="12"
                               required
-                              style="
-                                width:100%;
-                                padding:14px;
-                                border:1px solid #ddd;
-                                border-radius:8px;
-                              ">{{ old('content', $blog->content) }}</textarea>
+                              class="form-textarea-lg">{{ old('content', $blog->content) }}</textarea>
 
                 </div>
 
 
                 <!-- IMAGE -->
 
-                <div style="margin-bottom:25px;">
+                <div class="form-group-image">
 
-                    <label style="display:block;margin-bottom:7px;font-size:13px;font-weight:600;">
+                    <label class="form-label">
                         Featured Image
                     </label>
 
@@ -224,26 +187,12 @@
 
                         <img src="{{ asset('storage/' . $blog->image) }}"
                              id="imagePreview"
-                             style="
-                                width:200px;
-                                height:120px;
-                                object-fit:cover;
-                                border-radius:8px;
-                                display:block;
-                                margin-bottom:12px;
-                             ">
+                             class="image-preview">
 
                     @else
 
                         <img id="imagePreview"
-                             style="
-                                display:none;
-                                width:200px;
-                                height:120px;
-                                object-fit:cover;
-                                border-radius:8px;
-                                margin-bottom:12px;
-                             ">
+                             class="image-preview-hidden">
 
                     @endif
 
@@ -252,28 +201,14 @@
                            name="image"
                            accept="image/*"
                            onchange="previewImage(event)"
-                           style="
-                                width:100%;
-                                padding:10px;
-                                border:1px dashed #bbb;
-                                border-radius:8px;
-                           ">
+                           class="file-input">
 
                 </div>
 
 
                 <!-- BUTTON -->
 
-                <button type="submit"
-                        style="
-                            background:#1a1209;
-                            color:#fff;
-                            border:none;
-                            padding:12px 28px;
-                            border-radius:8px;
-                            cursor:pointer;
-                            font-weight:600;
-                        ">
+                <button type="submit" class="btn-save">
 
                     <i class="fa-solid fa-floppy-disk"></i>
                     Update Blog

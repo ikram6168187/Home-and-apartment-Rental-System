@@ -1,3 +1,7 @@
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/admin_blogs.css') }}">
+@endpush
+
 @include('admin.admin_sidebar')
 
 <div class="main">
@@ -6,21 +10,12 @@
     <div class="topbar">
         <div>
             <div class="topbar-title">Blog Management</div>
-            <small style="color:#888; font-size:12px;">
+            <small class="topbar-subtitle">
                 Create and manage Smart Rent blog posts
             </small>
         </div>
 
-        <a href="{{ route('admin.blogs.create') }}"
-           style="
-                background:#1a1209;
-                color:#fff;
-                padding:10px 18px;
-                border-radius:8px;
-                text-decoration:none;
-                font-size:13px;
-                font-weight:600;
-           ">
+        <a href="{{ route('admin.blogs.create') }}" class="create-blog-btn">
             <i class="fa-solid fa-plus"></i>
             Create Blog
         </a>
@@ -39,59 +34,39 @@
 
 
         <!-- STATS -->
-        <div style="
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-            gap:18px;
-            margin-bottom:24px;
-        ">
+        <div class="blog-stats-grid">
 
             <!-- TOTAL -->
-            <div style="
-                background:#fff;
-                padding:20px;
-                border-radius:12px;
-                border:1px solid #eee;
-            ">
-                <p style="font-size:12px;color:#888;margin-bottom:8px;">
+            <div class="stat-card">
+                <p class="stat-label">
                     Total Blogs
                 </p>
 
-                <h2 style="margin:0;color:#1a1209;">
+                <h2 class="stat-value">
                     {{ $blogs->count() }}
                 </h2>
             </div>
 
 
             <!-- PUBLISHED -->
-            <div style="
-                background:#fff;
-                padding:20px;
-                border-radius:12px;
-                border:1px solid #eee;
-            ">
-                <p style="font-size:12px;color:#888;margin-bottom:8px;">
+            <div class="stat-card">
+                <p class="stat-label">
                     Published
                 </p>
 
-                <h2 style="margin:0;color:#198754;">
+                <h2 class="stat-value-published">
                     {{ $published }}
                 </h2>
             </div>
 
 
             <!-- DRAFT -->
-            <div style="
-                background:#fff;
-                padding:20px;
-                border-radius:12px;
-                border:1px solid #eee;
-            ">
-                <p style="font-size:12px;color:#888;margin-bottom:8px;">
+            <div class="stat-card">
+                <p class="stat-label">
                     Drafts
                 </p>
 
-                <h2 style="margin:0;color:#d39e00;">
+                <h2 class="stat-value-draft">
                     {{ $draft }}
                 </h2>
             </div>
@@ -100,61 +75,48 @@
 
 
         <!-- BLOG TABLE -->
-        <div style="
-            background:#fff;
-            border-radius:12px;
-            border:1px solid #eee;
-            overflow:hidden;
-        ">
+        <div class="blog-table-card">
 
-            <div style="
-                padding:18px;
-                border-bottom:1px solid #eee;
-                font-weight:700;
-                color:#1a1209;
-            ">
+            <div class="blog-table-header">
                 All Blog Posts
             </div>
 
 
             @if($blogs->count() > 0)
 
-                <div style="overflow-x:auto;">
+                <div class="table-responsive">
 
-                    <table style="
-                        width:100%;
-                        border-collapse:collapse;
-                    ">
+                    <table class="blog-table">
 
-                        <thead style="background:#fafafa;">
+                        <thead>
 
                             <tr>
 
-                                <th style="padding:14px;text-align:left;font-size:12px;">
+                                <th>
                                     Image
                                 </th>
 
-                                <th style="padding:14px;text-align:left;font-size:12px;">
+                                <th>
                                     Title
                                 </th>
 
-                                <th style="padding:14px;text-align:left;font-size:12px;">
+                                <th>
                                     Category
                                 </th>
 
-                                <th style="padding:14px;text-align:left;font-size:12px;">
+                                <th>
                                     Status
                                 </th>
 
-                                <th style="padding:14px;text-align:left;font-size:12px;">
+                                <th>
                                     Author
                                 </th>
 
-                                <th style="padding:14px;text-align:left;font-size:12px;">
+                                <th>
                                     Date
                                 </th>
 
-                                <th style="padding:14px;text-align:center;font-size:12px;">
+                                <th class="th-center">
                                     Actions
                                 </th>
 
@@ -167,33 +129,19 @@
 
                             @foreach($blogs as $blog)
 
-                                <tr style="border-top:1px solid #eee;">
+                                <tr>
 
                                     <!-- IMAGE -->
-                                    <td style="padding:12px;">
+                                    <td>
 
                                         @if($blog->image)
 
                                             <img src="{{ asset('storage/' . $blog->image) }}"
-                                                 style="
-                                                    width:65px;
-                                                    height:45px;
-                                                    object-fit:cover;
-                                                    border-radius:6px;
-                                                 ">
+                                                 class="blog-thumb">
 
                                         @else
 
-                                            <div style="
-                                                width:65px;
-                                                height:45px;
-                                                background:#eee;
-                                                border-radius:6px;
-                                                display:flex;
-                                                align-items:center;
-                                                justify-content:center;
-                                                color:#aaa;
-                                            ">
+                                            <div class="blog-thumb-placeholder">
                                                 <i class="fa-solid fa-image"></i>
                                             </div>
 
@@ -203,9 +151,9 @@
 
 
                                     <!-- TITLE -->
-                                    <td style="padding:12px;">
+                                    <td>
 
-                                        <strong style="font-size:13px;color:#1a1209;">
+                                        <strong class="blog-title-text">
                                             {{ Str::limit($blog->title, 40) }}
                                         </strong>
 
@@ -213,15 +161,9 @@
 
 
                                     <!-- CATEGORY -->
-                                    <td style="padding:12px;">
+                                    <td>
 
-                                        <span style="
-                                            background:#f3eee8;
-                                            color:#8a6040;
-                                            padding:5px 9px;
-                                            border-radius:15px;
-                                            font-size:11px;
-                                        ">
+                                        <span class="badge badge-category">
                                             {{ $blog->category }}
                                         </span>
 
@@ -229,29 +171,17 @@
 
 
                                     <!-- STATUS -->
-                                    <td style="padding:12px;">
+                                    <td>
 
                                         @if($blog->status == 'published')
 
-                                            <span style="
-                                                color:#198754;
-                                                background:#eaf7ef;
-                                                padding:5px 9px;
-                                                border-radius:15px;
-                                                font-size:11px;
-                                            ">
+                                            <span class="badge badge-published">
                                                 Published
                                             </span>
 
                                         @else
 
-                                            <span style="
-                                                color:#d39e00;
-                                                background:#fff8e1;
-                                                padding:5px 9px;
-                                                border-radius:15px;
-                                                font-size:11px;
-                                            ">
+                                            <span class="badge badge-draft">
                                                 Draft
                                             </span>
 
@@ -261,45 +191,35 @@
 
 
                                     <!-- AUTHOR -->
-                                    <td style="padding:12px;font-size:12px;">
+                                    <td class="td-muted-sm">
                                         {{ $blog->user->name ?? 'Admin' }}
                                     </td>
 
 
                                     <!-- DATE -->
-                                    <td style="padding:12px;font-size:12px;color:#777;">
+                                    <td class="td-date">
                                         {{ $blog->created_at->format('d M Y') }}
                                     </td>
 
 
                                     <!-- ACTIONS -->
-                                    <td style="padding:12px;text-align:center;">
+                                    <td class="td-center">
 
-                                        <a href="{{ route('admin.blogs.edit', $blog->id) }}"
-                                           style="
-                                                color:#0d6efd;
-                                                margin-right:10px;
-                                                text-decoration:none;
-                                           ">
+                                        <a href="{{ route('admin.blogs.edit', $blog->id) }}" class="action-edit">
                                             <i class="fa-solid fa-pen"></i>
                                         </a>
 
 
                                         <form action="{{ route('admin.blogs.delete', $blog->id) }}"
                                               method="POST"
-                                              style="display:inline;">
+                                              class="inline-form">
 
                                             @csrf
                                             @method('DELETE')
 
                                             <button type="submit"
                                                     onclick="return confirm('Are you sure you want to delete this blog?')"
-                                                    style="
-                                                        border:none;
-                                                        background:none;
-                                                        color:#dc3545;
-                                                        cursor:pointer;
-                                                    ">
+                                                    class="action-delete">
 
                                                 <i class="fa-solid fa-trash"></i>
 
@@ -323,19 +243,13 @@
 
                 <!-- EMPTY STATE -->
 
-                <div style="
-                    text-align:center;
-                    padding:60px 20px;
-                    color:#999;
-                ">
+                <div class="blog-empty-state">
 
-                    <i class="fa-solid fa-blog"
-                       style="font-size:40px;margin-bottom:15px;">
-                    </i>
+                    <i class="fa-solid fa-blog blog-empty-state-icon"></i>
 
                     <h4>No Blog Posts Yet</h4>
 
-                    <p style="font-size:13px;">
+                    <p class="blog-empty-state-text">
                         Create your first Smart Rent blog post.
                     </p>
 
