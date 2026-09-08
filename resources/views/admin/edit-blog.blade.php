@@ -18,13 +18,11 @@
 
 
         <a href="{{ route('admin.blogs') }}"
-           style="
-                color:#555;
-                text-decoration:none;
-                font-size:13px;
-           ">
-
-            <i class="fa-solid fa-arrow-left"></i>
+           style=
+           "color:#555;
+           text-decoration:none;
+           font-size:13px;">
+              <i class="fa-solid fa-arrow-left"></i>
             Back to Blogs
 
         </a>
