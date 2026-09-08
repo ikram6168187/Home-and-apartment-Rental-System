@@ -249,7 +249,7 @@ foreach($property->images as $img){$allImages->push($img->image_path);}
 @endfor
 </div>
 
-<textarea name="comment" rows="3" placeholder="Apna feedback likhein (optional)">{{ old('comment',$userRating?->comment??'') }}</textarea>
+<textarea name="comment" rows="3" placeholder="please give the feedback">{{ old('comment',$userRating?->comment??'') }}</textarea>
 
 <br>
 <button type="submit" class="rating-submit-btn">

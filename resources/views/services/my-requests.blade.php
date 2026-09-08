@@ -315,6 +315,7 @@
     @include('Navbar')
     @include('Modal style')
   @include('Modal scripts')
+  @include('Logout modal')
 
     <div class="page-container">
 

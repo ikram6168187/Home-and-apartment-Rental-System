@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Requests — Smart Rent</title>
+    <title>My Bookings — Smart Rent</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Arial,sans-serif; }
@@ -63,7 +63,7 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
 .booking-price { font-size:16px; font-weight:700; color:#1a1a2e; }
 .booking-price span { font-size:11px; color:#888; font-weight:400; display:block; }
 
-/* RENTER INFO */
+/* OWNER INFO (renter ke liye — property owner ka contact) */
 .renter-row { display:flex; align-items:center; gap:12px; padding:12px 0; border-top:1px solid #f5f5f5; }
 .renter-avatar { width:36px; height:36px; border-radius:50%; background:#2d2926; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; color:#fff; flex-shrink:0; overflow:hidden; }
 .renter-avatar img { width:100%; height:100%; object-fit:cover; }
@@ -78,12 +78,9 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
 .badge-confirmed { background:#e8f5e9; color:#2e7d32; }
 .badge-cancelled { background:#fff0f0; color:#c0392b; }
 
-/* ACTION BUTTONS */
+/* ACTION BUTTONS (renter side — status labels only) */
 .action-btns { display:flex; gap:8px; margin-top:12px; }
-.btn-confirm { display:flex; align-items:center; gap:5px; background:#e8f5e9; color:#2e7d32; border:1px solid #c8e6c9; padding:8px 18px; border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; transition:0.2s; }
-.btn-confirm:hover { background:#2e7d32; color:#fff; }
-.btn-cancel  { display:flex; align-items:center; gap:5px; background:#fff0f0; color:#c0392b; border:1px solid #ffcdd2; padding:8px 18px; border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; transition:0.2s; }
-.btn-cancel:hover { background:#c0392b; color:#fff; }
+.btn-pending-label   { display:flex; align-items:center; gap:5px; background:#fff3e0; color:#e65100; padding:8px 18px; border-radius:20px; font-size:12px; font-weight:600; }
 .btn-confirmed-label { display:flex; align-items:center; gap:5px; background:#e8f5e9; color:#2e7d32; padding:8px 18px; border-radius:20px; font-size:12px; font-weight:600; }
 .btn-cancelled-label { display:flex; align-items:center; gap:5px; background:#f5f5f5; color:#999; padding:8px 18px; border-radius:20px; font-size:12px; font-weight:600; }
 
@@ -127,15 +124,13 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
         <a href="{{ route('dashboard') }}" class="nav-item"><i class="fa-solid fa-gauge"></i> Dashboard</a>
         <a href="{{ route('my.listings') }}" class="nav-item"><i class="fa-solid fa-building"></i> My Listings</a>
         <a href="{{ route('property.create') }}" class="nav-item"><i class="fa-solid fa-circle-plus"></i> Add Property</a>
-        <a href="{{ route('booking.requests') }}" class="nav-item active">
-            <i class="fa-solid fa-calendar-check"></i> Booking Requests
-            @if($pending > 0)
-                <span class="nav-badge">{{ $pending }}</span>
-            @endif
+        <a href="{{ route('booking.requests') }}" class="nav-item"><i class="fa-solid fa-calendar-check"></i> Booking Requests</a>
+
+        <!-- NAYA LINK — Renter ki apni bookings -->
+        <a href="{{ route('my.bookings') }}" class="nav-item active">
+            <i class="fa-solid fa-calendar-days"></i> My Bookings
         </a>
-        <a href="{{ route('my.bookings') }}" class="nav-item">
-    <i class="fa-solid fa-calendar-days"></i> My Bookings
-</a>
+
         <div class="nav-divider"></div>
         <a href="{{ route('notifications') }}" class="nav-item">
             <i class="fa-solid fa-bell"></i> Notifications
@@ -154,7 +149,7 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
 <!-- MAIN -->
 <div class="main">
     <div class="topbar">
-        <div class="topbar-title">Booking Requests</div>
+        <div class="topbar-title">My Bookings</div>
         <a href="{{ route('home') }}" class="back-home"><i class="fa-solid fa-house"></i> Back to Home</a>
     </div>
 
@@ -168,7 +163,7 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
         <div class="stat-row">
             <div class="stat-card">
                 <div class="stat-icon orange"><i class="fa-solid fa-clock"></i></div>
-                <div class="stat-info"><h3>{{ $pending }}</h3><p>Pending Requests</p></div>
+                <div class="stat-info"><h3>{{ $pending }}</h3><p>Pending</p></div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div>
@@ -222,19 +217,19 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
                 </div>
             </div>
 
-            <!-- RENTER INFO -->
+            <!-- OWNER INFO (renter ko property owner ka contact dikhega) -->
             <div class="renter-row">
                 <div class="renter-avatar">
-                    @if($booking->user->profile_picture)
-                        <img src="{{ asset('storage/'.$booking->user->profile_picture) }}" alt="">
+                    @if($booking->property->user->profile_picture)
+                        <img src="{{ asset('storage/'.$booking->property->user->profile_picture) }}" alt="">
                     @else
-                        {{ strtoupper(substr($booking->user->name, 0, 2)) }}
+                        {{ strtoupper(substr($booking->property->user->name, 0, 2)) }}
                     @endif
                 </div>
                 <div class="renter-info">
-                    <h5>{{ $booking->user->name }}</h5>
-                    <p>{{ $booking->user->email }}
-                        @if($booking->user->phone) · {{ $booking->user->phone }} @endif
+                    <h5>{{ $booking->property->user->name }} <span style="font-weight:400; color:#aaa;">(Owner)</span></h5>
+                    <p>{{ $booking->property->user->email }}
+                        @if($booking->property->user->phone) · {{ $booking->property->user->phone }} @endif
                     </p>
                 </div>
                 <div style="font-size:11px; color:#aaa;">
@@ -249,21 +244,10 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
             </div>
             @endif
 
-            <!-- ACTION BUTTONS -->
+            <!-- STATUS LABEL (renter ke paas confirm/cancel action nahi, sirf status dikhta hai) -->
             @if($booking->status == 'pending')
             <div class="action-btns">
-                <form action="{{ route('booking.confirm', $booking->id) }}" method="POST">
-                    @csrf @method('PATCH')
-                    <button type="submit" class="btn-confirm">
-                        <i class="fa-solid fa-circle-check"></i> Confirm Booking
-                    </button>
-                </form>
-                <form action="{{ route('booking.cancel', $booking->id) }}" method="POST">
-                    @csrf @method('PATCH')
-                    <button type="submit" class="btn-cancel">
-                        <i class="fa-solid fa-circle-xmark"></i> Cancel
-                    </button>
-                </form>
+                <span class="btn-pending-label"><i class="fa-solid fa-clock"></i> Waiting for owner's response</span>
             </div>
             @elseif($booking->status == 'confirmed')
             <div class="action-btns">
@@ -279,8 +263,8 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
         @empty
         <div class="empty-state">
             <i class="fa-solid fa-calendar-xmark"></i>
-            <h3>No booking requests yet</h3>
-            <p>When someone books your property, requests will appear here.</p>
+            <h3>No bookings yet</h3>
+            <p>Bookings you make on properties will appear here.</p>
         </div>
         @endforelse
 

@@ -135,6 +135,7 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
         <a href="{{ route('booking.requests') }}" class="nav-item">
     <i class="fa-solid fa-calendar-check"></i> Booking Requests
 </a>  
+
         <div class="nav-divider"></div>
                 <a href="{{ route('notifications') }}" class="nav-item">
             <i class="fa-solid fa-bell"></i> Notifications

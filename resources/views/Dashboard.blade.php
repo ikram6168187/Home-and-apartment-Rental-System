@@ -327,12 +327,16 @@ body { display:flex; height:100vh; overflow:hidden; background:#f4f6f9; }
                 <span class="nav-badge">{{ $pendingBookings }}</span>
             @endif
         </a>
+        <a href="{{ route('my.bookings') }}" class="nav-item">
+    <i class="fa-solid fa-calendar-days"></i> My Bookings
+</a>
                 <a href="{{ route('notifications') }}" class="nav-item">
             <i class="fa-solid fa-bell"></i> Notifications
             @if(isset($unreadNotifications) && $unreadNotifications > 0)
                 <span class="nav-badge">{{ $unreadNotifications }}</span>
             @endif
         </a>
+       
         <div class="nav-divider"></div>
         <a href="{{ route('profile') }}" class="nav-item">
             <i class="fa-solid fa-user"></i> Profile

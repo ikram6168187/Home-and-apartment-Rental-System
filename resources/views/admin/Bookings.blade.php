@@ -32,9 +32,9 @@
 .b-price { font-size:15px; font-weight:700; color:#1a1209; margin-bottom:6px; }
 .b-price span { font-size:11px; color:#888; font-weight:400; }
 .badge { font-size:11px; padding:4px 12px; border-radius:20px; font-weight:600; }
-.badge-pending   { background:#fff3e0; color:#e65100; }
-.badge-confirmed { background:#e8f5e9; color:#2e7d32; }
-.badge-cancelled { background:#fff0f0; color:#c0392b; }
+.badge-pending   { background:#db8d10; color:#e65100; }
+.badge-confirmed { background:#db8d10; color:#2e7d32; }
+.badge-cancelled { background:#db8d10; color:#c0392b; }
 .empty-state { text-align:center; padding:60px; background:#fff; border-radius:14px; border:1px solid #eee; }
 .empty-state i { font-size:52px; color:#ddd; display:block; margin-bottom:16px; }
 .empty-state h3 { font-size:16px; color:#888; }

@@ -127,6 +127,7 @@ body { display:flex; height:100vh; overflow:hidden; background:#f0ece8; }
             <i class="fa-solid fa-blog"></i> Blogs
 
         </a>
+      
 
         <div class="nav-divider"></div>
         <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display:none;">@csrf</form>

@@ -257,6 +257,7 @@
 
         <div class="footer-col">
             <h4>Contact Us</h4>
+            
             <ul class="footer-contact">
                 <li>
                     <i class="fa-solid fa-location-dot"></i>
@@ -264,11 +265,15 @@
                 </li>
                 <li>
                     <i class="fa-solid fa-envelope"></i>
+                     <a href="{{ route('contact') }}">
                     <span>studygrw@gmail.com</span>
+                     </a>
                 </li>
                 <li>
                     <i class="fa-solid fa-phone"></i>
+                     <a href="{{ route('contact') }}">
                     <span>+92 3229859984</span>
+                    </a>
                 </li>
                 <li>
                     <i class="fa-solid fa-clock"></i>

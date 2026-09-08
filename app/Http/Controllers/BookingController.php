@@ -156,7 +156,7 @@ class BookingController extends Controller
     }
 
     // Owner — Reject booking
-    public function cancel($id)
+    public function cancel( int$id)
     {
         $booking = Booking::findOrFail($id);
 
@@ -180,16 +180,23 @@ class BookingController extends Controller
     }
 
     // User — My Bookings
-    public function myBookings()
-    {
-        $bookings = Booking::where('user_id', Auth::id())
-                           ->with('property')
-                           ->latest()
-                           ->get();
+public function myBookings()
+{
+    $bookings = Booking::where('user_id', Auth::id())
+                       ->with('property')
+                       ->latest()
+                       ->get();
 
-        $unreadNotifications = Notification::where('user_id', Auth::id())
-                                ->where('is_read', false)->count();
+    $unreadNotifications = Notification::where('user_id', Auth::id())
+                            ->where('is_read', false)->count();
 
-        return view('my-bookings', compact('bookings', 'unreadNotifications'));
-    }
+    $pending   = $bookings->where('status', 'pending')->count();
+    $confirmed = $bookings->where('status', 'confirmed')->count();
+    $cancelled = $bookings->where('status', 'cancelled')->count();
+
+    return view('my-bookings', compact(
+        'bookings', 'unreadNotifications',
+        'pending', 'confirmed', 'cancelled'
+    ));
+}
 }
