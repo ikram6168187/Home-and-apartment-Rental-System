@@ -50,14 +50,14 @@
                         <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
                         <div>
                             <h4>Email Us</h4>
-                            <p>studygrw@gmail.com<br></p>
+                            <p><a href="mailto:studygrw@gmail.com">studygrw@gmail.com</a></p>
                         </div>
                     </div>
                     <div class="info-card">
                         <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
                         <div>
                             <h4>Call Us</h4>
-                            <p>+92 3229859984<br>Mon–Sat, 9am–6pm</p>
+                            <p><a href="tel:+92 3229859984">+92 3229859984</a><br>Mon–Sat, 9am–6pm</p>
                         </div>
                     </div>
                     <div class="info-card">
@@ -100,12 +100,12 @@
                     <div class="fgrid2">
                         <div class="fgroup">
                             <label>First Name *</label>
-                            <input type="text" name="first_name" value="{{ old('first_name') }}" required placeholder="Muhammad">
+                            <input type="text" name="first_name" value="{{ old('first_name') }}" required placeholder="Enter First Name">
                             @error('first_name') <small style="color:red;">{{ $message }}</small> @enderror
                         </div>
                         <div class="fgroup">
                             <label>Last Name *</label>
-                            <input type="text" name="last_name" value="{{ old('last_name') }}" required placeholder="Ikram">
+                            <input type="text" name="last_name" value="{{ old('last_name') }}" required placeholder="Enter Last Name">
                             @error('last_name') <small style="color:red;">{{ $message }}</small> @enderror
                         </div>
                     </div>
@@ -171,11 +171,10 @@
     @include('footer')
     {{-- MODAL SCRIPTS --}}
     @include('Modal scripts')
-
+<div id="app-data" data-logged-in="{{ auth()->check() ? 'true' : 'false' }}"></div>
     <script>
         function handleContactSubmit() {
-            var isLoggedIn = @json(auth()->check());
-
+          
             if (isLoggedIn) {
                 document.getElementById('contactForm').submit();
             } else {

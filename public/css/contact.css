@@ -150,7 +150,10 @@ a {
     font-size: 13px; 
     color: #888; 
     margin: 0; 
-    line-height: 1.6; 
+    line-height: 1.6;
+     a{
+        color: #888; 
+    } 
 } 
 
 /* MAP */ 

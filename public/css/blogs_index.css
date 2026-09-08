@@ -517,6 +517,9 @@ a {
 ========================================= */
 
 @media (max-width: 1000px) {
+    .blog-hero{
+        width: 95%;
+    }
     .blog-grid {
         grid-template-columns: repeat(2, 1fr);
     }
