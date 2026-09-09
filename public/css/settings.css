@@ -627,3 +627,120 @@ body {
 .btn-confirm-red:hover { 
     background: #b02a37; 
 }
+/* =========================================
+   PAYMENT SETTINGS
+   ========================================= */
+
+.settings-card {
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 16px;
+    padding: 28px;
+    margin-top: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.settings-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.settings-card-header h3 {
+    margin: 0 0 7px;
+    font-size: 21px;
+    color: #222;
+}
+
+.settings-card-header h3 i {
+    margin-right: 8px;
+}
+
+.settings-card-header p {
+    margin: 0;
+    color: #777;
+    font-size: 14px;
+}
+
+.settings-card .form-group {
+    margin-bottom: 20px;
+}
+
+.settings-card .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.settings-card .form-group label i {
+    margin-right: 6px;
+}
+
+.settings-card .form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+    box-sizing: border-box;
+}
+
+.settings-card .form-group input:focus {
+    border-color: #333;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.settings-card .form-group small {
+    display: block;
+    margin-top: 6px;
+    color: #888;
+    font-size: 12px;
+}
+
+.form-actions {
+    margin-top: 25px;
+}
+
+.btn-save-payment {
+    border: none;
+    background: #111;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-save-payment:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+.alert-success {
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background: #eaf8ef;
+    color: #218838;
+    font-size: 14px;
+}
+
+.alert-danger {
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background: #fff0f0;
+    color: #c62828;
+    font-size: 14px;
+}
+
+.alert-danger ul {
+    margin: 5px 0 0 20px;
+}

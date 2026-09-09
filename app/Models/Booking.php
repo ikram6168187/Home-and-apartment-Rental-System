@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Models\Payment;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,5 +33,10 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class);
     }
-   
+
+    // Booking ki payment
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
 }

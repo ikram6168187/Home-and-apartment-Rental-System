@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class BookingController extends Controller
 {
     // Property detail page + booking form
-    public function show($id)
+    public function show(int$id)
     {
         $property = Property::where('id', $id)
                             ->where('status', 'active')
@@ -108,95 +108,94 @@ class BookingController extends Controller
     // Owner — Booking Requests page
     public function requests()
     {
-        $bookings = Booking::whereHas('property', function ($q) {
-                        $q->where('user_id', Auth::id());
-                    })
-                    ->with(['property', 'user'])
-                    ->latest()
-                    ->get();
+                        $bookings = Booking::with([
+                    'property',
+                    'user',
+                    'payment'
+                ])
+                ->whereHas('property', function ($query) {
+                    $query->where('user_id', Auth::id());
+                })
+                ->latest()
+                ->get();
 
         $unreadNotifications = Notification::where('user_id', Auth::id())
                                 ->where('is_read', false)->count();
 
         $pending   = $bookings->where('status', 'pending')->count();
+        $approved  = $bookings->where('status', 'approved')->count();
         $confirmed = $bookings->where('status', 'confirmed')->count();
         $cancelled = $bookings->where('status', 'cancelled')->count();
 
         return view('booking request', compact(
             'bookings', 'unreadNotifications',
-            'pending', 'confirmed', 'cancelled'
+            'pending', 'approved','confirmed', 'cancelled'
         ));
     }
 
     // Owner — Accept booking
-    public function confirm($id)
-    {
-        $booking = Booking::findOrFail($id);
+   public function confirm($id)
+{
+    $booking = Booking::findOrFail($id);
 
-        // Sirf apni property ki booking confirm karo
-        if ($booking->property->user_id != Auth::id()) {
-            abort(403);
-        }
-
-        $booking->update(['status' => 'confirmed']);
-
-        // User ko notification
-        Notification::create([
-            'user_id' => $booking->user_id,
-            'title'   => 'Booking Confirmed! 🎉',
-            'message' => 'Your booking for "' . $booking->property->title . '" from ' .
-                         $booking->check_in->format('d M') . ' to ' .
-                         $booking->check_out->format('d M Y') . ' has been confirmed.',
-            'type'    => 'success',
-            'icon'    => 'fa-circle-check',
-        ]);
-
-        return redirect()->route('booking.requests')
-                         ->with('success', 'Booking confirmed successfully!');
+    // Sirf property owner apni property ki booking approve kar sakta hai
+    if ($booking->property->user_id != Auth::id()) {
+        abort(403);
     }
 
-    // Owner — Reject booking
-    public function cancel( int$id)
-    {
-        $booking = Booking::findOrFail($id);
-
-        if ($booking->property->user_id != Auth::id()) {
-            abort(403);
-        }
-
-        $booking->update(['status' => 'cancelled']);
-
-        // User ko notification
-        Notification::create([
-            'user_id' => $booking->user_id,
-            'title'   => 'Booking Cancelled',
-            'message' => 'Your booking request for "' . $booking->property->title . '" has been cancelled by the owner.',
-            'type'    => 'danger',
-            'icon'    => 'fa-circle-xmark',
-        ]);
-
-        return redirect()->route('booking.requests')
-                         ->with('success', 'Booking cancelled.');
+    // Sirf pending booking approve hogi
+    if ($booking->status !== 'pending') {
+        return redirect()
+            ->route('booking.requests')
+            ->with('error', 'This booking cannot be approved.');
     }
 
+    $booking->update([
+        'status' => 'approved'
+    ]);
+
+    // Renter ko notification
+    Notification::create([
+        'user_id' => $booking->user_id,
+        'title'   => 'Booking Approved',
+        'message' => 'Your booking request for "' .
+                     $booking->property->title .
+                     '" has been approved by the owner. Please complete the advance payment to confirm your booking.',
+        'type'    => 'success',
+        'icon'    => 'fa-money-bill-transfer',
+    ]);
+
+    return redirect()
+        ->route('booking.requests')
+        ->with(
+            'success',
+            'Booking approved successfully. Waiting for renter payment.'
+        );
+}
     // User — My Bookings
 public function myBookings()
 {
     $bookings = Booking::where('user_id', Auth::id())
-                       ->with('property')
-                       ->latest()
-                       ->get();
+                   ->with([
+                       'property',
+                       'property.user',
+                       'payment'
+                   ])
+                   ->latest()
+                   ->get();
 
     $unreadNotifications = Notification::where('user_id', Auth::id())
                             ->where('is_read', false)->count();
 
     $pending   = $bookings->where('status', 'pending')->count();
+    $approved  = $bookings->where('status', 'approved')->count();
+    $paymentSubmitted   = $bookings->where('status', 'payment_submitted')->count();
     $confirmed = $bookings->where('status', 'confirmed')->count();
     $cancelled = $bookings->where('status', 'cancelled')->count();
 
     return view('my-bookings', compact(
         'bookings', 'unreadNotifications',
-        'pending', 'confirmed', 'cancelled'
+        'pending','approved','paymentSubmitted', 'confirmed', 'cancelled'
     ));
 }
 }

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Property;
 use App\Models\Booking;
 use App\Models\Notification;
+use App\Models\Payment;
 use App\Models\ContactMessage;
 use App\Models\ServiceRequest;
 use App\Models\Blog;
@@ -384,5 +385,48 @@ public function updateRole(Request $request, User $user)
     ]);
 }
 
+/*
+|--------------------------------------------------------------------------
+| Payments
+|--------------------------------------------------------------------------
+*/
 
+public function payments()
+{
+    $payments = Payment::with([
+        'booking',
+        'booking.property',
+        'user',
+        'verifier'
+    ])
+    ->latest()
+    ->get();
+
+    $totalPayments = $payments->count();
+
+    $submittedPayments = $payments
+        ->where('status', 'submitted')
+        ->count();
+
+    $verifiedPayments = $payments
+        ->where('status', 'verified')
+        ->count();
+
+    $rejectedPayments = $payments
+        ->where('status', 'rejected')
+        ->count();
+
+    $totalAmount = $payments
+        ->where('status', 'verified')
+        ->sum('amount');
+
+    return view('admin.payments', compact(
+        'payments',
+        'totalPayments',
+        'submittedPayments',
+        'verifiedPayments',
+        'rejectedPayments',
+        'totalAmount'
+    ));
+}
 }

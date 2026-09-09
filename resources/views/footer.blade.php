@@ -14,11 +14,18 @@
                 property owners with renters across the country.
             </p>
 
-            <div class="social-links">
-                <a href="#" class="social-link" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="social-link" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
-                <a href="https://wa.me/923229859984" target="_blank" class="social-link" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+           <div class="social-links">
+                <!-- Facebook link:  -->
+                <a href="https://www.facebook.com/AapKaProfileYaPage" target="_blank" class="social-link" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                
+                <!-- Instagram link: -->
+                <a href="https://www.instagram.com/muhammadsufyan1838?stkn=MWh6YnU0ZGVpeTk5ZA==" target="_blank" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                
+                <!-- Twitter link: -->
+                <a href="https://x.com/ikram6168187" target="_blank" class="social-link" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                
+                <!-- WhatsApp  -->
+                <a href="https://wa.me/923096020900" target="_blank" class="social-link" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
             </div>
         </div>
 

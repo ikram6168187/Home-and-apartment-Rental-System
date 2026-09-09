@@ -127,6 +127,54 @@ class UserController extends Controller
 
         return redirect()->route('home')->with('success', 'Account deleted successfully.');
     }
-   
+   public function updatePaymentDetails(Request $request)
+{
+    $request->validate([
+        'jazzcash_number' => [
+            'nullable',
+            'string',
+            'max:20',
+        ],
+
+        'easypaisa_number' => [
+            'nullable',
+            'string',
+            'max:20',
+        ],
+
+        'bank_name' => [
+            'nullable',
+            'string',
+            'max:100',
+        ],
+
+        'bank_account_title' => [
+            'nullable',
+            'string',
+            'max:100',
+        ],
+
+        'bank_account_number' => [
+            'nullable',
+            'string',
+            'max:50',
+        ],
+    ]);
+
+    $user = User::find(Auth::id());
+
+    $user->update([
+        'jazzcash_number'     => $request->jazzcash_number,
+        'easypaisa_number'    => $request->easypaisa_number,
+        'bank_name'          => $request->bank_name,
+        'bank_account_title' => $request->bank_account_title,
+        'bank_account_number'=> $request->bank_account_number,
+    ]);
+
+    return back()->with(
+        'payment_success',
+        'Payment details updated successfully!'
+    );
+}
 
 }

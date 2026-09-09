@@ -53,11 +53,40 @@
 </div>
 
 <!-- MAIN -->
-<div class="main">
-    <div class="topbar">
-        <div class="topbar-title">My Bookings</div>
-        <a href="{{ route('home') }}" class="back-home"><i class="fa-solid fa-house"></i> Back to Home</a>
+<div class="topbar">
+
+    <div class="topbar-title">
+        My Bookings
     </div>
+
+    <div style="display:flex; align-items:center; gap:10px;">
+
+        <a
+            href="{{ route('payment.history') }}"
+            class="payment-history-btn"
+        >
+
+            <i class="fa-solid fa-clock-rotate-left"></i>
+
+            Payment History
+
+        </a>
+
+
+        <a
+            href="{{ route('home') }}"
+            class="back-home"
+        >
+
+            <i class="fa-solid fa-house"></i>
+
+            Back to Home
+
+        </a>
+
+    </div>
+
+</div>
 
     <div class="content">
 
@@ -67,26 +96,101 @@
 
         <!-- STATS -->
         <div class="stat-row">
+
             <div class="stat-card">
-                <div class="stat-icon orange"><i class="fa-solid fa-clock"></i></div>
-                <div class="stat-info"><h3>{{ $pending }}</h3><p>Pending</p></div>
+                <div class="stat-icon orange">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+
+                <div class="stat-info">
+                    <h3>{{ $pending }}</h3>
+                    <p>Pending</p>
+                </div>
             </div>
+
+
             <div class="stat-card">
-                <div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div>
-                <div class="stat-info"><h3>{{ $confirmed }}</h3><p>Confirmed</p></div>
+                <div class="stat-icon blue">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+
+                <div class="stat-info">
+                    <h3>{{ $approved }}</h3>
+                    <p>Payment Required</p>
+                </div>
             </div>
+
+
             <div class="stat-card">
-                <div class="stat-icon red"><i class="fa-solid fa-circle-xmark"></i></div>
-                <div class="stat-info"><h3>{{ $cancelled }}</h3><p>Cancelled</p></div>
+                <div class="stat-icon yellow">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                </div>
+
+                <div class="stat-info">
+                    <h3>{{ $paymentSubmitted }}</h3>
+                    <p>Payment Verification</p>
+                </div>
             </div>
+
+
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+
+                <div class="stat-info">
+                    <h3>{{ $confirmed }}</h3>
+                    <p>Confirmed</p>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-icon red">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </div>
+
+                <div class="stat-info">
+                    <h3>{{ $cancelled }}</h3>
+                    <p>Cancelled</p>
+                </div>
+            </div>
+
         </div>
 
         <!-- FILTER -->
         <div class="filter-bar">
-            <button class="filter-btn active" onclick="filterBookings('all', this)">All ({{ $bookings->count() }})</button>
-            <button class="filter-btn" onclick="filterBookings('pending', this)">Pending ({{ $pending }})</button>
-            <button class="filter-btn" onclick="filterBookings('confirmed', this)">Confirmed ({{ $confirmed }})</button>
-            <button class="filter-btn" onclick="filterBookings('cancelled', this)">Cancelled ({{ $cancelled }})</button>
+
+            <button class="filter-btn active"
+                    onclick="filterBookings('all', this)">
+                All ({{ $bookings->count() }})
+            </button>
+
+            <button class="filter-btn"
+                    onclick="filterBookings('pending', this)">
+                Pending ({{ $pending }})
+            </button>
+
+            <button class="filter-btn"
+                    onclick="filterBookings('approved', this)">
+                Payment Required ({{ $approved }})
+            </button>
+
+            <button class="filter-btn"
+                    onclick="filterBookings('payment_submitted', this)">
+                Payment Verification ({{ $paymentSubmitted }})
+            </button>
+
+            <button class="filter-btn"
+                    onclick="filterBookings('confirmed', this)">
+                Confirmed ({{ $confirmed }})
+            </button>
+
+            <button class="filter-btn"
+                    onclick="filterBookings('cancelled', this)">
+                Cancelled ({{ $cancelled }})
+            </button>
+
         </div>
 
         <!-- BOOKINGS LIST -->
@@ -150,21 +254,106 @@
             </div>
             @endif
 
-            <!-- STATUS LABELS -->
+            <!-- STATUS / PAYMENT ACTIONS -->
             @if($booking->status == 'pending')
-            <div class="action-btns">
-                <span class="btn-pending-label"><i class="fa-solid fa-clock"></i> Waiting for owner's response</span>
-            </div>
-            @elseif($booking->status == 'confirmed')
-            <div class="action-btns">
-                <span class="btn-confirmed-label"><i class="fa-solid fa-circle-check"></i> Booking Confirmed</span>
-            </div>
-            @else
-            <div class="action-btns">
-                <span class="btn-cancelled-label"><i class="fa-solid fa-ban"></i> Booking Cancelled</span>
-            </div>
-            @endif
 
+                <div class="action-btns">
+
+                    <span class="btn-pending-label">
+                        <i class="fa-solid fa-clock"></i>
+                        Waiting for owner's response
+                    </span>
+
+                </div>
+
+            @elseif($booking->status == 'approved')
+
+                <div class="action-btns">
+
+                    <a
+                        href="{{ route('payment.create', $booking->id) }}"
+                        class="btn-payment"
+                    >
+
+                        <i class="fa-solid fa-credit-card"></i>
+
+                        @if(
+                            $booking->payment
+                            && $booking->payment->status == 'rejected'
+                        )
+
+                            Make Payment Again
+
+                        @else
+
+                            Make Payment
+
+                        @endif
+
+                    </a>
+
+
+                    @if(
+                        $booking->payment
+                        && $booking->payment->status == 'rejected'
+                    )
+
+                        <span class="btn-rejected-label">
+
+                            <i class="fa-solid fa-circle-xmark"></i>
+
+                            Previous Payment Rejected
+
+                        </span>
+
+                    @else
+
+                        <span class="btn-approved-label">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            Booking Approved
+
+                        </span>
+
+                    @endif
+
+                </div>
+
+            @elseif($booking->status == 'payment_submitted')
+
+                <div class="action-btns">
+
+                    <span class="btn-payment-label">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                        Payment Submitted — Under Verification
+                    </span>
+
+                </div>
+
+            @elseif($booking->status == 'confirmed')
+
+                <div class="action-btns">
+
+                    <span class="btn-confirmed-label">
+                        <i class="fa-solid fa-circle-check"></i>
+                        Booking Confirmed
+                    </span>
+
+                </div>
+
+            @elseif($booking->status == 'cancelled')
+
+                <div class="action-btns">
+
+                    <span class="btn-cancelled-label">
+                        <i class="fa-solid fa-ban"></i>
+                        Booking Cancelled
+                    </span>
+
+                </div>
+
+            @endif
         </div>
         @empty
         <div class="empty-state">
@@ -175,7 +364,6 @@
         @endforelse
 
     </div>
-</div>
 
 <!-- LOGOUT MODAL -->
 <div class="logout-overlay" id="logoutConfirm">

@@ -95,7 +95,169 @@
                     </button>
                 </form>
             </div>
+<!-- PAYMENT SETTINGS -->
+<div class="settings-card">
 
+    <div class="settings-card-header">
+        <div>
+            <h3>
+                <i class="fa-solid fa-money-bill-transfer"></i>
+                Payment Settings
+            </h3>
+
+            <p>
+                Add your payment details so renters can pay you
+                after you approve their booking.
+            </p>
+        </div>
+    </div>
+
+    @if(session('payment_success'))
+        <div class="alert-success">
+            <i class="fa-solid fa-circle-check"></i>
+            {{ session('payment_success') }}
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert-danger">
+            <i class="fa-solid fa-circle-exclamation"></i>
+
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form
+        action="{{ route('settings.payment') }}"
+        method="POST"
+    >
+
+        @csrf
+        @method('PUT')
+
+        <!-- JazzCash -->
+        <div class="form-group">
+
+            <label for="jazzcash_number">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                JazzCash Number
+            </label>
+
+            <input
+                type="text"
+                id="jazzcash_number"
+                name="jazzcash_number"
+                value="{{ old('jazzcash_number', auth()->user()->jazzcash_number) }}"
+                placeholder="03XXXXXXXXX"
+            >
+
+            <small>
+                Enter the JazzCash number where renters can send payment.
+            </small>
+
+        </div>
+
+
+        <!-- EasyPaisa -->
+        <div class="form-group">
+
+            <label for="easypaisa_number">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                EasyPaisa Number
+            </label>
+
+            <input
+                type="text"
+                id="easypaisa_number"
+                name="easypaisa_number"
+                value="{{ old('easypaisa_number', auth()->user()->easypaisa_number) }}"
+                placeholder="03XXXXXXXXX"
+            >
+
+            <small>
+                Enter your EasyPaisa account/mobile number.
+            </small>
+
+        </div>
+
+
+        <!-- Bank Name -->
+        <div class="form-group">
+
+            <label for="bank_name">
+                <i class="fa-solid fa-building-columns"></i>
+                Bank Name
+            </label>
+
+            <input
+                type="text"
+                id="bank_name"
+                name="bank_name"
+                value="{{ old('bank_name', auth()->user()->bank_name) }}"
+                placeholder="e.g. HBL, Meezan Bank, UBL"
+            >
+
+        </div>
+
+
+        <!-- Account Title -->
+        <div class="form-group">
+
+            <label for="bank_account_title">
+                <i class="fa-solid fa-user"></i>
+                Bank Account Title
+            </label>
+
+            <input
+                type="text"
+                id="bank_account_title"
+                name="bank_account_title"
+                value="{{ old('bank_account_title', auth()->user()->bank_account_title) }}"
+                placeholder="Account holder name"
+            >
+
+        </div>
+
+
+        <!-- Account Number -->
+        <div class="form-group">
+
+            <label for="bank_account_number">
+                <i class="fa-solid fa-credit-card"></i>
+                Bank Account Number
+            </label>
+
+            <input
+                type="text"
+                id="bank_account_number"
+                name="bank_account_number"
+                value="{{ old('bank_account_number', auth()->user()->bank_account_number) }}"
+                placeholder="Enter bank account number"
+            >
+
+        </div>
+
+
+        <!-- Save Button -->
+        <div class="form-actions">
+
+            <button
+                type="submit"
+                class="btn-save-payment"
+            >
+                <i class="fa-solid fa-floppy-disk"></i>
+                Save Payment Details
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
             <!-- PREFERENCES -->
             <div class="card">
                 <div class="card-title"><i class="fa-solid fa-sliders"></i> Preferences</div>

@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PaymentController;
 
 // Home
 Route::get('/home', [HomeController::class, 'home'])->name('home');
@@ -57,7 +58,7 @@ Route::middleware(['auth'])->group(function () {
      Route::get('/my-bookings',                [BookingController::class, 'myBookings'])->name('my.bookings');
     Route::patch('/booking/{id}/confirm',      [BookingController::class, 'confirm'])->name('booking.confirm');
     Route::patch('/booking/{id}/cancel',       [BookingController::class, 'cancel'])->name('booking.cancel');
-    Route::get('/my-bookings',                 [BookingController::class, 'myBookings'])->name('my.bookings');
+    //Route::get('/my-bookings',                 [BookingController::class, 'myBookings'])->name('my.bookings');
 
     // Notifications
     Route::get('/notifications',              [NotificationController::class, 'index'])->name('notifications');
@@ -70,6 +71,34 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/settings',             [UserController::class, 'settings'])->name('settings');
     Route::put('/settings/password',    [UserController::class, 'changePassword'])->name('settings.password');
     Route::delete('/settings/account',  [UserController::class, 'deleteAccount'])->name('settings.delete');
+
+Route::put(
+    '/settings/payment-details',
+    [UserController::class, 'updatePaymentDetails']
+)->name('settings.payment');
+Route::get(
+    '/booking/{booking}/payment',
+    [PaymentController::class, 'create']
+)->name('payment.create');
+Route::post(
+    '/booking/{booking}/payment',
+    [PaymentController::class, 'store']
+)->name('payment.store');
+Route::patch(
+    '/payment/{payment}/verify',
+    [PaymentController::class, 'verify']
+)->name('payment.verify');
+
+
+Route::patch(
+    '/payment/{payment}/reject',
+    [PaymentController::class, 'reject']
+)->name('payment.reject');
+
+Route::get(
+    '/payment-history',
+    [PaymentController::class, 'history']
+)->name('payment.history');
 
 });
 
@@ -119,6 +148,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
             Route::delete('/blogs/{id}', [AdminController::class, 'deleteBlog'])
                 ->name('blogs.delete');
+                Route::get(
+    '/admin/payments',
+    [AdminController::class, 'payments']
+)->name('admin.payments');
 
 
 });

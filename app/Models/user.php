@@ -18,6 +18,11 @@ class User extends Authenticatable
         'otp_expires_at',
         'provider',
         'provider_id',
+        'jazzcash_number',
+        'easypaisa_number',
+        'bank_name',
+        'bank_account_title',
+        'bank_account_number',
     ];
 
     protected $attributes = [
@@ -51,5 +56,18 @@ public function blogs()
 {
     return $this->hasMany(Blog::class);
 }
+
+
+
+public function payments()
+{
+    return $this->hasMany(Payment::class);
+}
+
+public function verifiedPayments()
+{
+    return $this->hasMany(Payment::class, 'verified_by');
+}
+
 
 }

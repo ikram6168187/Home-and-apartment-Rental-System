@@ -60,6 +60,16 @@
                 <span class="nav-badge">{{ $unreadMessages }}</span>
             @endif
         </a>
+       <a href="{{ route('admin.admin.payments') }}"
+   class="nav-item {{ request()->routeIs('admin.payments') ? 'active' : '' }}">
+
+    <i class="fa-solid fa-money-check-dollar"></i>
+
+    <span>
+        Payments
+    </span>
+
+</a>
         @php
     $pendingServiceRequestsCount = \App\Models\ServiceRequest::where('status', 'pending')->count();
 @endphp
