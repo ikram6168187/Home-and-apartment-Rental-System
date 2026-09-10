@@ -5,8 +5,17 @@
 .stat-cards-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 20px;
+    gap: 16px;            /* Standard 16px gap everywhere */
+    margin-bottom: 16px;
+}
+
+/* Ensure all cards stretch to same height */
+.stat-cards-row > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 140px;    /* Equal fixed min-height for all cards */
+    box-sizing: border-box;
 }
 
 /* shared circle decoration used inside the colored stat cards */
@@ -199,25 +208,29 @@
    ========================================================= */
 
 .dashboard-row-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 16px;
+   display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;            /* Card gaps match .stat-cards-row */
+    margin-bottom: 16px;  /* Vertical spacing between rows */
+    align-items: stretch; /* Height equalizer for panels in the same row */
 }
 
 .dashboard-row-3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+   display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;            /* Card gaps match .stat-cards-row */
+    margin-bottom: 16px;  /* Vertical spacing between rows */
+    align-items: stretch; /* Height equalizer for panels in the same row */
 }
 
 .dashboard-panel {
-    background: #fff;
+   background: #fff;
     border-radius: 14px;
     padding: 20px;
     border: 1px solid #eee;
+    height: 100%;
+    box-sizing: border-box;
 }
-
 .panel-header {
     display: flex;
     align-items: center;
@@ -450,12 +463,14 @@
     border: 1px solid #eee;
 }
 
+/* Replace .recent-services-card in your CSS */
 .recent-services-card {
     background: #fff;
     border: 1px solid #eee;
     border-radius: 14px;
     overflow: hidden;
-    margin-top: 24px;
+    margin-top: 0px;      /* Changed 24px to 0px for proper alignment */
+    margin-bottom: 16px;
 }
 
 .dashboard-card-header {
@@ -662,4 +677,57 @@
         gap: 10px;
     }
 
+}
+/* payments card (blue) */
+.stat-card-blue {
+    background: #8adbf4;
+    border: 1px solid #cfe0ff;
+    border-radius: 14px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+.stat-icon-payment {
+    font-size: 22px;
+    color: #1565c0;
+    margin-bottom: 12px;
+    display: block;
+    opacity: 0.85;
+}
+.stat-badge-blue {
+    display: inline-block;
+    margin-top: 8px;
+    background: #cfe0ff;
+    color: #010e05;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* blogs card (purple) */
+.stat-card-purple {
+    background: #f3ecfd;
+    border: 1px solid #e0d0f5;
+    border-radius: 14px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+.stat-icon-purple {
+    font-size: 22px;
+    color: #7b3fbf;
+    margin-bottom: 12px;
+    display: block;
+    opacity: 0.85;
+}
+.stat-badge-purple {
+    display: inline-block;
+    margin-top: 8px;
+    background: #e0d0f5;
+    color: #7b3fbf;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
 }

@@ -66,14 +66,24 @@
                 <a href="javascript:void(0);" onclick="openLoginModal()">
                     <p class="add-property">Add Property</p>
                 </a>
-            @endif
-
-            <!-- Globe -->
+                    @endif
+                @guest
+    <button type="button" class="user-icon-btn" data-bs-toggle="modal" data-bs-target="#loginModal" title="Login">
+         <a href="javascript:void(0);" onclick="toggleMenu(); openLoginModal();">
+        <i class="fa-solid fa-user"></i>
+         </a>
+    </button>
+@else
+    <a href="{{ route('profile') }}" class="user-icon-btn" title="My Profile">
+        <i class="fa-solid fa-user"></i>
+    </a>
+@endguest
+            <!-- Globe 
             <div class="circle">
                 <a href="#">
                     <i class="fa-solid fa-globe"></i>
                 </a>
-            </div>
+            </div>-->
 
             <!-- Menu -->
             <div class="circle" style="position:relative;">

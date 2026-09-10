@@ -573,4 +573,28 @@ public function history()
         compact('payments')
     );
 }
+/*
+|--------------------------------------------------------------------------
+| Owner Payment History
+|--------------------------------------------------------------------------
+*/
+
+public function ownerHistory()
+{
+    $payments = Payment::with([
+        'booking',
+        'booking.property',
+        'booking.user'
+    ])
+    ->whereHas('booking.property', function ($query) {
+        $query->where('user_id', Auth::id());
+    })
+    ->latest()
+    ->get();
+
+    return view(
+        'owner-payment-history',
+        compact('payments')
+    );
+}
 }

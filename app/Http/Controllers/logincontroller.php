@@ -32,32 +32,41 @@ class LoginController extends Controller
             ->withInput($request->only('email'));
     }
 
-    Auth::login($user);
-$request->session()->regenerate();
+    // *** YEH CHECK ADD KARNA HAI ***
+    if (!$user->email_verified_at) {
+        // Naya OTP generate karke bhej do taake user turant verify kar sake
+        $otp = rand(100000, 999999);
+        $user->update([
+            'otp' => $otp,
+            'otp_expires_at' => now()->addMinutes(10),
+        ]);
 
-if ($user->role == 'admin') {
-    return redirect()->route('admin.dashboard');
-}
+        try {
+            Mail::to($user->email)->send(new OtpMail($otp, 'Verify your Smart Rent account'));
+        } catch (\Exception $e) {
+            // mail fail ho bhi jaye, phir bhi login block rahega
+        }
 
-/*
-|--------------------------------------------------------------------------
-| Redirect User to Intended Page
-|--------------------------------------------------------------------------
-*/
+        session(['otp_email' => $user->email]);
 
-if ($request->filled('redirect_to')) {
-    return redirect($request->redirect_to);
-}
-
-return redirect()->route('home');
-}
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect()->route('home');
+        return redirect()->route('home')
+            ->with('show_otp', true)
+            ->withErrors(['email' => 'Your account is not verified. A new OTP has been sent to your email.']);
     }
+
+    Auth::login($user);
+    $request->session()->regenerate();
+
+    if ($user->role == 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+
+    if ($request->filled('redirect_to')) {
+        return redirect($request->redirect_to);
+    }
+
+    return redirect()->route('home');
+}
 
     // ── FORGOT PASSWORD ──
     public function sendResetOtp(Request $request)
@@ -141,4 +150,13 @@ return redirect()->route('home');
             ->with('show_login', true)
             ->with('success', 'Password reset successfully! Please login with your new password.');
     }
+    public function logout(Request $request)
+{
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect('/home')->with('success', 'You have been logged out successfully.');
+}
 }

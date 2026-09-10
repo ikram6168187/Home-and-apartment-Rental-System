@@ -17,8 +17,10 @@ use Illuminate\Support\Facades\Storage;
 class AdminController extends Controller
 {
     // Dashboard
-    public function dashboard()
+  public function dashboard()
 {
+    $totalAdmins = User::where('role', 'admin')->count();
+
     // Dashboard Counts
     $totalUsers      = User::where('role', 'user')->count();
     $totalProperties = Property::count();
@@ -55,6 +57,18 @@ class AdminController extends Controller
         ->take(5)
         ->get();
 
+    // ✅ NEW: Recent Payments
+    $recentPayments = Payment::with(['user', 'booking.property'])
+        ->latest()
+        ->take(5)
+        ->get();
+
+    // ✅ NEW: Recent Blogs
+    $recentBlogs = Blog::with('user')
+        ->latest()
+        ->take(5)
+        ->get();
+
     // Recent Activity
     $recentActivity = Notification::with('user')
         ->latest()
@@ -70,14 +84,15 @@ class AdminController extends Controller
         'totalServiceRequests',
         'pendingServiceRequests',
         'cityBreakdown',
+          'totalAdmins',    
         'recentUsers',
         'recentBookings',
         'recentServiceRequests',
+        'recentPayments',      // ✅ NEW
+        'recentBlogs',         // ✅ NEW
         'recentActivity'
     ));
-}
-
-    // Users list
+}   // Users list
     public function users()
     {
        $users = User::withCount('properties')

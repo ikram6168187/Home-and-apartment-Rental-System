@@ -19,7 +19,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     >
 
-    <link rel="stylesheet" href="{{ asset('css/payment_history.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/payment-history.css') }}">
 
 </head>
 

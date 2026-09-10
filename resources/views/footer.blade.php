@@ -16,7 +16,7 @@
 
            <div class="social-links">
                 <!-- Facebook link:  -->
-                <a href="https://www.facebook.com/AapKaProfileYaPage" target="_blank" class="social-link" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.facebook.com/share/19H2kd2j3V/" target="_blank" class="social-link" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
                 
                 <!-- Instagram link: -->
                 <a href="https://www.instagram.com/muhammadsufyan1838?stkn=MWh6YnU0ZGVpeTk5ZA==" target="_blank" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
@@ -85,13 +85,13 @@
                 </li>
                 <li>
                     <i class="fa-solid fa-envelope"></i>
-                    <a href="mailto:studygrw@gmail.com">
+                    <a href="{{ route('contact') }}">
                         <span>studygrw@gmail.com</span>
                     </a>
                 </li>
                 <li>
                     <i class="fa-solid fa-phone"></i>
-                    <a href="tel:+923229859984">
+                    <a href="{{ route('contact') }}">
                         <span>+92 3229859984</span>
                     </a>
                 </li>

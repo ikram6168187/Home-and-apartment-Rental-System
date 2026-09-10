@@ -7,9 +7,10 @@
 
 body { 
     display: flex; 
+     flex-direction: column;    
     height: 100vh; 
-    overflow: hidden; 
-    background: #f4f6f9; 
+    overflow: hidden;        
+    background: #f4f6f9;
 }
 
 /* SIDEBAR */
@@ -134,21 +135,25 @@ body {
 /* MAIN */
 .main { 
     margin-left: 220px; 
+    width: calc(100% - 220px);   /* width explicitly set, sirf margin kafi nahi */
+    max-width: calc(100% - 220px);
     flex: 1; 
     display: flex; 
     flex-direction: column; 
     height: 100vh; 
     overflow: hidden; 
+     overflow-x: hidden; 
 }
 
 .topbar { 
-    background: #fff; 
+     background: #fff; 
     border-bottom: 1px solid #eee; 
     padding: 13px 28px; 
     display: flex; 
     align-items: center; 
     justify-content: space-between; 
-    flex-shrink: 0; 
+    margin-left: 220px;   
+    flex-shrink: 0;  
 }
 
 .topbar-title { 
@@ -172,7 +177,8 @@ body {
 }
 
 .content { 
-    flex: 1; 
+   flex: 1; 
+    margin-left: 220px;  
     overflow-y: auto; 
     padding: 28px;
 }
@@ -193,10 +199,13 @@ body {
 /* STAT CARDS */
 .stat-row { 
     display: grid; 
-    grid-template-columns: repeat(3, 1fr); 
+    grid-template-columns: repeat(3,1fr); 
     gap: 14px; 
     margin-bottom: 24px; 
+
 }
+
+
 
 .stat-card { 
     background: #fff; 
@@ -204,9 +213,11 @@ body {
     padding: 16px 20px; 
     border: 1px solid #eee; 
     display: flex; 
-    align-items: center;
-    gap: 14px; 
+    align-items: center; 
+    gap: 14px;
 }
+
+
 
 .stat-icon { 
     width: 42px; 
@@ -822,4 +833,38 @@ body {
         width: 100%;
     }
 
+}
+/* =========================================================
+   RECEIVED PAYMENTS BUTTON
+   ========================================================= */
+
+.received-payments-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    font-size: 13px;
+    color: #fff;
+
+    background: #2d2926;
+
+    border: 1px solid #2d2926;
+
+    padding: 7px 16px;
+
+    border-radius: 20px;
+
+    text-decoration: none;
+
+    font-weight: 500;
+
+    transition: 0.2s;
+}
+
+.received-payments-btn:hover {
+    background: #c8a882;
+
+    border-color: #c8a882;
+
+    color: #2d2926;
 }

@@ -58,12 +58,40 @@
 </div>
 
 <!-- MAIN -->
-<div class="main">
-    <div class="topbar">
-        <div class="topbar-title">Booking Requests</div>
-        <a href="{{ route('home') }}" class="back-home"><i class="fa-solid fa-house"></i> Back to Home</a>
+<div class="topbar"> 
+
+    <div class="topbar-title">
+        Booking Requests
     </div>
 
+    <div style="display:flex; align-items:center; gap:10px;">
+
+        <!-- RECEIVED PAYMENTS -->
+
+        <a href="{{ route('owner.payment.history') }}"
+           class="received-payments-btn">
+
+            <i class="fa-solid fa-money-check-dollar"></i>
+
+            Received Payments
+
+        </a>
+
+
+        <!-- BACK TO HOME -->
+
+        <a href="{{ route('home') }}"
+           class="back-home">
+
+            <i class="fa-solid fa-house"></i>
+
+            Back to Home
+
+        </a>
+
+    </div>
+
+</div>
     <div class="content">
 
         @if(session('success'))

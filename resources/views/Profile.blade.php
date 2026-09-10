@@ -108,14 +108,8 @@
                 <div class="stat-icon-sm green"><i class="fa-solid fa-circle-check"></i></div>
                 <div><h3>{{ $activeListings }}</h3><p>Active Listings</p></div>
             </div>
-            <div class="stat-mini">
-                <div class="stat-icon-sm blue"><i class="fa-solid fa-calendar-days"></i></div>
-                <div>
-                    <h3>{{ \Carbon\Carbon::parse(Auth::user()->created_at)->diffInDays(now()) }}</h3>
-                    <p>Days on Platform</p>
-                </div>
-            </div>
-        </div>
+           
+        </div> 
 
         <!-- FORM -->
         <div class="form-card">

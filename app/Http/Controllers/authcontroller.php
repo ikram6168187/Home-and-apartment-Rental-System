@@ -84,10 +84,16 @@ public function verifyOtp(Request $request)
 
     session()->forget('otp_email');
 
-    // Auto-login NAHI — seedha Login modal khulega
+    // *** AUTO-LOGIN — YEH ADD KARO ***
+    Auth::login($user);
+    $request->session()->regenerate();
+
+    if ($user->role == 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+
     return redirect()->route('home')
-        ->with('show_login', true)
-        ->with('success', 'Email verified successfully! Please login to continue.');
+        ->with('success', 'Email verified successfully! Welcome to Smart Rent.');
 }
     public function resendOtp(Request $request)
     {

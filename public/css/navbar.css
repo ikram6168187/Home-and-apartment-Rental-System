@@ -180,3 +180,30 @@ body {
         justify-content: center;
     }
 }
+.user-icon-btn {
+    width: 44px;
+    height: 44px;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    background: transparent;
+    color: #fff; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+}
+
+.user-icon-btn:hover {
+   /* background: #fff;  */
+    color: #1a1a1a;
+    border-color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.user-icon-btn i {
+    pointer-events: none;
+}

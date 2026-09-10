@@ -57,7 +57,7 @@
                         <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
                         <div>
                             <h4>Call Us</h4>
-                            <p><a href="tel:+92 3229859984">+92 3229859984</a><br>Mon–Sat, 9am–6pm</p>
+                            <p><a href="tel:+923096020900">+92 3096020900</a><br>Mon–Sat, 9am–6pm</p>
                         </div>
                     </div>
                     <div class="info-card">

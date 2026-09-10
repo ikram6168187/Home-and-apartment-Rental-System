@@ -55,7 +55,7 @@ Route::middleware(['auth'])->group(function () {
     // Bookings
     Route::post('/property/{id}/book',        [BookingController::class, 'store'])->name('booking.store');
     Route::get('/booking-requests',            [BookingController::class, 'requests'])->name('booking.requests');
-     Route::get('/my-bookings',                [BookingController::class, 'myBookings'])->name('my.bookings');
+    Route::get('/my-bookings',                [BookingController::class, 'myBookings'])->name('my.bookings');
     Route::patch('/booking/{id}/confirm',      [BookingController::class, 'confirm'])->name('booking.confirm');
     Route::patch('/booking/{id}/cancel',       [BookingController::class, 'cancel'])->name('booking.cancel');
     //Route::get('/my-bookings',                 [BookingController::class, 'myBookings'])->name('my.bookings');
@@ -99,6 +99,10 @@ Route::get(
     '/payment-history',
     [PaymentController::class, 'history']
 )->name('payment.history');
+Route::get(
+    '/owner/payment-history',
+    [PaymentController::class, 'ownerHistory']
+)->name('owner.payment.history');
 
 });
 

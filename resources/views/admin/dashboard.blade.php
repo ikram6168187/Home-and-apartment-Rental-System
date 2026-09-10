@@ -30,7 +30,7 @@
                 <p class="stat-label-dark">Total Users</p>
                 <span class="stat-badge-dark">Registered</span>
             </div>
-
+               
             <div class="stat-card-gold">
                 <div class="stat-card-circle-dark"></div>
                 <i class="fa-solid fa-building stat-icon-gold"></i>
@@ -58,6 +58,28 @@
                 <h2 class="stat-value-light">{{ $totalServiceRequests ?? 0 }}</h2>
                 <p class="stat-label-light">Total Service Requests</p>
                 <span class="stat-badge-green">{{ $pendingServiceRequests }} Pending</span>
+            </div>
+
+            <div class="stat-card-blue">
+                <i class="fa-solid fa-money-bill-wave stat-icon-payment"></i>
+                <h2 class="stat-value-light">{{ $totalPayments ?? 0 }}</h2>
+                <p class="stat-label-light">Total Payments</p>
+                <span class="stat-badge-blue">{{ $pendingPayments ?? 0 }} Pending</span>
+            </div>
+
+            <div class="stat-card-purple">
+                <i class="fa-solid fa-blog stat-icon-purple"></i>
+                <h2 class="stat-value-light">{{ $totalBlogs ?? 0 }}</h2>
+                <p class="stat-label-light">Total Blogs</p>
+                <span class="stat-badge-purple">{{ $draftBlogs ?? 0 }} Draft</span>
+            </div>
+
+                    <div class="stat-card-dark">
+                <div class="stat-card-circle-light"></div>
+                <i class="fa-solid fa-user-shield stat-icon-dark"></i>
+                <h2 class="stat-value-dark">{{ $totalAdmins ?? 0 }}</h2>
+                <p class="stat-label-dark">Total Admins</p>
+                <span class="stat-badge-dark">Super Admin</span>
             </div>
 
         </div>
@@ -101,8 +123,6 @@
                     @endforeach
                 </table>
             </div>
-
-
 
             <!-- CITY BREAKDOWN -->
             <div class="dashboard-panel">
@@ -150,87 +170,53 @@
                 @endforeach
             </div>
 
-             <div class="dashboard-card recent-services-card">
+            <!-- RECENT SERVICE REQUESTS -->
+            <div class="dashboard-card recent-services-card">
 
-    <div class="dashboard-card-header">
+                <div class="dashboard-card-header">
 
-        <div>
-            <h3>
-                <i class="fa-solid fa-screwdriver-wrench"></i>
-                Recent Service Requests
-            </h3>
+                    <div>
+                        <h3>
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                            Recent Service Requests
+                        </h3>
 
-            <p>
-                Latest service requests submitted by users
-            </p>
-        </div>
+                        <p>
+                            Latest service requests submitted by users
+                        </p>
+                    </div>
 
-        <a href="{{ route('admin.service-requests') }}"
-           class="view-all-btn">
+                    <a href="{{ route('admin.service-requests') }}"
+                       class="view-all-btn">
 
-            View All
-            <i class="fa-solid fa-arrow-right"></i>
+                        View All
+                        <i class="fa-solid fa-arrow-right"></i>
 
-        </a>
+                    </a>
 
-    </div>
-
-
-    @if($recentServiceRequests->count() > 0)
-
-        <div class="table-responsive">
-
-            <table class="recent-services-table">
-
-                <thead>
-
-                    <tr>
-                        <th>User</th>
-                        <th>Service</th>
-                        <th>Property</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                    </tr>
-
-                </thead>
+                </div>
 
 
-                <tbody>
+                @if($recentServiceRequests->count() > 0)
 
-                    @foreach($recentServiceRequests as $serviceRequest)
+                    <div class="table-responsive">
 
-                        <tr>
+                        <table class="recent-services-table">
 
-                            {{-- USER --}}
-                            <td>
+                            <thead>
 
-                                <div class="service-user">
+                                <tr>
+                                    <th>User</th>
+                                    <th>Service</th>
+                                    <th>Property</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
 
-                                    <div class="service-user-avatar">
-
-                                        {{ strtoupper(substr($serviceRequest->user->name ?? 'U', 0, 1)) }}
-
-                                    </div>
-
-                                    <div>
-
-                                        <strong>
-                                            {{ $serviceRequest->user->name ?? 'Unknown User' }}
-                                        </strong>
-
-                                        <small>
-                                            {{ $serviceRequest->user->email ?? '' }}
-                                        </small>
-
-                                    </div>
-
-                                </div>
-
-                            </td>
+                            </thead>
 
 
-                            {{-- SERVICE --}}
-                            <td>
+                            <tbody>
 
                                 @php
 
@@ -255,103 +241,211 @@
 
                                 @endphp
 
-                                <span class="service-type">
+                                @foreach($recentServiceRequests as $serviceRequest)
 
-                                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                                    <tr>
 
-                                    {{ $serviceNames[$serviceRequest->service_type]
-                                        ?? ucfirst(str_replace('_', ' ', $serviceRequest->service_type)) }}
+                                        {{-- USER --}}
+                                        <td>
 
-                                </span>
+                                            <div class="service-user">
 
-                            </td>
+                                                <div class="service-user-avatar">
 
+                                                    {{ strtoupper(substr($serviceRequest->user->name ?? 'U', 0, 1)) }}
 
-                            {{-- PROPERTY --}}
-                            <td>
+                                                </div>
 
-                                @if($serviceRequest->property)
+                                                <div>
 
-                                    {{ $serviceRequest->property->title
-                                        ?? 'Property #' . $serviceRequest->property->id }}
+                                                    <strong>
+                                                        {{ $serviceRequest->user->name ?? 'Unknown User' }}
+                                                    </strong>
 
-                                @else
+                                                    <small>
+                                                        {{ $serviceRequest->user->email ?? '' }}
+                                                    </small>
 
-                                    <span class="not-selected">
-                                        Not Selected
-                                    </span>
+                                                </div>
 
-                                @endif
+                                            </div>
 
-                            </td>
-
-
-                            {{-- DATE --}}
-                            <td>
-
-                                @if($serviceRequest->preferred_date)
-
-                                    {{ \Carbon\Carbon::parse(
-                                        $serviceRequest->preferred_date
-                                    )->format('d M Y') }}
-
-                                @else
-
-                                    <span class="not-selected">
-                                        Not Specified
-                                    </span>
-
-                                @endif
-
-                            </td>
+                                        </td>
 
 
-                            {{-- STATUS --}}
-                            <td>
+                                        {{-- SERVICE --}}
+                                        <td>
 
-                                <span class="status-badge status-{{ $serviceRequest->status }}">
+                                            <span class="service-type">
 
-                                    {{ ucwords(
-                                        str_replace(
-                                            '_',
-                                            ' ',
-                                            $serviceRequest->status
-                                        )
-                                    ) }}
+                                                <i class="fa-solid fa-screwdriver-wrench"></i>
 
-                                </span>
+                                                {{ $serviceNames[$serviceRequest->service_type]
+                                                    ?? ucfirst(str_replace('_', ' ', $serviceRequest->service_type)) }}
 
-                            </td>
+                                            </span>
 
-                        </tr>
+                                        </td>
 
-                    @endforeach
 
-                </tbody>
+                                        {{-- PROPERTY --}}
+                                        <td>
 
-            </table>
+                                            @if($serviceRequest->property)
+
+                                                {{ $serviceRequest->property->title
+                                                    ?? 'Property #' . $serviceRequest->property->id }}
+
+                                            @else
+
+                                                <span class="not-selected">
+                                                    Not Selected
+                                                </span>
+
+                                            @endif
+
+                                        </td>
+
+
+                                        {{-- DATE --}}
+                                        <td>
+
+                                            @if($serviceRequest->preferred_date)
+
+                                                {{ \Carbon\Carbon::parse(
+                                                    $serviceRequest->preferred_date
+                                                )->format('d M Y') }}
+
+                                            @else
+
+                                                <span class="not-selected">
+                                                    Not Specified
+                                                </span>
+
+                                            @endif
+
+                                        </td>
+
+
+                                        {{-- STATUS --}}
+                                        <td>
+
+                                            <span class="status-badge status-{{ $serviceRequest->status }}">
+
+                                                {{ ucwords(
+                                                    str_replace(
+                                                        '_',
+                                                        ' ',
+                                                        $serviceRequest->status
+                                                    )
+                                                ) }}
+
+                                            </span>
+
+                                        </td>
+
+                                    </tr>
+
+                                @endforeach
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                @else
+
+                    <div class="dashboard-empty-state">
+
+                        <i class="fa-solid fa-clipboard-list"></i>
+
+                        <p>
+                            No service requests available yet.
+                        </p>
+
+                    </div>
+
+                @endif
+
+            </div>
+            <!-- /RECENT SERVICE REQUESTS -->
 
         </div>
+        <!-- /ROW 3 -->
 
-    @else
+        <!-- ROW 4: RECENT PAYMENTS + RECENT BLOGS -->
+        <div class="dashboard-row-3">
 
-        <div class="dashboard-empty-state">
-
-            <i class="fa-solid fa-clipboard-list"></i>
-
-            <p>
-                No service requests available yet.
-            </p>
-
-        </div>
-
-    @endif
-
-</div>
-
-
-            <!-- RECENT ACTIVITY -->
+            <!-- RECENT PAYMENTS -->
             <div class="dashboard-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">
+                        <i class="fa-solid fa-money-bill-wave icon-brand"></i> Recent Payments
+                    </h3>
+                    <a href="{{ route('admin.admin.payments') }}" class="panel-view-all">View All →</a>
+                </div>
+
+                @forelse($recentPayments as $payment)
+                <div class="booking-row">
+                    <div class="booking-row-info">
+                        <p class="booking-row-title">
+                            {{ $payment->user->name ?? 'N/A' }} — Rs. {{ number_format($payment->amount, 0) }}
+                        </p>
+                        <p class="booking-row-sub">
+                            {{ $payment->booking->property->title ?? 'N/A' }} · {{ ucfirst($payment->payment_method) }}
+                        </p>
+                    </div>
+                    <span class="booking-status-badge"
+                        style="{{ $payment->status == 'verified' ? 'background:#e8f5e9; color:#2e7d32;' : ($payment->status == 'submitted' ? 'background:#fff3e0; color:#e65100;' : 'background:#fff0f0; color:#c0392b;') }}">
+                        {{ ucfirst($payment->status) }}
+                    </span>
+                </div>
+                @empty
+                <div class="dashboard-empty-state">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    <p>No payments yet.</p>
+                </div>
+                @endforelse
+            </div>
+
+            <!-- RECENT BLOGS -->
+            <div class="dashboard-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">
+                        <i class="fa-solid fa-blog icon-brand"></i> Recent Blogs
+                    </h3>
+                    <a href="{{ route('admin.blogs') }}" class="panel-view-all">View All →</a>
+                </div>
+
+                @forelse($recentBlogs as $blog)
+                <div class="booking-row">
+                    <div class="booking-row-info">
+                        <p class="booking-row-title">{{ \Illuminate\Support\Str::limit($blog->title, 35) }}</p>
+                        <p class="booking-row-sub">
+                            {{ $blog->category }} · {{ $blog->created_at->format('d M Y') }}
+                        </p>
+                    </div>
+                    <span class="booking-status-badge"
+                        style="{{ $blog->status == 'published' ? 'background:#e8f5e9; color:#2e7d32;' : 'background:#fff3e0; color:#e65100;' }}">
+                        {{ ucfirst($blog->status) }}
+                    </span>
+                </div>
+                @empty
+                <div class="dashboard-empty-state">
+                    <i class="fa-solid fa-blog"></i>
+                    <p>No blogs yet.</p>
+                </div>
+                @endforelse
+            </div>
+
+        </div>
+        <!-- /ROW 4 -->
+
+        <!-- ROW 5: RECENT ACTIVITY (full width) -->
+        <div class="dashboard-row-3">
+
+            <div class="dashboard-panel" style="grid-column: 1 / -1;">
                 <div class="panel-header">
                     <h3 class="panel-title">
                         <i class="fa-solid fa-bolt icon-brand"></i> Recent Activity
@@ -375,6 +469,7 @@
             </div>
 
         </div>
+        <!-- /ROW 5 -->
 
     </div>
 </div>

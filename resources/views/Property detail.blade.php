@@ -111,8 +111,24 @@
 
                 <div class="section-title">About this property</div>
                 <p class="prop-desc">{{ $property->description }}</p>
+
             </div>
 
+            <!-- MAP -->
+                <!-- <div class="map-card">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d108857.8282396283!2d74.12426565!3d32.1616818!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391f2975a4b1a67b%3A0x29f1f1e7f6c9cf03!2sGujranwala%2C%20Punjab%2C%20Pakistan!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
+                        allowfullscreen="" loading="lazy">
+                    </iframe>
+                    <div class="map-footer">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Main Market Satellite Town, Gujranwala, Punjab, Pakistan</span>
+                    </div>
+                </div>  -->
+
+
+
+            <!-- OWNER CARD -->
             <div class="owner-card">
                 <div class="owner-avatar">
                     @if($property->user->profile_picture)
@@ -184,6 +200,8 @@
             @endif
 
         </div>
+
+        
 
         <div>
             <div class="booking-card">
@@ -264,6 +282,33 @@
                         </a>
                     </div>
                 @endauth
+
+                <!-- Map View Section -->
+<div class="property-map">
+    <h4 class="map-title">Map View</h4>
+    
+    <div class="map-container">
+        @if(!empty($property->latitude) && !empty($property->longitude))
+            {{-- Exact Location (Agar database mein coordinates maujood hain) --}}
+            <iframe
+                frameborder="0"
+                scrolling="no"
+                marginheight="0"
+                marginwidth="0"
+                src="https://maps.google.com/maps?q={{ $property->latitude }},{{ $property->longitude }}&t=&z=16&ie=UTF8&iwloc=&output=embed">
+            </iframe>
+        @else
+            {{-- Fallback: Address Based Location (Agar coordinates na hon) --}}
+            <iframe
+                frameborder="0"
+                scrolling="no"
+                marginheight="0"
+                marginwidth="0"
+                src="https://maps.google.com/maps?q={{ urlencode($property->location . ', ' . $property->city) }}&t=&z=15&ie=UTF8&iwloc=&output=embed">
+            </iframe>
+        @endif
+    </div>
+</div>
 
             </div>
         </div>
