@@ -280,6 +280,8 @@ a {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
 
     margin-bottom: 28px;
 }
@@ -297,6 +299,12 @@ a {
 .section-header-left p {
     font-size: 14px;
     color: #888;
+}
+
+.section-header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
 }
 
 .view-all-btn {
@@ -331,8 +339,6 @@ a {
     margin-bottom: 24px;
     padding: 16px 22px;
 
-    /* Blade only renders this element when a search/filter is active,
-       so it can always be visible (no more inline style="display:flex") */
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -379,20 +385,104 @@ a {
 
 
 /* =========================================================
-   PROPERTY GRID
+   SLIDER NAV BUTTONS (in section header, next to "View All")
 ========================================================= */
+
+.slider-nav {
+    display: flex;
+    gap: 8px;
+}
+
+.slider-btn {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.slider-btn-outline {
+    background: #fff;
+    color: rgb(51,47,46);
+    border: 1px solid #e5e0da;
+}
+
+.slider-btn-outline:hover {
+    background: #f5ede0;
+    border-color: #e8d5b7;
+}
+
+.slider-btn-filled {
+    background: rgb(51,47,46);
+    color: #fff;
+    border: none;
+}
+
+.slider-btn-filled:hover {
+    background: #1a1a1a;
+}
+
+.slider-btn:active {
+    transform: scale(0.92);
+}
+
+.slider-btn.slider-btn-disabled {
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   PROPERTY SLIDER — pure CSS Grid, no external library
+   grid-template-rows: 2 fixed rows. grid-auto-flow: column
+   keeps adding new columns sideways as more cards are added,
+   so it always renders as exactly 2 rows and scrolls
+   horizontally — no JS library needed, just scrollBy() on
+   the arrow buttons (see the <script> in home.blade.php).
+========================================================= */
+
+.property-slider-wrapper {
+    position: relative;
+}
 
 .property-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - 45px) / 4); /* 4 columns visible on desktop */
 
     gap: 15px;
+
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+
+    padding: 4px 4px 10px;
+
+    /* hide scrollbar but keep scroll/swipe working */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.property-grid::-webkit-scrollbar {
+    display: none;
 }
 
 .property-card {
     overflow: hidden;
+    scroll-snap-align: start;
+
+    display: flex;
+    flex-direction: column;
 
     background: #fff;
 
@@ -410,7 +500,6 @@ a {
     box-shadow: 0 12px 30px rgba(0,0,0,0.13);
 }
 
-/* was inline style="text-decoration:none; color:inherit; display:block;" */
 .prop-link {
     text-decoration: none;
     color: inherit;
@@ -523,7 +612,6 @@ a {
     color: #888;
 }
 
-/* was inline style="color:rgb(51,47,46);" on the location icon */
 .prop-loc .icon-dark {
     color: rgb(51,47,46);
 }
@@ -547,7 +635,6 @@ a {
     gap: 5px;
 }
 
-/* was inline style="color:#888;" on bed/bath/area icons */
 .prop-features .icon-gray {
     color: #888;
 }
@@ -557,6 +644,7 @@ a {
     align-items: center;
     justify-content: space-between;
     padding: 15px;
+    margin-top: auto;
 }
 
 .prop-price {
@@ -594,10 +682,11 @@ a {
 
 /* =========================================================
    EMPTY STATE
+   (renders outside the swiper now, in the @else block)
 ========================================================= */
 
 .empty-state {
-    grid-column: 1 / -1;
+    width: 100%;
 
     padding: 70px 20px;
 
@@ -663,7 +752,6 @@ a {
     background: #e8d5b7;
 }
 
-/* was inline style="display:inline-flex; align-items:center; gap:6px; margin-top:10px;" on "Add Property" button */
 .add-property-btn {
     display: inline-flex;
     align-items: center;
@@ -725,7 +813,6 @@ a {
     background: #c8a882;
 }
 
-/* was inline style="justify-content:center;" on .section-label inside how/testimonial headings */
 .section-label.section-label-center {
     justify-content: center;
 }
@@ -1118,7 +1205,6 @@ a {
 
 /* =========================================================
    SHARED SECTION HEADINGS (how-it-works / testimonials)
-   was inline style on wrapper div / h2 / p in both sections
 ========================================================= */
 
 .section-heading-center {
@@ -1232,7 +1318,65 @@ a {
 
 
 /* =========================================================
-   MOBILE
+   RESPONSIVE — property slider (pure CSS grid)
+   ========================================================= */
+
+@media (max-width: 900px) {
+    .section-header {
+        align-items: flex-start;
+    }
+
+    .slider-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 12px;
+    }
+}
+
+/* Large tablets / small laptops: 3 columns x 2 rows */
+@media (max-width: 1200px) {
+    .property-grid {
+        grid-auto-columns: calc((100% - 30px) / 3);
+    }
+}
+
+/* Tablets: 2 columns x 2 rows */
+@media (max-width: 900px) {
+    .property-grid {
+        grid-auto-columns: calc((100% - 15px) / 2);
+    }
+}
+
+/* Mobile: 1 column, 1 row only (2 stacked rows would be too cramped) */
+@media (max-width: 600px) {
+    .property-grid {
+        grid-template-rows: repeat(1, auto);
+        grid-auto-columns: 85%;
+    }
+
+    .properties-section {
+        padding: 28px 18px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .section-header-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .slider-nav {
+        display: none; /* mobile: swipe with finger instead */
+    }
+}
+
+
+/* =========================================================
+   MOBILE (existing rules)
    ========================================================= */
 
 @media (max-width: 768px) {

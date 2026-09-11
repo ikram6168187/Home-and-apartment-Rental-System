@@ -122,95 +122,122 @@
                 </h2>
                 <p>Find your perfect rental home across Pakistan</p>
             </div>
-            @if(!request('search') && !request('city') && !request('check_in'))
-            <a href="{{ route('home') }}" class="view-all-btn">
-                <i class="fa-solid fa-building"></i> View All
-            </a>
-            @endif
-        </div>
 
-        <div class="property-grid">
-            @forelse($properties as $property)
-            <div class="property-card"
-     data-city="{{ strtolower($property->city) }}"
-     data-title="{{ strtolower($property->title) }}">
+            <div class="section-header-right">
+                @if(!request('search') && !request('city') && !request('check_in'))
+                <a href="{{ route('home') }}" class="view-all-btn">
+                    <i class="fa-solid fa-building"></i> View All
+                </a>
+                @endif
 
-    <a href="{{ route('property.show', $property->id) }}" class="prop-link">
-        <div class="prop-img">
-            @if($property->image)
-                <img src="{{ asset('storage/'.$property->image) }}" alt="{{ $property->title }}">
-            @else
-                <div class="no-img"><i class="fa-solid fa-building"></i></div>
-            @endif
-            <span class="type-badge">{{ ucfirst($property->type) }}</span>
-            <span class="rent-badge">For Rent</span>
-        </div>
-
-        <div class="prop-body">
-            <h3 class="prop-title">{{ $property->title }}</h3>
-            <p class="prop-loc">
-                <i class="fa-solid fa-location-dot icon-dark"></i>
-                {{ $property->location }}, {{ $property->city }}
-            </p>
-            <div class="prop-features">
-                <span><i class="fa-solid fa-bed icon-gray"></i> {{ $property->bedrooms }} Beds</span>
-                <span><i class="fa-solid fa-bath icon-gray"></i> {{ $property->bathrooms }} Baths</span>
-                @if($property->area_sqft)
-                <span><i class="fa-solid fa-vector-square icon-gray"></i> {{ $property->area_sqft }} sqft</span>
+                @if($properties->count() > 0)
+                <div class="slider-nav">
+                    <button class="slider-btn slider-btn-outline" id="propSliderPrev" aria-label="Scroll left" type="button">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-btn slider-btn-filled" id="propSliderNext" aria-label="Scroll right" type="button">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
                 @endif
             </div>
         </div>
-    </a>
-    {{-- Rating section --}}
-    <div class="rating">
-        @if($property->ratings_count > 0)
-            @php $avg = round($property->ratings_avg_stars); @endphp
-            @for ($i = 1; $i <= 5; $i++)
-                <span class="{{ $i <= $avg ? 'star-filled' : 'star-empty' }}">★</span>
-            @endfor
-            <span class="rating-text">
-                {{ number_format($property->ratings_avg_stars, 1) }} ({{ $property->ratings_count }} reviews)
-            </span>
-        @else
-            <span class="no-reviews">No reviews yet</span>
-        @endif
-    </div>
-    <div class="prop-footer">
-        <div>
-            <span class="prop-price">₨ {{ number_format($property->price) }}</span>
-            <small>/month</small>
-        </div>
-        <a href="{{ route('property.show', $property->id) }}" class="book-btn1">Book Now</a>
-    </div>
 
-</div>
-            @empty
-            <div class="empty-state">
-                <i class="fa-solid fa-building-circle-xmark"></i>
-                @if(request('check_in') && request('check_out'))
-                    <h3>No properties available for selected dates</h3>
-                    <p>Try different dates or explore other cities</p>
-                @elseif(request('search') || request('city'))
-                    <h3>No properties in "{{ request('search') ?? request('city') }}"</h3>
-                    <p>Try searching in other cities</p>
-                    <div class="suggest-cities">
-                        <span class="suggest-city" onclick="filterByCity('Lahore')">Lahore</span>
-                        <span class="suggest-city" onclick="filterByCity('Karachi')">Karachi</span>
-                        <span class="suggest-city" onclick="filterByCity('Islamabad')">Islamabad</span>
-                        <span class="suggest-city" onclick="filterByCity('Gujranwala')">Gujranwala</span>
-                    </div>
-                @else
-                    <h3>No properties yet</h3>
-                    <p>Be the first to list a property!</p>
-                    @auth
-                    <a href="{{ route('property.create') }}" class="book-btn add-property-btn">
-                        <i class="fa-solid fa-plus"></i> Add Property
+        @if($properties->count() > 0)
+        <!-- ================================================
+             PROPERTY SLIDER (pure CSS Grid, no library)
+             grid-template-rows: 2 fixed rows + grid-auto-flow:
+             column = always 2 rows, columns keep extending
+             sideways -> horizontal scroll with arrow buttons.
+             ================================================ -->
+        <div class="property-slider-wrapper">
+            <div class="property-grid" id="propertySliderTrack">
+                @foreach($properties as $property)
+                <div class="property-card"
+                     data-city="{{ strtolower($property->city) }}"
+                     data-title="{{ strtolower($property->title) }}">
+
+                    <a href="{{ route('property.show', $property->id) }}" class="prop-link">
+                        <div class="prop-img">
+                            @if($property->image)
+                                <img src="{{ asset('storage/'.$property->image) }}" alt="{{ $property->title }}">
+                            @else
+                                <div class="no-img"><i class="fa-solid fa-building"></i></div>
+                            @endif
+                            <span class="type-badge">{{ ucfirst($property->type) }}</span>
+                            <span class="rent-badge">For Rent</span>
+                        </div>
+
+                        <div class="prop-body">
+                            <h3 class="prop-title">{{ $property->title }}</h3>
+                            <p class="prop-loc">
+                                <i class="fa-solid fa-location-dot icon-dark"></i>
+                                {{ $property->location }}, {{ $property->city }}
+                            </p>
+                            <div class="prop-features">
+                                <span><i class="fa-solid fa-bed icon-gray"></i> {{ $property->bedrooms }} Beds</span>
+                                <span><i class="fa-solid fa-bath icon-gray"></i> {{ $property->bathrooms }} Baths</span>
+                                @if($property->area_sqft)
+                                <span><i class="fa-solid fa-vector-square icon-gray"></i> {{ $property->area_sqft }} sqft</span>
+                                @endif
+                            </div>
+                        </div>
                     </a>
-                    @endauth
-                @endif
+                    {{-- Rating section --}}
+                    <div class="rating">
+                        @if($property->ratings_count > 0)
+                            @php $avg = round($property->ratings_avg_stars); @endphp
+                            @for ($i = 1; $i <= 5; $i++)
+                                <span class="{{ $i <= $avg ? 'star-filled' : 'star-empty' }}">★</span>
+                            @endfor
+                            <span class="rating-text">
+                                {{ number_format($property->ratings_avg_stars, 1) }} ({{ $property->ratings_count }} reviews)
+                            </span>
+                        @else
+                            <span class="no-reviews">No reviews yet</span>
+                        @endif
+                    </div>
+                    <div class="prop-footer">
+                        <div>
+                            <span class="prop-price">₨ {{ number_format($property->price) }}</span>
+                            <small>/month</small>
+                        </div>
+                        <a href="{{ route('property.show', $property->id) }}" class="book-btn1">Book Now</a>
+                    </div>
+
+                </div>
+                @endforeach
             </div>
-            @endforelse
         </div>
+        <!-- ================================================
+             END PROPERTY SLIDER
+             ================================================ -->
+        @else
+        <div class="empty-state">
+            <i class="fa-solid fa-building-circle-xmark"></i>
+            @if(request('check_in') && request('check_out'))
+                <h3>No properties available for selected dates</h3>
+                <p>Try different dates or explore other cities</p>
+            @elseif(request('search') || request('city'))
+                <h3>No properties in "{{ request('search') ?? request('city') }}"</h3>
+                <p>Try searching in other cities</p>
+                <div class="suggest-cities">
+                    <span class="suggest-city" onclick="filterByCity('Lahore')">Lahore</span>
+                    <span class="suggest-city" onclick="filterByCity('Karachi')">Karachi</span>
+                    <span class="suggest-city" onclick="filterByCity('Islamabad')">Islamabad</span>
+                    <span class="suggest-city" onclick="filterByCity('Gujranwala')">Gujranwala</span>
+                </div>
+            @else
+                <h3>No properties yet</h3>
+                <p>Be the first to list a property!</p>
+                @auth
+                <a href="{{ route('property.create') }}" class="book-btn add-property-btn">
+                    <i class="fa-solid fa-plus"></i> Add Property
+                </a>
+                @endauth
+            @endif
+        </div>
+        @endif
     </div>
 
     <!-- WHY SMART RENT -->
@@ -382,6 +409,38 @@ document.querySelector('input[name="check_in"]').addEventListener('change', func
     var checkOut = document.querySelector('input[name="check_out"]');
     checkOut.min = this.value;
     if (checkOut.value && checkOut.value <= this.value) checkOut.value = '';
+});
+
+/* ============================================================
+   PROPERTY SLIDER — pure CSS Grid + button scroll (no library)
+   Track shows a 2-row grid; arrows scroll one "page" (the full
+   visible width) left/right at a time.
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', function () {
+    var track   = document.getElementById('propertySliderTrack');
+    var prevBtn = document.getElementById('propSliderPrev');
+    var nextBtn = document.getElementById('propSliderNext');
+
+    if (!track || !prevBtn || !nextBtn) return;
+
+    function updateButtonStates() {
+        var maxScrollLeft = track.scrollWidth - track.clientWidth;
+        prevBtn.classList.toggle('slider-btn-disabled', track.scrollLeft <= 5);
+        nextBtn.classList.toggle('slider-btn-disabled', track.scrollLeft >= maxScrollLeft - 5);
+    }
+
+    prevBtn.addEventListener('click', function () {
+        track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', function () {
+        track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+    });
+
+    track.addEventListener('scroll', updateButtonStates);
+    window.addEventListener('resize', updateButtonStates);
+
+    updateButtonStates();
 });
 </script>
 
