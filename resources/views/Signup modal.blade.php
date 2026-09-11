@@ -41,7 +41,7 @@
                 <div style="display:flex; align-items:center; gap:8px; margin:8px 0; font-size:13px;">
                     <input type="checkbox" name="terms" id="terms" style="width:15px; height:15px;">
                     <label for="terms" style="margin:0; color:#555;">
-                        I agree to <a href="#" style="color:#6c63ff;">Terms</a> & <a href="#" style="color:#6c63ff;">Privacy Policy</a>
+                        I agree to <a  href="{{ route('terms-of-service') }}" style="color:#6c63ff;">Terms of services</a> & <a href="{{ route('privacy-policy') }}" style="color:#6c63ff;">Privacy Policy</a>
                     </label>
                 </div>
                 <button type="submit" class="m-login-btn">Sign Up</button>

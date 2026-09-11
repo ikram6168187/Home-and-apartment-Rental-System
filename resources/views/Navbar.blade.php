@@ -68,7 +68,7 @@
                 </a>
                     @endif
                 @guest
-    <button type="button" class="user-icon-btn" data-bs-toggle="modal" data-bs-target="#loginModal" title="Login">
+    <button type="button" class="user-icon-btn" data-bs-toggle="modal" data-bs-target="#loginModal" title="">
          <a href="javascript:void(0);" onclick="toggleMenu(); openLoginModal();">
         <i class="fa-solid fa-user"></i>
          </a>

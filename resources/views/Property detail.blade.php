@@ -283,7 +283,7 @@
                     </div>
                 @endauth
 
-                <!-- Map View Section -->
+                <!-- Map View Section 
 <div class="property-map">
     <h4 class="map-title">Map View</h4>
     
@@ -308,7 +308,7 @@
             </iframe>
         @endif
     </div>
-</div>
+</div>  -->
 
             </div>
         </div>
