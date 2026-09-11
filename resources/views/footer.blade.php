@@ -108,8 +108,8 @@
         <p>© {{ date('Y') }} Smart Rent. All rights reserved.</p>
 
         <div class="footer-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+            <a href="{{ route('privacy-policy') }}" >Privacy Policy</a>
+            <a href="{{ route('terms-of-service') }}">Terms of Service</a>
             <a href="{{ route('contact') }}">Support</a>
         </div>
     </div>

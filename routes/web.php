@@ -208,3 +208,6 @@ Route::get('/blog/{blog}', [BlogController::class, 'show'])
     ->name('blog.show');
   
     Route::get('/about-system', [PageController::class, 'aboutSystem'])->name('about.system');
+
+    Route::view('/privacy-policy', 'privacy_policy')->name('privacy-policy');
+Route::view('/terms-of-service', 'term_of_service')->name('terms-of-service');
