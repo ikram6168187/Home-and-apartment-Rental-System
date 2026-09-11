@@ -180,6 +180,19 @@ body {
         justify-content: center;
     }
 }
+
+@media (max-width: 700px) {
+  .header {
+    flex-direction: column;
+    /* align-items: flex-start; */
+  }
+
+  .header ul li{
+    flex: 100%;
+    text-align: left;
+  }
+
+}
 .user-icon-btn {
     width: 44px;
     height: 44px;
