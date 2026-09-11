@@ -80,7 +80,7 @@
 
         <!-- BACK TO HOME -->
 
-        <a href="{{ route('home') }}"
+        <a href="{{ route('dashboard') }}"
            class="back-home">
 
             <i class="fa-solid fa-house"></i>

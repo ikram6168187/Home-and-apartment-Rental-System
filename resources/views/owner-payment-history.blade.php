@@ -514,6 +514,8 @@
 
 <body>
 
+    
+
 
     <!-- =========================================
          TOPBAR
@@ -530,12 +532,12 @@
         </div>
 
 
-        <a href="{{ route('home') }}"
+        <a href="{{ route('dashboard') }}"
            class="back-home">
 
-            <i class="fa-solid fa-house"></i>
+            <i class="fa-solid fa-gauge"></i>
 
-            Back to Home
+            Back to Dashboard
 
         </a>
 

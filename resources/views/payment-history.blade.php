@@ -21,6 +21,62 @@
 
     <link rel="stylesheet" href="{{ asset('css/payment-history.css') }}">
 
+    <style>
+
+        /* =========================================
+           BACK TO DASHBOARD BUTTON
+        ========================================= */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .page-header-text h1 {
+            margin: 0 0 6px 0;
+        }
+
+        .back-dashboard-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 10px 18px;
+
+            background: #f3f4f6;
+            color: #111827;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            white-space: nowrap;
+
+            transition: background-color .2s ease, transform .2s ease;
+        }
+
+        .back-dashboard-btn:hover {
+            background: #e5e7eb;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 600px) {
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+        }
+
+    </style>
+
 </head>
 
 
@@ -33,13 +89,25 @@
 
     <div class="page-header">
 
-        <h1>
-            Payment History
-        </h1>
+        <div class="page-header-text">
 
-        <p>
-            View all your submitted payment records.
-        </p>
+            <h1>
+                Payment History
+            </h1>
+
+            <p>
+                View all your submitted payment records.
+            </p>
+
+        </div>
+
+        <a href="{{ route('dashboard') }}" class="back-dashboard-btn">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back to Dashboard
+
+        </a>
 
     </div>
 
