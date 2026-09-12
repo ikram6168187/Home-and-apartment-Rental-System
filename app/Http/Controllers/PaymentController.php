@@ -62,12 +62,18 @@ class PaymentController extends Controller
         | Calculate Advance Payment
         |--------------------------------------------------------------------------
         |
-        | 10% of monthly property rent
+        | 10% of the TOTAL rent for the booking duration
+        | (monthly price ÷ 30 × number of days), not just
+        | 10% of the flat monthly price.
         |
         */
 
+        $days = $booking->check_in->diffInDays($booking->check_out);
+
+        $totalRent = ($booking->property->price / 30) * $days;
+
         $amount = round(
-            ($booking->property->price * 10) / 100,
+            ($totalRent * 10) / 100,
             2
         );
 
@@ -78,7 +84,8 @@ class PaymentController extends Controller
             compact(
                 'booking',
                 'owner',
-                'amount'
+                'amount',
+                'days'
             )
         );
     }
@@ -194,11 +201,16 @@ class PaymentController extends Controller
         |--------------------------------------------------------------------------
         |
         | Never trust amount coming from frontend.
+        | Same duration-based formula as create() above.
         |
         */
 
+        $days = $booking->check_in->diffInDays($booking->check_out);
+
+        $totalRent = ($booking->property->price / 30) * $days;
+
         $amount = round(
-            ($booking->property->price * 10) / 100,
+            ($totalRent * 10) / 100,
             2
         );
 

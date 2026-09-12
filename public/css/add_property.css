@@ -11,6 +11,22 @@ body {
 }
 
 /* ==============================
+   MAIN WRAPPER (pushes content right of the fixed sidebar)
+============================== */
+
+.main {
+    margin-left: 220px;
+}
+
+/* ==============================
+   CONTENT (gives the gap/spacing away from sidebar & edges)
+============================== */
+
+.content {
+    padding: 28px;
+}
+
+/* ==============================
    TOPBAR
 ============================== */
 
@@ -388,5 +404,9 @@ select {
 
     .topbar {
         padding: 14px 20px;
+    }
+
+    .main {
+        margin-left: 0;
     }
 }

@@ -137,7 +137,15 @@
 
                     </div>
 
+                       <div class="info-row">
 
+    <span>Duration</span>
+
+    <strong>
+        {{ $days }} {{ Str::plural('day', $days) }}
+    </strong>
+
+</div>
                     <div class="info-row">
 
                         <span>Monthly Rent</span>
