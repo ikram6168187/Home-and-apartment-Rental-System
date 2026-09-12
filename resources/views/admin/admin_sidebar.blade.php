@@ -61,7 +61,7 @@
             @endif
         </a>
        <a href="{{ route('admin.admin.payments') }}"
-   class="nav-item {{ request()->routeIs('admin.payments') ? 'active' : '' }}">
+   class="nav-item {{ request()->routeIs('admin.admin.payments') ? 'active' : '' }}">
 
     <i class="fa-solid fa-money-check-dollar"></i>
 

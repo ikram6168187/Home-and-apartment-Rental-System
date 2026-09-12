@@ -198,4 +198,15 @@ public function myBookings()
         'pending','approved','paymentSubmitted', 'confirmed', 'cancelled'
     ));
 }
+public function cancel($id)
+{
+    $booking = Booking::find($id);
+
+    if ($booking) {
+        $booking->status = 'cancelled';
+        $booking->save();
+    }
+
+    return redirect()->back()->with('success', 'Booking cancelled successfully');
+}
 }
