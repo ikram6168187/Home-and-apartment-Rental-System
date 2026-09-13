@@ -146,16 +146,26 @@
     </strong>
 
 </div>
-                    <div class="info-row">
+                   
+                 <div class="info-row">
 
-                        <span>Monthly Rent</span>
+    <span>Monthly Rent</span>
 
-                        <strong>
-                            ₨ {{ number_format($booking->property->price) }}
-                        </strong>
+    <strong>
+        ₨ {{ number_format($booking->property->price) }}
+    </strong>
 
-                    </div>
+</div>
 
+<div class="info-row">
+
+    <span>Total Price</span>
+
+    <strong>
+        ₨ {{ number_format($totalRent, 2) }}
+    </strong>
+
+</div>
                 </div>
 
 

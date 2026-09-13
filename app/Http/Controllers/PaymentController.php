@@ -85,7 +85,8 @@ class PaymentController extends Controller
                 'booking',
                 'owner',
                 'amount',
-                'days'
+                'days',
+                'totalRent' 
             )
         );
     }

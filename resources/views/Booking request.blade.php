@@ -458,6 +458,7 @@
 </div>
 
 @endif
+</div>
         @empty
         <div class="empty-state">
             <i class="fa-solid fa-calendar-xmark"></i>
