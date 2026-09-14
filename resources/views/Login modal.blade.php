@@ -37,7 +37,7 @@
             <div class="m-divider">or continue with</div>
             <div class="m-social">
                 <button><a href="https://www.google.com" target="_blank" style="color: black;"><i class="fa-brands fa-google google-icon"></i> Google</a></button>
-                <button><a href="https://www.facebook.com" ><i class="fa-brands fa-facebook facebook-icon"></i> Facebook</a></button>
+                <button><a href="https://www.facebook.com" target="_blank" style="color: black;" ><i class="fa-brands fa-facebook facebook-icon"></i> Facebook</a></button>
             </div>
             <div class="m-signup">
                 Don't have an account?

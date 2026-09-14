@@ -32,7 +32,7 @@ class LoginController extends Controller
             ->withInput($request->only('email'));
     }
 
-    // *** YEH CHECK ADD KARNA HAI ***
+    
     if (!$user->email_verified_at) {
         // Naya OTP generate karke bhej do taake user turant verify kar sake
         $otp = rand(100000, 999999);
