@@ -16,6 +16,7 @@
 
 <!-- SIDEBAR -->
 @include('sidebar')
+@include('Modal style')
 <!-- MAIN CONTENT -->
 <div class="main">
     <div class="topbar">
@@ -232,20 +233,17 @@
 </div>
 
 <!-- LOGOUT MODAL -->
-<div class="overlay" id="logoutModal">
-    <div class="modal-box">
-        <div class="modal-icon red"><i class="fa-solid fa-right-from-bracket"></i></div>
+<div class="logout-overlay" id="logoutConfirm">
+    <div class="logout-box">
+        <div class="logout-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
         <h3>Logout?</h3>
         <p>Are you sure you want to log out of your Smart Rent account?</p>
-        <div class="modal-btns">
-            <button class="btn-cancel-m" onclick="document.getElementById('logoutModal').classList.remove('active')">Cancel</button>
-            <button class="btn-confirm-red" onclick="document.getElementById('logout-form').submit()">
-                <i class="fa-solid fa-right-from-bracket"></i> Logout
-            </button>
+        <div class="logout-btns">
+            <button class="btn-cancel" onclick="closeLogoutConfirm()"><i class="fa-solid fa-xmark"></i> Cancel</button>
+            <button class="btn-logout-confirm" onclick="document.getElementById('logout-form').submit()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
         </div>
     </div>
 </div>
-
 <script>
 function confirmDeleteAccount() {
     if (document.getElementById('deleteConfirmInput').value === 'DELETE') {
@@ -259,6 +257,9 @@ document.addEventListener('keydown', function(e) {
         document.querySelectorAll('.overlay').forEach(o => o.classList.remove('active'));
     }
 });
+function openLogoutConfirm()  { document.getElementById('logoutConfirm').classList.add('active'); document.body.style.overflow='hidden'; }
+function closeLogoutConfirm() { document.getElementById('logoutConfirm').classList.remove('active'); document.body.style.overflow=''; }
+document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeLogoutConfirm(); });
 </script>
 </body>
 </html>

@@ -9,7 +9,33 @@ body {
     background: #f4f6f9;
     min-height: 100vh;
 }
+/* ==============================
+   BACK TO HOME BUTTON
+============================== */
 
+.back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 20px;
+    background: rgb(51, 47, 46);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: all 0.2s;
+}
+
+.back-home:hover {
+    background: #c8a882;
+    color: rgb(51, 47, 46);
+    transform: translateY(-1px);
+}
+
+.back-home i {
+    font-size: 14px;
+}
 /* ==============================
    MAIN WRAPPER (pushes content right of the fixed sidebar)
 ============================== */
