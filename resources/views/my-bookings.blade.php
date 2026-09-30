@@ -217,16 +217,22 @@
             @endif
 
             <!-- STATUS / PAYMENT ACTIONS -->
-            @if($booking->status == 'pending')
+           @if($booking->status == 'pending')
 
-                <div class="action-btns">
+    <div class="action-btns">
+        @if($booking->is_unavailable)
+            <span class="btn-unavailable-label">
+                <i class="fa-solid fa-ban"></i>
+                Not available for these dates — booked by another guest
+            </span>
+        @else
+            <span class="btn-pending-label">
+                <i class="fa-solid fa-clock"></i>
+                Waiting for owner's response
+            </span>
+        @endif
+    </div>
 
-                    <span class="btn-pending-label">
-                        <i class="fa-solid fa-clock"></i>
-                        Waiting for owner's response
-                    </span>
-
-                </div>
 
             @elseif($booking->status == 'approved')
 

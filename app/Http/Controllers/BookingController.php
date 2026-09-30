@@ -19,8 +19,8 @@ class BookingController extends Controller
 
         // Check already booked dates
         $bookedDates = Booking::where('property_id', $id)
-                              ->where('status', '!=', 'cancelled')
-                              ->get(['check_in', 'check_out']);
+                      ->blocking()
+                      ->get(['check_in', 'check_out']);
 
         $unreadNotifications = 0;
         if (Auth::check()) {
@@ -53,23 +53,17 @@ class BookingController extends Controller
         ]);
 
         // Check availability — overlap check
-        $overlap = Booking::where('property_id', $id)
-                          ->where('status', '!=', 'cancelled')
-                          ->where(function ($query) use ($request) {
-                              $query->whereBetween('check_in',  [$request->check_in, $request->check_out])
-                                    ->orWhereBetween('check_out', [$request->check_in, $request->check_out])
-                                    ->orWhere(function ($q) use ($request) {
-                                        $q->where('check_in',  '<=', $request->check_in)
-                                          ->where('check_out', '>=', $request->check_out);
-                                    });
-                          })->exists();
+       // Availability check — sirf approved/payment_submitted/confirmed block karte hain
+$overlap = Booking::where('property_id', $id)
+                  ->blocking()
+                  ->overlapping($request->check_in, $request->check_out)
+                  ->exists();
 
-        if ($overlap) {
-            return back()->withErrors([
-                'check_in' => 'This property is not available for selected dates. Please choose different dates.'
-            ])->withInput();
-        }
-
+if ($overlap) {
+    return back()->withErrors([
+        'check_in' => 'This property is not available for selected dates. Please choose different dates.'
+    ])->withInput();
+}
         // Booking save karo
         $booking = Booking::create([
             'property_id' => $id,
@@ -134,45 +128,65 @@ class BookingController extends Controller
     }
 
     // Owner — Accept booking
-   public function confirm($id)
+  public function confirm($id)
 {
     $booking = Booking::findOrFail($id);
 
-    // Sirf property owner apni property ki booking approve kar sakta hai
     if ($booking->property->user_id != Auth::id()) {
         abort(403);
     }
 
-    // Sirf pending booking approve hogi
     if ($booking->status !== 'pending') {
-        return redirect()
-            ->route('booking.requests')
+        return redirect()->route('booking.requests')
             ->with('error', 'This booking cannot be approved.');
     }
 
-    $booking->update([
-        'status' => 'approved'
-    ]);
+    // In dates par pehle se koi approved/confirmed booking to nahi?
+    $alreadyTaken = Booking::where('property_id', $booking->property_id)
+                           ->where('id', '!=', $booking->id)
+                           ->blocking()
+                           ->overlapping($booking->check_in, $booking->check_out)
+                           ->exists();
+
+    if ($alreadyTaken) {
+        return redirect()->route('booking.requests')
+            ->with('error', 'These dates are already booked by another guest. You cannot approve this request.');
+    }
+
+    $booking->update(['status' => 'approved']);
 
     // Renter ko notification
     Notification::create([
         'user_id' => $booking->user_id,
         'title'   => 'Booking Approved',
-        'message' => 'Your booking request for "' .
-                     $booking->property->title .
+        'message' => 'Your booking request for "' . $booking->property->title .
                      '" has been approved by the owner. Please complete the advance payment to confirm your booking.',
         'type'    => 'success',
         'icon'    => 'fa-money-bill-transfer',
     ]);
 
-    return redirect()
-        ->route('booking.requests')
-        ->with(
-            'success',
-            'Booking approved successfully. Waiting for renter payment.'
-        );
+    // Baaki overlapping pending requests walon ko batao
+    $others = Booking::where('property_id', $booking->property_id)
+                     ->where('id', '!=', $booking->id)
+                     ->where('status', 'pending')
+                     ->overlapping($booking->check_in, $booking->check_out)
+                     ->get();
+
+    foreach ($others as $other) {
+        Notification::create([
+            'user_id' => $other->user_id,
+            'title'   => 'Property Not Available',
+            'message' => '"' . $booking->property->title . '" is no longer available for your selected dates.',
+            'type'    => 'info',
+            'icon'    => 'fa-circle-exclamation',
+        ]);
+    }
+
+    return redirect()->route('booking.requests')
+        ->with('success', 'Booking approved successfully. Waiting for renter payment.');
 }
-    // User — My Bookings
+
+// User — My Bookings
 public function myBookings()
 {
     $bookings = Booking::where('user_id', Auth::id())

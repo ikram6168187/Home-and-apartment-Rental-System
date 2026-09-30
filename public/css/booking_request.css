@@ -792,3 +792,29 @@ body {
 
     color: #2d2926;
 }
+
+.btn-unavailable-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #fdecec;
+    color: #c0392b;
+    border: 1px solid #f5c2c0;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.alert-error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    background: #fdecec;
+    color: #c0392b;
+    border: 1px solid #f5c2c0;
+    border-radius: 10px;
+    font-size: 14px;
+}

@@ -56,7 +56,9 @@
         @if(session('success'))
         <div class="alert-success"><i class="fa-solid fa-circle-check"></i> {{ session('success') }}</div>
         @endif
-
+ @if(session('error'))
+<div class="alert-error"><i class="fa-solid fa-circle-exclamation"></i> {{ session('error') }}</div>
+@endif
         <!-- STATS -->
         <!-- STATS -->
 <div class="stat-row">
@@ -207,18 +209,21 @@
 
 <div class="action-btns">
 
-    <form action="{{ route('booking.confirm', $booking->id) }}"
-          method="POST">
-
-        @csrf
-        @method('PATCH')
-
-        <button type="submit" class="btn-confirm">
-            <i class="fa-solid fa-circle-check"></i>
-            Accept Booking
-        </button>
-
-    </form>
+    @if($booking->is_unavailable)
+        <span class="btn-unavailable-label">
+            <i class="fa-solid fa-ban"></i>
+            Dates already booked by another guest
+        </span>
+    @else
+        <form action="{{ route('booking.confirm', $booking->id) }}" method="POST">
+            @csrf
+            @method('PATCH')
+            <button type="submit" class="btn-confirm">
+                <i class="fa-solid fa-circle-check"></i>
+                Accept Booking
+            </button>
+        </form>
+    @endif
 
 
     <form action="{{ route('booking.cancel', $booking->id) }}"

@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
+    // Jin statuses par property ki dates block hoti hain
+    public const BLOCKING_STATUSES = ['approved', 'payment_submitted', 'confirmed'];
+
     protected $fillable = [
         'property_id',
         'user_id',
@@ -22,21 +25,45 @@ class Booking extends Model
         'check_out' => 'date',
     ];
 
-    // Booking kis property ki hai
     public function property()
     {
         return $this->belongsTo(Property::class);
     }
 
-    // Booking kisne ki
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Booking ki payment
     public function payment()
     {
         return $this->hasOne(Payment::class);
+    }
+
+    // Sirf woh bookings jo dates block karti hain
+    public function scopeBlocking($query)
+    {
+        return $query->whereIn('status', self::BLOCKING_STATUSES);
+    }
+
+    // Dates overlap check (check-out wale din dusra check-in ho sakta hai)
+    public function scopeOverlapping($query, $checkIn, $checkOut)
+    {
+        return $query->where('check_in', '<', $checkOut)
+                     ->where('check_out', '>', $checkIn);
+    }
+
+    // Pending booking jis ki dates kisi aur ne approve/confirm karva li hon
+    public function getIsUnavailableAttribute(): bool
+    {
+        if ($this->status !== 'pending') {
+            return false;
+        }
+
+        return static::where('property_id', $this->property_id)
+                     ->where('id', '!=', $this->id)
+                     ->blocking()
+                     ->overlapping($this->check_in, $this->check_out)
+                     ->exists();
     }
 }
