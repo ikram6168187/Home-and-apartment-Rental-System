@@ -50,11 +50,11 @@
             <i class="fa-solid fa-gear"></i> Settings
         </a>
         <div class="nav-divider"></div>
-        <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display:none;">
+        <form action="{{ route('logout') }}" method="POST" id="logout-form" >
             @csrf
+            <a href="#" class="nav-item danger" onclick="event.preventDefault(); openLogoutConfirm();">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </a>
         </form>
-        <a href="#" class="nav-item danger" onclick="event.preventDefault(); openLogoutConfirm();">
-            <i class="fa-solid fa-right-from-bracket"></i> Logout
-        </a>
     </nav>
 </div>

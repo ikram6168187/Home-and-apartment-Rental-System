@@ -328,17 +328,7 @@
     </div>
 
 <!-- LOGOUT MODAL -->
-<div class="logout-overlay" id="logoutConfirm">
-    <div class="logout-box">
-        <div class="logout-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
-        <h3>Logout?</h3>
-        <p>Are you sure you want to log out of your Smart Rent account?</p>
-        <div class="logout-btns">
-            <button class="btn-cancel-lo" onclick="closeLogoutConfirm()">Cancel</button>
-            <button class="btn-logout-co" onclick="document.getElementById('logout-form').submit()">Logout</button>
-        </div>
-    </div>
-</div>
+@include('Logout modal')
 <script>
 function filterBookings(status, btn) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));

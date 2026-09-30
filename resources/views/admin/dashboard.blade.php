@@ -74,13 +74,13 @@
                 <span class="stat-badge-purple">{{ $draftBlogs ?? 0 }} Draft</span>
             </div>
 
-                    <div class="stat-card-dark">
+                  <!--   <div class="stat-card-dark">
                 <div class="stat-card-circle-light"></div>
                 <i class="fa-solid fa-user-shield stat-icon-dark"></i>
                 <h2 class="stat-value-dark">{{ $totalAdmins ?? 0 }}</h2>
                 <p class="stat-label-dark">Total Admins</p>
                 <span class="stat-badge-dark">Super Admin</span>
-            </div>
+            </div> --> 
 
         </div>
 
